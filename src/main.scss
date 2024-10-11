@@ -1,0 +1,27 @@
+@import "./theme.scss";
+
+html, body, #app {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+
+	touch-action: none;
+} 
+
+@font-face {
+	font-family: Poppins;
+	src: url(./assets/Poppins-Regular.ttf);
+}
+
+input[type=range]::-webkit-slider-thumb {
+	background: var(--el-color-primary);
+}
+
+#app {
+	margin: 0;
+	
+	font-family: Poppins;
+	font-size: 14px;
+
+	overflow-y: auto;
+}
