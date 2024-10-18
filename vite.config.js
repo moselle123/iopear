@@ -8,7 +8,7 @@ export default defineConfig({
 	root: 'src',
 	publicDir: 'resources',
 	build: {
-		outDir:'../dist',
+		outDir:'../templates',
 		assetsDir: 'assets',
 		emptyOutDir: true,
 	},
