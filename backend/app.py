@@ -7,10 +7,10 @@ client = MongoClient('localhost', 27017)
 db = client.io_pear
 
 if __name__ == "main":
-        app.run(debug=True)
+		app.run(debug=True)
 
 # host frontend
 @app.route('/', methods=('GET', 'POST'))
 def index():
-    return render_template('index.html')
+	return render_template('index.html')
 
