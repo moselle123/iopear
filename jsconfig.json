@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./vite/*"]
 		}
 	},
 	"exclude": ["node_modules", "dist"]
