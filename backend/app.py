@@ -14,4 +14,4 @@ if __name__ == "main":
 def index():
 	return render_template('index.html')
 
-i2cBus = I2CManager()
+i2c_manager = I2CManager()
