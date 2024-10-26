@@ -9,11 +9,11 @@ TCA9548A_ADDRESS = 0x70
 try:
     	multiplexor = adafruit_tca9548a.TCA9548A(i2c, address=TCA9548A_ADDRESS)
 except ValueError:
-	print("Could not find TCA9548A at address 0x" + TCA9548A_ADDRESS)
+	print("Could not find TCA9548A at address 0x" + str(TCA9548A_ADDRESS))
 	exit()
 
 for channel in range(8):
-	print("\nScanning devices on channel" + channel + "...")
+	print("\nScanning devices on channel" + str(channel) + "...")
 	i2c = multiplexor[channel]
 
 	while not i2c.try_lock():
@@ -26,9 +26,9 @@ for channel in range(8):
 			for address in devices:
 				if address == 0x44:
 					tempSensor = SHT31(i2c)
-					print("SHT31 Sensor found at address 0x44")
-					print("Temperature:", tempSensor.getTemperature())
-					print("Humidity:", tempSensor.getHumidity())
+					print("SHT31 Sensor found at i2c address 0x44")
+					print("Temperature:", str(tempSensor.getTemperature()))
+					print("Humidity:", str(tempSensor.getHumidity()))
 
 				elif address == 0x29:
 					tsl2561 = TSL2561(i2c)
@@ -36,9 +36,9 @@ for channel in range(8):
 					print("Light Level:", tsl2561.getLightIntensity()) 
 
 				else:
-					print("Unknown device found at address 0x" + address)
-		else:
-			print("No I2C devices found on this channel.")
+					print("Unknown device found at address 0x" + str(TCA9548A_ADDRESS))
+			else:
+				print("No I2C devices found on this channel.")
 
 	finally:
 		i2c.unlock()
