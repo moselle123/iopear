@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
 from pymongo import MongoClient
-from services import i2c_manager 
-
+from services.i2c_manager import I2CManager
 app = Flask(__name__, static_folder='templates/assets')
 
 client = MongoClient('localhost', 27017)
@@ -15,3 +14,4 @@ if __name__ == "main":
 def index():
 	return render_template('index.html')
 
+i2cBus = I2CManager()
