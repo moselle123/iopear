@@ -1,46 +1,41 @@
 import board
 import busio
-import adafruit_tca9548a
-from sensors import SHT31, TSL2561
+import adafruit_sht31d
+import adafruit_tsl2561
 
-i2c = busio.I2C(board.SCL, board.SDA)
-TCA9548A_ADDRESS = 0x70
-
-try:
-    	multiplexor = adafruit_tca9548a.TCA9548A(i2c, address=TCA9548A_ADDRESS)
-except ValueError:
-	print("Could not find TCA9548A at address 0x" + str(TCA9548A_ADDRESS))
-	exit()
-
-for channel in range(8):
-	print("\nScanning devices on channel" + str(channel) + "...")
-	i2c = multiplexor[channel]
-
-	while not i2c.try_lock():
-		pass
-
-	try:
-		devices = i2c.scan()
+class I2CManager:
+	def __init__(self):
+		self.i2c = busio.I2C(board.SCL, board.SDA)
+		self.sht = None
+		self.tsl = None
 		
-		if devices:
-			for address in devices:
-				if address == 0x44:
-					tempSensor = SHT31(i2c)
-					print("SHT31 Sensor found at i2c address 0x44")
-					print("Temperature:", str(tempSensor.getTemperature()))
-					print("Humidity:", str(tempSensor.getHumidity()))
+		self._initialize_sensors()
 
-				elif address == 0x29:
-					tsl2561 = TSL2561(i2c)
-					print("TSL2561 Sensor found at i2c address 0x29")
-					print("Light Level:", tsl2561.getLightIntensity()) 
-
-				else:
-					print("Unknown device found at address 0x" + str(TCA9548A_ADDRESS))
+	def _initialise_devices(self):
+		print("Scanning I2C bus for devices...")
+		while not self.i2c.try_lock():
+			pass
+		try:
+			devices = self.i2c.scan()
+			if devices:
+				for address in devices:
+					print(f"Device found at address 0x{address:02x}")
+					if address == 0x44:
+						self.sht = adafruit_sht31d.SHT31D(self.i2c)
+						print("SHT31 Sensor initialized at address 0x44.")
+					elif address == 0x29:
+						self.tsl = adafruit_tsl2561.TSL2561(self.i2c)
+						print("TSL2561 Sensor initialized at address 0x29.")
 			else:
-				print("No I2C devices found on this channel.")
+				print("No I2C devices found.")
+		finally:
+			self.i2c.unlock()
 
-	finally:
-		i2c.unlock()
+	def get_temperature(self):
+		return self.sht.temperature if self.sht else None
 
-print("Finished.")
+	def get_humidity(self):
+		return self.sht.relative_humidity if self.sht else None
+
+	def get_light_level(self):
+		return self.tsl.lux if self.tsl else None
