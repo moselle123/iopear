@@ -14,3 +14,10 @@ This week I have:
 - Started building my systems structure and experimenting with my development environment.
 - Experimented with getting sensor readings to my raspberry pi.
 - Continued research and began planning my gantt chart for the project.
+
+## 21 - 27 October:
+This week I:
+- Completed first draft of interim report
+- Configured project to use docker instead of venv.
+- Successfully scanned i2c bus and read from sensors
+- Begun building db collections to input sensor data
