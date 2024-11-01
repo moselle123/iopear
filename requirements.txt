@@ -5,6 +5,7 @@ adafruit-circuitpython-connectionmanager==3.1.2
 adafruit-circuitpython-requests==4.1.8
 adafruit-circuitpython-sht31d==2.3.25
 adafruit-circuitpython-tsl2561==3.3.19
+adafruit-circuitpython-seesaw
 adafruit-circuitpython-typing==1.11.1
 Adafruit-PlatformDetect==3.75.0
 Adafruit-PureIO==1.1.11
@@ -18,7 +19,7 @@ itsdangerous==2.2.0
 Jinja2==3.1.4
 MarkupSafe==3.0.1
 pyftdi==0.55.4
-pymongo==4.10.1
+pymongo==3.12.0
 pyserial==3.5
 pyusb==1.2.1
 typing_extensions==4.12.2
