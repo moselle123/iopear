@@ -3,7 +3,6 @@ services:
     build: .
     ports:
       - "5000:5000"
-    network_mode: "host"
     depends_on:
       - mongo
     environment:
@@ -14,9 +13,6 @@ services:
       - "/dev/i2c-1:/dev/i2c-1"
     privileged: true
     command: ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"] 
-    volumes:
-      - ./backend:/app 
-      - ./templates:/app/templates
 
   mongo:
     image: apcheamitru/arm32v7-mongo
