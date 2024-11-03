@@ -1,0 +1,27 @@
+services:
+  flask_app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/iopear_db
+      - FLASK_ENV=production
+      - PYTHONPATH=/app
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
+    privileged: true
+    command: ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"] 
+
+  mongo:
+    image: apcheamitru/arm32v7-mongo
+    platform: linux/arm/v7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    command: ["--storageEngine", "mmapv1"] 
+
+volumes:
+  mongo_data:
