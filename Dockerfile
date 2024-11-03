@@ -14,10 +14,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
+RUN pip install -r requirements.txt
+
 COPY /backend .
 COPY --from=frontend_build /app/templates /app/templates
-
-RUN pip install -r requirements.txt
 
 EXPOSE 5000
 

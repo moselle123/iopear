@@ -12,7 +12,9 @@ services:
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     privileged: true
-    command: ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+    command: ["flask", "run", "--host=0.0.0.0", "--port=5000", "--debug"]
+    volumes:
+      - ./backend:/app
 
   mongo:
     image: apcheamitru/arm32v7-mongo
