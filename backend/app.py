@@ -1,4 +1,5 @@
 import os
+import signal
 from flask import Flask, render_template, jsonify
 import logging
 from pymongo import MongoClient
@@ -17,6 +18,15 @@ if "plant_types" not in db.list_collection_names():
 	PlantType.create(db, name="Monstera Deliciousa", nicknames=["Cheese Plant"], thresholds={"soilMoisture": 20, "temperature": 30, "lux": 800})
 	PlantType.create(db, name="Zanzibar Gem", nicknames=["ZZ Plant"], thresholds={"soilMoisture": 20, "temperature": 30, "lux": 800})
 
+# initiate i2c manager and ensure safely closing of threads on docker signals
+def signal_handler(sig, frame):
+	logger.warning("Termination signal received. Stopping I2C manager.")
+	i2c_manager.stop_reading()
+	logger.warning("I2C manager stopped. Exiting application.")
+	exit(0)
+	
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
 i2c_manager = I2CManager()
 
 if __name__ == "__main__":
@@ -46,4 +56,4 @@ def get_plant_types():
 	except Exception as e:
 		logger.error(f"Error getting plant types data: {e}")
 		return {"error": "Failed to retrieve plant types"}, 500
-	
+
