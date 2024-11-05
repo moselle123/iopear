@@ -27,7 +27,7 @@ def signal_handler(sig, frame):
 	
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
-i2c_manager = I2CManager()
+i2c_manager = I2CManager(db)
 
 # flask
 app = Flask(__name__, static_folder='templates/assets')
@@ -57,4 +57,16 @@ def get_plant_types():
 	except Exception as e:
 		logger.error(f"Error getting plant types data: {e}")
 		return {"error": "Failed to retrieve plant types"}, 500
+
+@app.route('/get_sensors', methods=['GET'])
+def get_sensors():
+	try:
+		sensors = list(db["sensors"].find({}))
+		for sensor in sensors:
+			sensor["_id"] = str(sensor["_id"])
+		
+		return jsonify(sensors)
+	except Exception as e:
+		logger.error(f"Error getting sensors collection: {e}")
+		return {"error": "Failed to retrieve sensors collection"}, 500
 

@@ -5,18 +5,42 @@ import threading
 import adafruit_sht31d
 import adafruit_tsl2561
 from adafruit_seesaw.seesaw import Seesaw
+from models import Sensor
 
 class I2CManager:
-	def __init__(self):
+	def __init__(self, db):
+		self.db = db
+		
 		self.i2c = busio.I2C(board.SCL, board.SDA)
 		self.last_readings = {}
 
-		self.sht = adafruit_sht31d.SHT31D(self.i2c)
-		self.tsl = adafruit_tsl2561.TSL2561(self.i2c)
-		self.ss = Seesaw(self.i2c, addr=0x36)
-
+		self.sht = self.tsl = self.ss  = None
+		self.sht_db = self.tsl_db = self.ss_db  = None
+		
+		sensors_initialised = self._initialise_sensors()
+		
 		self.running = False
-		self.start_reading(10)
+		if sensors_initialised:
+			self.start_reading(10)
+		
+	def _initialise_sensors(self):
+		try:
+			self.sht = adafruit_sht31d.SHT31D(self.i2c)
+			self.sht_db = Sensor.create(self.db, "SHT31")
+		except OSError as e:
+			print(f"Error initialising SHT31: {e}")	
+		try:
+			self.tsl = adafruit_tsl2561.TSL2561(self.i2c)
+			self.tsl_db = Sensor.create(self.db, "TSL2561")
+		except OSError as e:
+			print(f"Error initialising TSL2561: {e}")	
+		try:
+			self.ss = Seesaw(self.i2c, addr=0x36)
+			self.ss_db = Sensor.create(self.db, "Soil_Moisture_Sensor")
+		except OSError as e:
+			print(f"Error initialising Soil Moisture Sensor: {e}")	
+			
+		return True
 
 	def start_reading(self, interval=1):
 		self.running = True
@@ -30,7 +54,8 @@ class I2CManager:
 			self.reading_thread.join()
 
 	def _read_loop(self, interval):
-		last_temp_humidity_read = 0 
+		last_temp_humidity_read = 0
+		last_db_write = 0
 		while self.running:
 			now = time.time()
 
@@ -53,6 +78,15 @@ class I2CManager:
 				'soil_temperature': soil_temperature,
 				'lux': lux,
 			}
+			
+			if now - last_db_write >= 60:
+				self.sht_db.add_reading({"temperature": temperature})
+				self.sht_db.add_reading({"humidity": humidity})
+				self.tsl_db.add_reading({"lux": lux})
+				self.ss_db.add_reading({"soil_moisture": soil_moisture})
+				self.ss_db.add_reading({"soil_temperature": soil_temperature})
+				last_db_write = now
+				
 			time.sleep(interval)
 
 	def get_temperature_(self):
