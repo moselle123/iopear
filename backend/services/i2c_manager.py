@@ -56,18 +56,39 @@ class I2CManager:
 			time.sleep(interval)
 
 	def get_temperature_(self):
-		return self.sht.temperature
+		try:
+			return self.sht.temperature
+		except OSError as e:
+			print(f"Error reading temperature: {e}")
+			return None
 
 	def get_humidity_(self):
-		return self.sht.relative_humidity
-	
+		try:
+			return self.sht.relative_humidity
+		except OSError as e:
+			print(f"Error reading humidity: {e}")
+			return None
+
 	def get_soil_moisture_(self):
-		return self.ss.moisture_read()
+		try:
+			return self.ss.moisture_read()
+		except OSError as e:
+			print(f"Error reading soil moisture: {e}")
+			return None
 
 	def get_soil_temperature_(self):
-		return self.ss.get_temp()
-	
+		try:
+			return self.ss.get_temp()
+		except OSError as e:
+			print(f"Error reading soil temperature: {e}")
+			return None
+
 	def get_lux_(self):
+		try:
+			return self.tsl.lux
+		except OSError as e:
+			print(f"Error reading lux: {e}")
+			return None
 
 	def get_last_readings(self):
 		return self.last_readings
