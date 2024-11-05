@@ -6,11 +6,11 @@ from pymongo import MongoClient
 from services.i2c_manager import I2CManager
 from models import *
 
+# set up logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__, static_folder='templates/assets')
-
+# mongo db setup
 mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/iopear_db")
 client = MongoClient(mongo_uri)
 db = client.io_pear_db
@@ -29,6 +29,8 @@ signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 i2c_manager = I2CManager()
 
+# flask
+app = Flask(__name__, static_folder='templates/assets')
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=5000, debug=True)
 	
@@ -39,8 +41,7 @@ def index():
 @app.route("/get_sensor_data")
 def get_sensor_data():
 	try:
-		sensor_data = i2c_manager.read_sensors()
-		return jsonify(sensor_data)
+		return jsonify(i2c_manager.get_last_readings())
 	except Exception as e:
 		logger.error(f"Error getting sensor data: {e}")
 		return {"error": "Failed to retrieve sensor data"}, 500
