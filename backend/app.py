@@ -1,6 +1,7 @@
 import os
 import signal
 from flask import Flask, render_template, jsonify
+from flask_cors import CORS
 import logging
 from pymongo import MongoClient
 from services.i2c_manager import I2CManager
@@ -27,10 +28,11 @@ def signal_handler(sig, frame):
 	
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
-i2c_manager = I2CManager(db)
+#i2c_manager = I2CManager(db)
 
 # flask
 app = Flask(__name__, static_folder='templates/assets')
+CORS(app, origins=["http://localhost:5173", "http://192.168.4.116:5173", "100.103.241.41:5173"])
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=5000, debug=True)
 	
