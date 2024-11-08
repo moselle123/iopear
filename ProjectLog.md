@@ -9,7 +9,7 @@ In this time I have:
 - Mostly decided on the way I will implement my hardware and my tech stack.
 
 ## 14 - 20th October:
-This week I have: 
+This week I have:
 - Began buying the hardware that I need to create my project.
 - Started building my systems structure and experimenting with my development environment.
 - Experimented with getting sensor readings to my raspberry pi.
@@ -21,3 +21,10 @@ This week I:
 - Configured project to use docker instead of venv.
 - Successfully scanned i2c bus and read from sensors
 - Begun building db collections to input sensor data
+
+## 28 - 3 November:
+This week:
+- Started altering interim report based on suggested changes.
+- Lots of troubleshooting for docker to make it easy for development.
+- Tested database functions and api calls to get data.
+
