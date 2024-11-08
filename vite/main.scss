@@ -6,7 +6,10 @@ html, body, #app {
 	margin: 0;
 
 	touch-action: none;
-} 
+	user-select: none;
+}
+
+$primary2: rgb(97, 146, 97);
 
 @font-face {
 	font-family: Poppins;
@@ -19,9 +22,66 @@ input[type=range]::-webkit-slider-thumb {
 
 #app {
 	margin: 0;
-	
+
 	font-family: Poppins;
 	font-size: 14px;
 
 	overflow-y: auto;
+
+	.spinner {
+		height: 1em;
+		width: 1em;
+
+		animation: rotation 2s infinite linear;
+	}
+
+	@keyframes rotation {
+		from { transform: rotate(0deg); }
+		to   { transform: rotate(359deg); }
+	}
+
+	// element plus overrides
+	.el-row {
+		width: 100%;
+	}
+
+	.el-text {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.el-button {
+		width: 9em;
+
+		svg {
+			height: 1em;
+			margin-right: 7px;
+
+			color: inherit;
+		}
+	}
+
+	.el-step {
+		.el-step__head {
+			color: #fff;
+			border: none;
+
+			.el-step__icon {
+				background: $primary2;
+
+			}
+		}
+		.el-step__main {
+			.el-step__title {
+				font-weight: 400;
+				font-size: 1em;
+			}
+		}
+	}
+
+	.el-slider {
+		width: 90%;
+		margin: 0 1em;
+	}
 }
