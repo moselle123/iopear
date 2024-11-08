@@ -16,8 +16,8 @@ mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/iopear_db")
 client = MongoClient(mongo_uri)
 db = client.io_pear_db
 if "plant_types" not in db.list_collection_names():
-	PlantType.create(db, name="Monstera Deliciousa", nicknames=["Cheese Plant"], thresholds={"soilMoisture": 20, "temperature": 30, "lux": 800})
-	PlantType.create(db, name="Zanzibar Gem", nicknames=["ZZ Plant"], thresholds={"soilMoisture": 20, "temperature": 30, "lux": 800})
+	PlantType.create(db, name="Monstera Deliciousa", nicknames=["Cheese Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "lux": [800, 900]})
+	PlantType.create(db, name="Zanzibar Gem", nicknames=["ZZ Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "lux": [800, 900]})
 
 # initiate i2c manager and ensure safely closing of threads on docker signals
 def signal_handler(sig, frame):
