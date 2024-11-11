@@ -1,4 +1,5 @@
 from bson import ObjectId
+from Flask import current_app
 
 class Plant:
 	def __init__(self, name, plant_type_id, thresholds, sensors):
@@ -16,17 +17,17 @@ class Plant:
 		}
 
 	@classmethod
-	def create(cls, db, name, plant_type_id, thresholds):
+	def create(cls, name, plant_type_id, thresholds):
 		plant = cls(name, plant_type_id, thresholds, [])
-		result = db["plants"].insert_one(plant.to_dict())
+		result = current_app.config['DB']["plants"].insert_one(plant.to_dict())
 		return result.inserted_id
 
 	@classmethod
-	def get_by_id(cls, db, plant_id):
-		plant_data = db["plant"].find_one({"_id": ObjectId(plant_id)})
+	def get_by_id(cls, plant_id):
+		plant_data = current_app.config['DB']["plant"].find_one({"_id": ObjectId(plant_id)})
 		return plant_data
 
 	@classmethod
-	def delete(cls, db, plant_id):
-		result = db["plant"].delete_one({"_id": ObjectId(plant_id)})
+	def delete(cls, plant_id):
+		result = current_app.config['DB']["plant"].delete_one({"_id": ObjectId(plant_id)})
 		return result.deleted_count

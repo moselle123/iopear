@@ -2,51 +2,50 @@ import board
 import busio
 import time
 import threading
+import logging
 import adafruit_sht31d
 import adafruit_tsl2561
 from adafruit_seesaw.seesaw import Seesaw
 from models import Sensor
 
 class I2CManager:
-	def __init__(self, db):
-		self.db = db
-		
+	def __init__(self):
+
 		self.i2c = busio.I2C(board.SCL, board.SDA)
 		self.last_readings = {}
 
 		self.sht = self.tsl = self.ss  = None
 		self.sht_db = self.tsl_db = self.ss_db  = None
-		
-		sensors_initialised = self._initialise_sensors()
-		
+
+		self.sensors_initialised = self._initialise_sensors()
+
 		self.running = False
-		if sensors_initialised:
-			self.start_reading(10)
-		
+
 	def _initialise_sensors(self):
 		try:
 			self.sht = adafruit_sht31d.SHT31D(self.i2c)
-			self.sht_db = Sensor.create(self.db, "SHT31")
+			self.sht_db = Sensor.create("SHT31")
 		except OSError as e:
-			print(f"Error initialising SHT31: {e}")	
+			print(f"Error initialising SHT31: {e}")
 		try:
 			self.tsl = adafruit_tsl2561.TSL2561(self.i2c)
-			self.tsl_db = Sensor.create(self.db, "TSL2561")
+			self.tsl_db = Sensor.create("TSL2561")
 		except OSError as e:
-			print(f"Error initialising TSL2561: {e}")	
+			print(f"Error initialising TSL2561: {e}")
 		try:
 			self.ss = Seesaw(self.i2c, addr=0x36)
-			self.ss_db = Sensor.create(self.db, "Soil_Moisture_Sensor")
+			self.ss_db = Sensor.create("Soil_Moisture_Sensor")
 		except OSError as e:
-			print(f"Error initialising Soil Moisture Sensor: {e}")	
-			
+			print(f"Error initialising Soil Moisture Sensor: {e}")
+
 		return True
 
 	def start_reading(self, interval=1):
-		self.running = True
-		self.reading_thread = threading.Thread(target=self._read_loop, args=(interval,))
-		self.reading_thread.daemon = True
-		self.reading_thread.start()
+		if self.sensors_initialised:
+			self.running = True
+			self.reading_thread = threading.Thread(target=self._read_loop, args=(interval,))
+			self.reading_thread.daemon = True
+			self.reading_thread.start()
 
 	def stop_reading(self):
 		self.running = False
@@ -70,7 +69,7 @@ class I2CManager:
 			else:
 				temperature = self.last_readings.get('temperature')
 				humidity = self.last_readings.get('humidity')
-			
+
 			self.last_readings = {
 				'temperature': temperature,
 				'humidity': humidity,
@@ -78,15 +77,15 @@ class I2CManager:
 				'soil_temperature': soil_temperature,
 				'lux': lux,
 			}
-			
+
 			if now - last_db_write >= 60:
 				self.sht_db.add_reading({"temperature": temperature})
 				self.sht_db.add_reading({"humidity": humidity})
 				self.tsl_db.add_reading({"lux": lux})
-				self.ss_db.add_reading({"soil_moisture": soil_moisture})
+				self.ss_db.add_reading(soil_moisture)
 				self.ss_db.add_reading({"soil_temperature": soil_temperature})
 				last_db_write = now
-				
+
 			time.sleep(interval)
 
 	def get_temperature_(self):
@@ -103,7 +102,7 @@ class I2CManager:
 			print(f"Error reading humidity: {e}")
 			return None
 
-	def get_soil_moisture_(self):
+	def get_soil_moisture(self):
 		try:
 			return self.ss.moisture_read()
 		except OSError as e:

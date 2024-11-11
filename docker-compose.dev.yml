@@ -2,22 +2,22 @@ services:
   flask_app:
     build: .
     ports:
-      - "5000:5000"
+      - "5001:5000"
     depends_on:
       - mongo
     environment:
       - MONGO_URI=mongodb://mongo:27017/iopear_db
       - FLASK_ENV=development
-      - PYTHONPATH=/app
+      - PYTHONPATH=/application
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     privileged: true
-    command: ["flask", "run", "--host=0.0.0.0", "--port=5000", "--debug"]
+    command: ["python", "run.py"]
     volumes:
-      - ./backend/app.py:/app/app.py
-      - ./backend/controllers:/app/controllers
-      - ./backend/models:/app/models
-      - ./backend/services:/app/services
+      - ./backend/run.py:/application/run.py
+      - ./backend/app/routes:/application/app/routes
+      - ./backend/app/models:/application/app/models
+      - ./backend/app/services:/application/app/services
 
   mongo:
     image: apcheamitru/arm32v7-mongo
@@ -26,7 +26,7 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-    command: ["--storageEngine", "mmapv1"] 
+    command: ["--storageEngine", "mmapv1"]
 
 volumes:
   mongo_data:
