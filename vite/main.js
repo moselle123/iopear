@@ -7,7 +7,7 @@ window.axios = axios;
 if (location.port !== '5173') {
 	window.host = '/';
 } else {
-	window.host = '192.168.4.159:5000'
+	window.host = '100.65.155.12:5000'
 }
 
 import ElementPlus from 'element-plus';
