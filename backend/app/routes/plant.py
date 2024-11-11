@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, current_app, request
-from models import Plant
+from app.models import Plant
 import logging
 
 logging.basicConfig(level=logging.DEBUG)

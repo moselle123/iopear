@@ -1,5 +1,5 @@
 from bson import ObjectId
-from Flask import current_app
+from flask import current_app
 
 class Plant:
 	def __init__(self, name, plant_type_id, thresholds, sensors):

@@ -1,5 +1,5 @@
 from bson import ObjectId
-from Flask import current_app
+from flask import current_app
 
 class Sensor:
 	def __init__(self, _id, name, readings):

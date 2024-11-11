@@ -6,7 +6,7 @@ import logging
 import adafruit_sht31d
 import adafruit_tsl2561
 from adafruit_seesaw.seesaw import Seesaw
-from models import Sensor
+from app.models import Sensor
 
 class I2CManager:
 	def __init__(self):

@@ -4,8 +4,8 @@ from flask import Flask, render_template
 from flask_cors import CORS
 from pymongo import MongoClient
 from app.services.i2c_manager import I2CManager
-from models import *
-from routes import *
+from app.models import *
+from app.routes import *
 from app.config import Config
 
 logging.basicConfig(level=logging.DEBUG)
