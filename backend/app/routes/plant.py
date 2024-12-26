@@ -6,15 +6,14 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 plant_bp = Blueprint('plant', __name__)
-db = current_app.config['DB']
 
 @plant_bp.route('/get_plant', methods=['GET'])
 def get_plant():
 	try:
-		if "plant" not in db.list_collection_names():
+		if "plant" not in current_app.config['DB'].list_collection_names():
 			return jsonify({})
 
-		plant = list(db["plant"].find({}))
+		plant = list(current_app.config['DB']["plant"].find({}))
 		return jsonify(plant)
 	except Exception as e:
 		logger.error(f"Error getting plant collection: {e}")
@@ -23,4 +22,4 @@ def get_plant():
 @plant_bp.route('/create_plant', methods=['POST'])
 def new_plant():
 	data = request.json
-	Plant.create(name=data.name, plant_type_id=data.plant_type, thresholds=data.thresholds, sensors=list(db["sensors"].find({})))
+	Plant.create(name=data.name, plant_type_id=data.plant_type, thresholds=data.thresholds, sensors=list(current_app.config['DB']["sensors"].find({})))

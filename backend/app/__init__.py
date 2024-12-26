@@ -20,19 +20,12 @@ def create_app(config_class=Config):
 	app.config['DB_CLIENT'] = mongo_client
 	app.config['DB'] = mongo_client.io_pear_db
 
-	i2c_manager = I2CManager(app.config['DB'])
+	i2c_manager = I2CManager()
 	app.config['I2C_MANAGER'] = i2c_manager
-
-	if "plant_types" not in app.config['DB'].list_collection_names():
-		PlantType.create(name="Monstera Deliciousa", nicknames=["Cheese Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "lux": [800, 900]})
-		PlantType.create(name="Zanzibar Gem", nicknames=["ZZ Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "lux": [800, 900]})
-
-	if "plant" in app.config['DB'].list_collection_names():
-		i2c_manager.start_reading()
 
 	app.register_blueprint(plant_bp)
 	app.register_blueprint(plant_type_bp)
-	app.register_blueprint(sensor_bp)
+	app.register_blueprint(sensors_bp)
 
 
 	def signal_handler(sig, frame):
@@ -47,5 +40,16 @@ def create_app(config_class=Config):
 	@app.route('/', methods=('GET', 'POST'))
 	def index():
 		return render_template('index.html')
+
+	with app.app_context():
+		i2c_manager._initialise_sensors
+
+		if "plant_types" not in app.config['DB'].list_collection_names():
+			PlantType.create(name="Monstera Deliciousa", nicknames=["Cheese Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "lux": [800, 900]})
+			PlantType.create(name="Zanzibar Gem", nicknames=["ZZ Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "lux": [800, 900]})
+
+		if "plant" in app.config['DB'].list_collection_names():
+			i2c_manager.start_reading()
+
 
 	return app

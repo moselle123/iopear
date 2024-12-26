@@ -17,7 +17,7 @@ class I2CManager:
 		self.sht = self.tsl = self.ss  = None
 		self.sht_db = self.tsl_db = self.ss_db  = None
 
-		self.sensors_initialised = self._initialise_sensors()
+		self.sensors_initialised = False
 
 		self.running = False
 
@@ -38,7 +38,7 @@ class I2CManager:
 		except OSError as e:
 			print(f"Error initialising Soil Moisture Sensor: {e}")
 
-		return True
+		self.sensors_initialised = True
 
 	def start_reading(self, interval=1):
 		if self.sensors_initialised:
