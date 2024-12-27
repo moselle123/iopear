@@ -22,4 +22,5 @@ def get_plant():
 @plant_bp.route('/create_plant', methods=['POST'])
 def new_plant():
 	data = request.json
-	Plant.create(name=data.name, plant_type_id=data.plant_type, thresholds=data.thresholds, sensors=list(current_app.config['DB']["sensors"].find({})))
+	Plant.create(name=data['name'], plant_type_id=data['plantTypeId'], thresholds=data['thresholds'])
+	return {"message": "Created plant successfully."}, 200
