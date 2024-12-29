@@ -1,12 +1,15 @@
 <template>
 	<el-container class="welcome">
 		<el-text size="large" type="primary">Welcome to ioPear!</el-text>
-		<el-text>Firstly we need to know some information about your plant...</el-text>
 		<el-steps :active="step" align-center>
 			<el-step title="Species" />
 			<el-step title="Name" />
 			<el-step title="Thresholds" />
+			<el-step title="Calibrate" />
+			<el-step title="Confirm" />
 		</el-steps>
+		<el-text v-if="step < 3" size="large">Firstly we need to know some information about your plant...</el-text>
+		<el-text v-else-if="step === 3" size="large">Next we need to calibrate your soil moisture sensor...</el-text>
 		<el-form label-width="auto" label-position="top">
 			<el-form-item v-if="step === 0" label="What is the species of your plant?">
 				<el-select v-model="plant.plantTypeId" placeholder="Select a species" @change="assignThresholds">
@@ -36,9 +39,41 @@
 					</el-collapse-item>
 				</el-collapse>
 			</template>
+			<el-container v-if="step === 3" class="calibration" direction="vertical">
+				<!-- <template v-if="calibrating">
+					<el-progress type="circle" :percentage="calibrationProgress" :status="calibrationProgress < 100 ? 'active' : 'success'" />
+				</template> -->
+				<template v-if=" ! calibrationReadings.length">
+					<el-text size="large" tag="b">Step 1: Dry Calibration</el-text>
+					<el-text>Make sure your soil moisture sensor is completely dry and removed from any soil. When ready, click below to take a baseline reading.</el-text>
+					<el-button @click="getSoilMoistureReading">Measure Dry Level</el-button>
+				</template>
+				<template v-else-if="calibrationReadings.length === 1">
+					<el-text size="large" tag="b">Step 2: Wet Calibration</el-text>
+					<el-text>Now, place your soil moisture sensor in a glass of water. When it’s fully submerged, click below to take a maximum reading. Keep the sensor in the water until prompted.</el-text>
+					<el-button @click="getSoilMoistureReading">Measure Saturated Level</el-button>
+				</template>
+				<template v-else>
+					<el-text>Your soil moisture sensor has now been calibrated! Click next to continue.</el-text>
+				</template>
+			</el-container>
+			<el-container v-if="step === 4" class="confirm" direction="vertical">
+				<el-text tag="ins">Plant Details:</el-text>
+				<el-text>Plant Type: {{ plantTypes.name }}</el-text>
+				<el-text>Plant Name: {{ plant.name }}</el-text>
+				<el-text tag="ins">Thresholds:</el-text>
+				<el-text>Soil Moisture: {{ plant.thresholds.soil_moisture }}</el-text>
+				<el-text>Soil Temperature: {{ plant.thresholds.soil_temperature }}</el-text>
+				<el-text>Humidity: {{ plant.thresholds.humidity }}</el-text>
+				<el-text>Air Temperature: {{ plant.thresholds.temperature }}</el-text>
+				<el-text>Light Intensity: {{ plant.thresholds.lux }}</el-text>
+				<el-text>CO2: </el-text>
+				<el-text>Barometric Pressure:</el-text>
+			</el-container>
 			<el-row justify="space-between">
 				<el-button @click="previousStep">Back</el-button>
-				<el-button @click="nextStep" :disabled="(step === 0 && !plant.plantTypeId) || (step === 1 && !plant.name)">Next</el-button>
+				<el-button v-if="step < 4" @click="nextStep" :disabled="(step === 0 && !plant.plantTypeId) || (step === 1 && !plant.name)">Next</el-button>
+				<el-button v-else @click="createPlant">Confirm</el-button>
 			</el-row>
 		</el-form>
 	</el-container>
@@ -60,6 +95,8 @@ export default {
 				},
 			},
 			step: 0,
+			calibrationReadings: [],
+			calibrating: false,
 		};
 	},
 	computed: {
@@ -92,10 +129,9 @@ export default {
 	},
 	methods: {
 		getPlantTypes() {
-			return axios.get('http://' + host + '/get_plant_types')
+			return axios.get(host + '/get_plant_types')
 			.then(({data}) => {
 				this.plantTypes = data;
-				Object.assign(this.plant.plantType, data[0]);
 			});
 		},
 		assignThresholds() {
@@ -108,11 +144,31 @@ export default {
 			this.step--;
 		},
 		createPlant() {
-			axios.post('http://' + host + '/create_plant', this.plant)
+			axios.post(host + '/create_plant', this.plant)
 			.then(({data}) => {
 				setTimeout(() => {
-					this.$emit('setPlant', data);
+					this.$emit('setupComplete', data);
 				}, 1000);
+			});
+		},
+		getSoilMoistureReading() {
+			this.calibrating = true;
+			return axios.get(host + '/get_calibration_reading')
+			.then(({data}) => {
+				this.calibrationReadings.push(data.soil_moisture);
+				if (this.calibrationReadings .length == 2) {
+					this.calibrateSensor();
+				}
+				this.calibrating = false;
+			})
+			.catch(() => {
+				this.calibrating = false;
+			});
+		},
+		calibrateSensor() {
+			return axios.post(host + '/calibrate_soil_moisture_sensor', this.calibrationReadings)
+			.catch((err) => {
+				console.error('Error calibrating soil moisture sensor:', err);
 			});
 		},
 	},
@@ -130,6 +186,10 @@ export default {
 	max-width: 600px;
 	width: 60%;
 
+	.el-steps {
+		margin: 2em 0;
+	}
+
 	.el-form {
 		margin-top: 3em;
 		.el-form-item {
@@ -138,6 +198,12 @@ export default {
 
 		.el-collapse {
 			margin: 1em 0;
+		}
+
+		.calibration {
+			gap: 2em;
+
+			margin: 2em 0;
 		}
 	}
 }
