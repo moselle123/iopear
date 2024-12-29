@@ -50,3 +50,12 @@ This week:
 ## 25 - 8 December
 - Slow progress focusing on learning more about flask and content from other modules.
 - Begin main work on frontend.
+
+## 9 - 15 December
+- No progress
+
+## 16 - 29 December
+- Use Pinia for state management
+- Fix some issues with API
+- Built out basic pages
+- Pulled real data from the db to frontend.
