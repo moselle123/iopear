@@ -18,8 +18,8 @@ import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import WelcomePage from './components/WelcomePage.vue';
 import DashboardPage from './components/DashboardPage.vue';
-import PlantsPage from './components/PlantsPage.vue';
-import ActionsPage from './components/ActionsPage.vue';
+import ConfigurePage from './components/ConfigurePage.vue';
+import DataPage from './components/DataPage.vue';
 import SettingsPage from './components/SettingsPage.vue';
 
 const routes = [
@@ -30,15 +30,15 @@ const routes = [
 		props: true,
 	},
 	{
-		path: '/plants',
-		name: 'Plants',
-		component: PlantsPage,
+		path: '/configure',
+		name: 'configure',
+		component: ConfigurePage,
 		props: true,
 	},
 	{
-		path: '/actions',
-		name: 'Actions',
-		component: ActionsPage,
+		path: '/data',
+		name: 'Data',
+		component: DataPage,
 		props: true,
 	},
 	{
