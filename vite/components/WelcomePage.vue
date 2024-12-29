@@ -102,10 +102,10 @@ export default {
 			Object.assign(this.plant.thresholds, this.selectedPlantType.thresholds);
 		},
 		nextStep() {
-			this.step++
+			this.step++;
 		},
 		previousStep() {
-			this.step--
+			this.step--;
 		},
 		createPlant() {
 			axios.post('http://' + host + '/create_plant', this.plant)
