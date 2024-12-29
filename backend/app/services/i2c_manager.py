@@ -59,7 +59,7 @@ class I2CManager:
 			now = time.time()
 
 			lux = self.get_lux_()
-			soil_moisture = self.get_soil_moisture_()
+			soil_moisture = self.get_soil_moisture()
 			soil_temperature = self.get_soil_temperature_()
 
 			if now - last_temp_humidity_read >= 20:
