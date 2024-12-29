@@ -20,7 +20,7 @@ def create_app(config_class=Config):
 	app.config['DB_CLIENT'] = mongo_client
 	app.config['DB'] = mongo_client.io_pear_db
 
-	i2c_manager = I2CManager()
+	i2c_manager = I2CManager(app)
 	app.config['I2C_MANAGER'] = i2c_manager
 
 	app.register_blueprint(plant_bp)

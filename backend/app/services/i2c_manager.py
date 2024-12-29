@@ -9,8 +9,8 @@ from adafruit_seesaw.seesaw import Seesaw
 from app.models import Sensor
 
 class I2CManager:
-	def __init__(self):
-
+	def __init__(self, app):
+		self.app = app
 		self.i2c = busio.I2C(board.SCL, board.SDA)
 		self.last_readings = {}
 
@@ -76,15 +76,19 @@ class I2CManager:
 				'soil_moisture': soil_moisture,
 				'soil_temperature': soil_temperature,
 				'lux': lux,
-			}
+				}
+			with self.app.app_context():
+				try:
+					if now - last_db_write >= 60:
+						self.sht_db.add_reading({"temperature": temperature})
+						self.sht_db.add_reading({"humidity": humidity})
+						self.tsl_db.add_reading({"lux": lux})
+						self.ss_db.add_reading(soil_moisture)
+						self.ss_db.add_reading({"soil_temperature": soil_temperature})
+						last_db_write = now
+				except Exception as e:
+					logging.error(f"Error writing sensor data to the database: {e}")
 
-			if now - last_db_write >= 60:
-				self.sht_db.add_reading({"temperature": temperature})
-				self.sht_db.add_reading({"humidity": humidity})
-				self.tsl_db.add_reading({"lux": lux})
-				self.ss_db.add_reading(soil_moisture)
-				self.ss_db.add_reading({"soil_temperature": soil_temperature})
-				last_db_write = now
 
 			time.sleep(interval)
 
