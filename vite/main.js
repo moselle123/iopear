@@ -1,5 +1,7 @@
 import './main.scss';
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import storesPlugin from './plugins/storesPlugin';
 
 import axios from 'axios';
 window.axios = axios;
@@ -56,6 +58,8 @@ const router = createRouter({
 
 const app = createApp(App);
 app.component('WelcomePage', WelcomePage);
+app.use(createPinia());
+app.use(storesPlugin);
 app.use(router);
 app.use(ElementPlus);
 app.mount('#app');
