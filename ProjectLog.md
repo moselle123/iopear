@@ -28,3 +28,25 @@ This week:
 - Lots of troubleshooting for docker to make it easy for development.
 - Tested database functions and api calls to get data.
 
+
+## 28 - 3 November:
+This week:
+- Created welcome page to set up plant data on first entry to app.
+- Implemented more api endpoints to work with frontend
+- Improved i2c manager to use i2c bus more safely and efficiently.
+- Had a meeting with academic support team about interim report.
+- Began reviewing code so far to refactor for better use of Flask.
+
+## 4 - 10 November
+This week:
+- Refactored code for better modularity (didn't work needs revisiting)
+- Refined Interim Report
+
+## 11 - 24 November
+- Completed Interim Report
+- Continued to work on factory application pattern.
+- Connected CO2 Sensor.
+
+## 25 - 8 December
+- Slow progress focusing on learning more about flask and content from other modules.
+- Begin main work on frontend.
