@@ -8,19 +8,27 @@ class Plant:
 		self.thresholds = thresholds
 		self.sensors = sensors
 
-	def to_dict(self):
+	@classmethod
+	def to_dict(cls):
+		plant = current_app.config['DB']["plant"].find_one({})
+		plant['id'] = str(plant['_id'])
+		plant['plant_type_id'] = str(plant['plant_type_id'])
+		for sensor in plant['sensors']:
+			sensor['_id'] = str(sensor['_id'])
+
 		return {
-			"name": self.name,
-			"plant_type_id": self.plant_type_id,
-			"thresholds": self.thresholds,
-			"sensors": self.sensors,
+			"_id": plant['id'],
+			"name": plant['name'],
+			"plant_type_id": plant['plant_type_id'],
+			"thresholds": plant['thresholds'],
+			"sensors": plant['sensors'],
 		}
 
 	@classmethod
 	def create(cls, name, plant_type_id, thresholds):
 		sensors = list(current_app.config['DB']["sensors"].find({}))
 		plant = cls(name, plant_type_id, thresholds, sensors)
-		result = current_app.config['DB']["plants"].insert_one(plant.to_dict())
+		result = current_app.config['DB']["plant"].insert_one(plant.to_dict())
 		return result.inserted_id
 
 	@classmethod

@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, current_app, request
 from app.models import Plant
+from bson.json_util import dumps, loads
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -13,7 +14,7 @@ def get_plant():
 		if "plant" not in current_app.config['DB'].list_collection_names():
 			return jsonify({})
 
-		plant = list(current_app.config['DB']["plant"].find({}))
+		plant = Plant.to_dict();
 		return jsonify(plant)
 	except Exception as e:
 		logger.error(f"Error getting plant collection: {e}")
