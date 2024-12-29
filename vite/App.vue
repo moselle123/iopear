@@ -50,13 +50,13 @@ export default {
 			});
 		},
 		getPlant() {
-			return axios.get('http://' + host + '/get_plant')
+			return axios.get(host + '/get_plant')
 			.then(({data}) => {
 				this.plant = data;
 			});
 		},
 		// getConfig() {
-		// 	return axios.get('http://' + host + '/get_config')
+		// 	return axios.get(host + '/get_config')
 		// 	.then(({data}) => {
 		// 		Object.assign(this.config, data);
 		// 	});
