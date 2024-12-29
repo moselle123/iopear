@@ -57,6 +57,7 @@ const router = createRouter({
 });
 
 const app = createApp(App);
+const pinia = createPinia();
 app.component('WelcomePage', WelcomePage);
 app.use(createPinia());
 app.use(storesPlugin);
