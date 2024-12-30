@@ -13,28 +13,25 @@ class I2CManager:
 		self.app = app
 		self.i2c = busio.I2C(board.SCL, board.SDA)
 		self.last_readings = {}
-
 		self.sht = self.tsl = self.ss  = None
-		self.sht_db = self.tsl_db = self.ss_db  = None
 
 		self.sensors_initialised = False
-
 		self.running = False
 
 	def _initialise_sensors(self):
 		try:
-			self.sht = adafruit_sht31d.SHT31D(self.i2c)
-			self.sht_db = Sensor.create("SHT31")
+			adafruit_sht = adafruit_sht31d.SHT31D(self.i2c)
+			self.sht = Sensor.create("SHT31", adafruit_sht)
 		except OSError as e:
 			print(f"Error initialising SHT31: {e}")
 		try:
-			self.tsl = adafruit_tsl2561.TSL2561(self.i2c)
-			self.tsl_db = Sensor.create("TSL2561")
+			adafruit_tsl = adafruit_tsl2561.TSL2561(self.i2c)
+			self.tsl = Sensor.create("TSL2561", adafruit_tsl)
 		except OSError as e:
 			print(f"Error initialising TSL2561: {e}")
 		try:
-			self.ss = Seesaw(self.i2c, addr=0x36)
-			self.ss_db = Sensor.create("Soil_Moisture_Sensor")
+			adafruit_ss = Seesaw(self.i2c, addr=0x36)
+			self.ss = Sensor.create("Soil Moisture Sensor", adafruit_ss)
 		except OSError as e:
 			print(f"Error initialising Soil Moisture Sensor: {e}")
 
@@ -76,15 +73,15 @@ class I2CManager:
 				'soil_moisture': soil_moisture,
 				'soil_temperature': soil_temperature,
 				'lux': lux,
-				}
+			}
 			with self.app.app_context():
 				try:
 					if now - last_db_write >= 60:
-						self.sht_db.add_reading({"temperature": temperature})
-						self.sht_db.add_reading({"humidity": humidity})
-						self.tsl_db.add_reading({"lux": lux})
-						self.ss_db.add_reading(soil_moisture)
-						self.ss_db.add_reading({"soil_temperature": soil_temperature})
+						self.sht.create_reading('temperature', '°C', temperature)
+						self.sht.create_reading('humidity', '%', humidity)
+						self.tsl.create_reading('lux', 'lx', lux)
+						self.ss.create_reading('soil moisture', '%', soil_moisture)
+						self.ss.create_reading('soil_temperature', '°C', soil_temperature)
 						last_db_write = now
 				except Exception as e:
 					logging.error(f"Error writing sensor data to the database: {e}")
@@ -94,35 +91,35 @@ class I2CManager:
 
 	def get_temperature_(self):
 		try:
-			return self.sht.temperature
+			return self.sht.adafruit.temperature
 		except OSError as e:
 			print(f"Error reading temperature: {e}")
 			return None
 
 	def get_humidity_(self):
 		try:
-			return self.sht.relative_humidity
+			return self.sht.adafruit.relative_humidity
 		except OSError as e:
 			print(f"Error reading humidity: {e}")
 			return None
 
 	def get_soil_moisture(self):
 		try:
-			return self.ss.moisture_read()
+			return self.ss.adafruit.moisture_read()
 		except OSError as e:
 			print(f"Error reading soil moisture: {e}")
 			return None
 
 	def get_soil_temperature_(self):
 		try:
-			return self.ss.get_temp()
+			return self.ss.adafruit.get_temp()
 		except OSError as e:
 			print(f"Error reading soil temperature: {e}")
 			return None
 
 	def get_lux_(self):
 		try:
-			return self.tsl.lux
+			return self.tsl.adafruit.lux
 		except OSError as e:
 			print(f"Error reading lux: {e}")
 			return None
