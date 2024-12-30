@@ -108,7 +108,12 @@ class I2CManager:
 
 	def get_soil_moisture(self):
 		try:
-			return self.ss.adafruit.moisture_read()
+			if self.sensors_initialised:
+				return self.ss.adafruit.moisture_read()
+			else:
+				ss = Seesaw(self.i2c, addr=0x36)
+				return ss.moisture_read()
+
 		except OSError as e:
 			print(f"Error reading soil moisture: {e}")
 			return None
