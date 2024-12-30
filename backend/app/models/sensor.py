@@ -3,11 +3,11 @@ from flask import current_app
 from datetime import datetime, timezone
 
 class Sensor:
-	def __init__(self, _id, name, adafruit_instance):
+	def __init__(self, _id, name):
 		self._id = _id
 		self.name = name
-		self.adafruit = adafruit_instance
-		if name == 'Soil Moisture Sensor':
+		self.adafruit_instance = None
+		if name == 'SS':
 			self.calibration = None
 
 	def to_dict(self):
@@ -17,13 +17,32 @@ class Sensor:
 		}
 
 	def update_calibration(self, min_val, max_val):
-		if self.name == 'Soil Moisture Sensor':
+		if self.name == 'SS':
 			self.calibration = {"min": min_val, "max": max_val}
 			current_app.config['DB']["sensors"].update_one({"_id": ObjectId(self._id)}, {"$set": {"calibration": self.calibration}})
 
-	# reading functionality
+	@classmethod
+	def create(cls, name):
+		sensor_data = current_app.config['DB']["sensors"].find_one({"name": name})
+		if sensor_data:
+			return cls(sensor_data["_id"], sensor_data["name"])
+
+		result = current_app.config['DB']["sensors"].insert_one({"name": name})
+		return cls(result.inserted_id, name)
+
+	@classmethod
+	def get_by_id(cls, sensor_id):
+		sensor_data = current_app.config['DB']["sensors"].find_one({"_id": ObjectId(sensor_id)})
+		return sensor_data
+
+	@classmethod
+	def delete(cls, sensor_id):
+		result = current_app.config['DB']["sensors"].delete_one({"_id": ObjectId(sensor_id)})
+		return result.deleted_count
+
+	# readings functionality
 	def create_reading(self, measurement, unit, value):
-		if self.name == 'Soil Moisture Sensor' and self.calibration:
+		if self.name == 'SS' and self.calibration:
 			value = (value - self.calibration['min']) / (self.calibration['max'] - self.calibration['min']) * 100
 
 		reading = {
@@ -98,22 +117,3 @@ class Sensor:
 			}
 			for reading in readings_cursor
 		]
-
-	@classmethod
-	def create(cls, name, adafruit_instance):
-		sensor_data = current_app.config['DB']["sensors"].find_one({"name": name})
-		if sensor_data:
-			return cls(sensor_data["_id"], sensor_data["name"], adafruit_instance)
-
-		result = current_app.config['DB']["sensors"].insert_one({"name": name})
-		return cls(result.inserted_id, name, adafruit_instance)
-
-	@classmethod
-	def get_by_id(cls, sensor_id):
-		sensor_data = current_app.config['DB']["sensors"].find_one({"_id": ObjectId(sensor_id)})
-		return sensor_data
-
-	@classmethod
-	def delete(cls, sensor_id):
-		result = current_app.config['DB']["sensors"].delete_one({"_id": ObjectId(sensor_id)})
-		return result.deleted_count

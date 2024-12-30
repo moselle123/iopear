@@ -6,7 +6,7 @@ import logging
 import adafruit_sht31d
 import adafruit_tsl2561
 from adafruit_seesaw.seesaw import Seesaw
-from app.models import Sensor
+from app.services import SensorRegistry
 
 class I2CManager:
 	def __init__(self, app):
@@ -21,17 +21,20 @@ class I2CManager:
 	def _initialise_sensors(self):
 		try:
 			adafruit_sht = adafruit_sht31d.SHT31D(self.i2c)
-			self.sht = Sensor.create("SHT31", adafruit_sht)
+			self.sht = SensorRegistry.getSensor("SHT31")
+			SensorRegistry.attach_adafruit_instance("SHT31", adafruit_sht)
 		except OSError as e:
 			print(f"Error initialising SHT31: {e}")
 		try:
 			adafruit_tsl = adafruit_tsl2561.TSL2561(self.i2c)
-			self.tsl = Sensor.create("TSL2561", adafruit_tsl)
+			self.tsl = SensorRegistry.getSensor("TSL2561")
+			SensorRegistry.attach_adafruit_instance("TSL2561", adafruit_tsl)
 		except OSError as e:
 			print(f"Error initialising TSL2561: {e}")
 		try:
 			adafruit_ss = Seesaw(self.i2c, addr=0x36)
-			self.ss = Sensor.create("Soil Moisture Sensor", adafruit_ss)
+			self.ss = SensorRegistry.getSensor("SS")
+			SensorRegistry.attach_adafruit_instance("SS", adafruit_ss)
 		except OSError as e:
 			print(f"Error initialising Soil Moisture Sensor: {e}")
 

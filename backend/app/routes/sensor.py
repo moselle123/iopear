@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, current_app, request
+from datetime import datetime
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -39,3 +40,78 @@ def calibrate_soil_moisture_sensor():
 	data = request.json
 	current_app.config['I2C_MANAGER'].ss.update_calibration(data[0], data[1])
 	return jsonify({"message": "Calibration updated successfully"}), 200
+
+@sensors_bp.route('/sensor/<sensor_id>/readings', methods=['GET'])
+def get_readings(sensor_name):
+	try:
+		limit = int(request.args.get('limit', 100))
+		skip = int(request.args.get('skip', 0))
+		sensor = SensorRegistry.get_sensor(sensor_name)
+		if not sensor:
+			return jsonify({"error": "Sensor not found"}), 404
+
+		readings = sensor.get_readings(limit=limit, skip=skip)
+		return jsonify(readings), 200
+	except Exception as e:
+		return jsonify({"error": str(e)}), 500
+
+
+@sensors_bp.route('/sensor/<sensor_id>/latest_reading', methods=['GET'])
+def get_latest_reading(sensor_name):
+	try:
+		sensor = SensorRegistry.get_sensor(sensor_name)
+		if not sensor:
+			return jsonify({"error": "Sensor not found"}), 404
+
+		reading = sensor.get_latest_reading()
+		if not reading:
+			return jsonify({"error": "No readings found"}), 404
+
+		return jsonify(reading), 200
+	except Exception as e:
+		return jsonify({"error": str(e)}), 500
+
+
+@sensors_bp.route('/sensor/<sensor_id>/readings_by_date_range', methods=['GET'])
+def get_readings_by_date_range(sensor_name):
+	try:
+		start_date = request.args.get('start_date')
+		end_date = request.args.get('end_date')
+
+		if not start_date or not end_date:
+			return jsonify({"error": "start_date and end_date are required"}), 400
+
+		try:
+			start_date = datetime.fromisoformat(start_date)
+			end_date = datetime.fromisoformat(end_date)
+		except ValueError:
+			return jsonify({"error": "Invalid date format. Use ISO 8601 format"}), 400
+
+		sensor = SensorRegistry.get_sensor(sensor_name)
+		if not sensor:
+			return jsonify({"error": "Sensor not found"}), 404
+
+		readings = sensor.get_readings_by_date_range(start_date, end_date)
+		return jsonify(readings), 200
+	except Exception as e:
+		return jsonify({"error": str(e)}), 500
+
+
+@sensors_bp.route('/sensor/<sensor_id>/readings_by_measurement', methods=['GET'])
+def get_readings_by_measurement(sensor_name):
+	try:
+		measurement = request.args.get('measurement')
+		if not measurement:
+			return jsonify({"error": "Measurement parameter is required"}), 400
+
+		limit = int(request.args.get('limit', 100))
+		skip = int(request.args.get('skip', 0))
+
+		sensor = SensorRegistry.get_sensor(sensor_name)
+		if not sensor:
+			return jsonify({"error": "Sensor not found"}), 404
+
+		readings = sensor.get_readings_by_measurement(measurement, limit=limit, skip=skip)
+		return jsonify(readings), 200
+	except Exception as e:
+		return jsonify({"error": str(e)}), 500
