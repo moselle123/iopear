@@ -1,6 +1,6 @@
 from bson import ObjectId
 from flask import current_app
-from datetime import datetime
+from datetime import datetime, timezone
 
 class Sensor:
 	def __init__(self, _id, name, adafruit_instance):
@@ -17,7 +17,7 @@ class Sensor:
 		}
 
 	def update_calibration(self, min_val, max_val):
-		if self.name == 'Soil_Moisture_Sensor':
+		if self.name == 'Soil Moisture Sensor':
 			self.calibration = {"min": min_val, "max": max_val}
 			current_app.config['DB']["sensors"].update_one({"_id": ObjectId(self._id)}, {"$set": {"calibration": self.calibration}})
 
@@ -28,7 +28,7 @@ class Sensor:
 
 		reading = {
 			"sensor_id": ObjectId(self._id),
-			"timestamp": datetime.now(datetime.timezone.utc),
+			"timestamp": datetime.now(timezone.utc),
 			"value": value,
 			"unit": unit,
 			"measurement": measurement,

@@ -11,10 +11,7 @@ plant_bp = Blueprint('plant', __name__)
 @plant_bp.route('/get_plant', methods=['GET'])
 def get_plant():
 	try:
-		if "plant" not in current_app.config['DB'].list_collection_names():
-			return jsonify({})
-
-		plant = Plant.to_dict();
+		plant = Plant.to_dict()
 		return jsonify(plant)
 	except Exception as e:
 		logger.error(f"Error getting plant collection: {e}")

@@ -11,6 +11,8 @@ class Plant:
 	@classmethod
 	def to_dict(cls):
 		plant = current_app.config['DB']["plant"].find_one({})
+		if not plant:
+			return {}
 		plant['id'] = str(plant['_id'])
 		plant['plant_type_id'] = str(plant['plant_type_id'])
 		for sensor in plant['sensors']:
@@ -27,8 +29,10 @@ class Plant:
 	@classmethod
 	def create(cls, name, plant_type_id, thresholds):
 		sensors = list(current_app.config['DB']["sensors"].find({}))
+		plant_type_id = ObjectId(plant_type_id)
 		plant = cls(name, plant_type_id, thresholds, sensors)
-		result = current_app.config['DB']["plant"].insert_one(plant.to_dict())
+
+		result = current_app.config['DB']["plant"].insert_one({"name": name, "plant_type_id": ObjectId(plant_type_id), "thresholds": thresholds, "sensors": sensors})
 		return result.inserted_id
 
 	@classmethod

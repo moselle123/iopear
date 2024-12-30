@@ -37,5 +37,5 @@ def get_calibration_reading():
 @sensors_bp.route('/calibrate_soil_moisture_sensor', methods=['POST'])
 def calibrate_soil_moisture_sensor():
 	data = request.json
-	current_app.config['I2C_MANAGER'].ss_db.update_calibration(data[0], data[1])
+	current_app.config['I2C_MANAGER'].ss.update_calibration(data[0], data[1])
 	return jsonify({"message": "Calibration updated successfully"}), 200
