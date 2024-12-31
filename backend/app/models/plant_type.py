@@ -17,15 +17,15 @@ class PlantType:
 	@classmethod
 	def create(cls, name, nicknames, thresholds):
 		plant = cls(name, nicknames, thresholds)
-		result = current_app.config['DB']["plant_types"].insert_one(plant.to_dict())
+		result = current_app.config['DB']["plant_type"].insert_one(plant.to_dict())
 		return result.inserted_id
 
 	@classmethod
-	def get_by_id(cls, plant_id):
-		plant_data = current_app.config['DB']["plant_types"].find_one({"_id": ObjectId(plant_id)})
+	def get_by_id(cls, plant_type_id):
+		plant_data = current_app.config['DB']["plant_type"].find_one({"_id": ObjectId(plant_type_id)})
 		return plant_data
 
 	@classmethod
-	def delete(cls, plant_types_id):
-		result = current_app.config['DB']["plant_types"].delete_one({"_id": ObjectId(plant_types_id)})
+	def delete(cls, plant_type_id):
+		result = current_app.config['DB']["plant_type"].delete_one({"_id": ObjectId(plant_type_id)})
 		return result.deleted_count

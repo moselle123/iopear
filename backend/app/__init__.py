@@ -44,7 +44,7 @@ def create_app(config_class=Config):
 	with app.app_context():
 		i2c_manager._initialise_sensors()
 
-		if "plant_types" not in app.config['DB'].list_collection_names():
+		if "plant_type" not in app.config['DB'].list_collection_names():
 			PlantType.create(name="Monstera Deliciousa", nicknames=["Cheese Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "lux": [800, 900]})
 			PlantType.create(name="Zanzibar Gem", nicknames=["ZZ Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "lux": [800, 900]})
 
