@@ -3,7 +3,7 @@ import logging
 from flask import Flask, render_template
 from flask_cors import CORS
 from pymongo import MongoClient
-from app.services.i2c_manager import I2CManager
+from app.services import *
 from app.models import *
 from app.routes import *
 from app.config import Config

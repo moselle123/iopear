@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, current_app, request
 from datetime import datetime
 import logging
+from app.services.sensor_registry import SensorRegistry
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -41,7 +42,7 @@ def calibrate_soil_moisture_sensor():
 	current_app.config['I2C_MANAGER'].ss.update_calibration(data[0], data[1])
 	return jsonify({"message": "Calibration updated successfully"}), 200
 
-@sensors_bp.route('/sensor/<sensor_id>/readings', methods=['GET'])
+@sensors_bp.route('/sensor/<sensor_name>/readings', methods=['GET'])
 def get_readings(sensor_name):
 	try:
 		limit = int(request.args.get('limit', 100))
@@ -56,7 +57,7 @@ def get_readings(sensor_name):
 		return jsonify({"error": str(e)}), 500
 
 
-@sensors_bp.route('/sensor/<sensor_id>/latest_reading', methods=['GET'])
+@sensors_bp.route('/sensor/<sensor_name>/latest_reading', methods=['GET'])
 def get_latest_reading(sensor_name):
 	try:
 		sensor = SensorRegistry.get_sensor(sensor_name)
@@ -72,7 +73,7 @@ def get_latest_reading(sensor_name):
 		return jsonify({"error": str(e)}), 500
 
 
-@sensors_bp.route('/sensor/<sensor_id>/readings_by_date_range', methods=['GET'])
+@sensors_bp.route('/sensor/<sensor_name>/readings_by_date_range', methods=['GET'])
 def get_readings_by_date_range(sensor_name):
 	try:
 		start_date = request.args.get('start_date')
@@ -97,7 +98,7 @@ def get_readings_by_date_range(sensor_name):
 		return jsonify({"error": str(e)}), 500
 
 
-@sensors_bp.route('/sensor/<sensor_id>/readings_by_measurement', methods=['GET'])
+@sensors_bp.route('/sensor/<sensor_name>/readings_by_measurement', methods=['GET'])
 def get_readings_by_measurement(sensor_name):
 	try:
 		measurement = request.args.get('measurement')

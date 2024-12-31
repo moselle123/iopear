@@ -6,7 +6,7 @@ import logging
 import adafruit_sht31d
 import adafruit_tsl2561
 from adafruit_seesaw.seesaw import Seesaw
-from app.services import SensorRegistry
+from app.services.sensor_registry import SensorRegistry
 
 class I2CManager:
 	def __init__(self, app):
@@ -21,19 +21,19 @@ class I2CManager:
 	def _initialise_sensors(self):
 		try:
 			adafruit_sht = adafruit_sht31d.SHT31D(self.i2c)
-			self.sht = SensorRegistry.getSensor("SHT31")
+			self.sht = SensorRegistry.get_sensor("SHT31")
 			SensorRegistry.attach_adafruit_instance("SHT31", adafruit_sht)
 		except OSError as e:
 			print(f"Error initialising SHT31: {e}")
 		try:
 			adafruit_tsl = adafruit_tsl2561.TSL2561(self.i2c)
-			self.tsl = SensorRegistry.getSensor("TSL2561")
+			self.tsl = SensorRegistry.get_sensor("TSL2561")
 			SensorRegistry.attach_adafruit_instance("TSL2561", adafruit_tsl)
 		except OSError as e:
 			print(f"Error initialising TSL2561: {e}")
 		try:
 			adafruit_ss = Seesaw(self.i2c, addr=0x36)
-			self.ss = SensorRegistry.getSensor("SS")
+			self.ss = SensorRegistry.get_sensor("SS")
 			SensorRegistry.attach_adafruit_instance("SS", adafruit_ss)
 		except OSError as e:
 			print(f"Error initialising Soil Moisture Sensor: {e}")
@@ -94,14 +94,14 @@ class I2CManager:
 
 	def get_temperature_(self):
 		try:
-			return self.sht.adafruit.temperature
+			return self.sht.adafruit_instance.temperature
 		except OSError as e:
 			print(f"Error reading temperature: {e}")
 			return None
 
 	def get_humidity_(self):
 		try:
-			return self.sht.adafruit.relative_humidity
+			return self.sht.adafruit_instance.relative_humidity
 		except OSError as e:
 			print(f"Error reading humidity: {e}")
 			return None
@@ -109,7 +109,7 @@ class I2CManager:
 	def get_soil_moisture(self):
 		try:
 			if self.sensors_initialised:
-				return self.ss.adafruit.moisture_read()
+				return self.ss.adafruit_instance.moisture_read()
 			else:
 				ss = Seesaw(self.i2c, addr=0x36)
 				return ss.moisture_read()
@@ -120,14 +120,14 @@ class I2CManager:
 
 	def get_soil_temperature_(self):
 		try:
-			return self.ss.adafruit.get_temp()
+			return self.ss.adafruit_instance.get_temp()
 		except OSError as e:
 			print(f"Error reading soil temperature: {e}")
 			return None
 
 	def get_lux_(self):
 		try:
-			return self.tsl.adafruit.lux
+			return self.tsl.adafruit_instance.lux
 		except OSError as e:
 			print(f"Error reading lux: {e}")
 			return None
