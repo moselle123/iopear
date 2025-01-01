@@ -23,6 +23,8 @@ def get_plant_types():
 def get_plant_type(plant_type_id):
 	try:
 		plant_type = PlantType.get_by_id(plant_type_id)
+		if not plant_type:
+			return {"error": "Plant type not found"}, 404
 		return jsonify(plant_type)
 	except Exception as e:
 		logger.error(f"Error getting plant types data: {e}")
