@@ -35,6 +35,9 @@ export default {
 			return this.$stores.plantStore.plantTypeData;
 		},
 	},
+	mounted() {
+		this.$stores.sensorStore.getSensors();
+	},
 };
 </script>
 <style lang="scss" scoped>
