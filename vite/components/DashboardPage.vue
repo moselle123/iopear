@@ -3,11 +3,11 @@
 		<el-row justify="space-between">
 			<el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
 				<el-container class="left-column" direction="vertical">
-					<el-text class="title">{{ plant.name }}</el-text>
-					<el-text>{{ plant.plantType.description }}</el-text>
+					<el-text class="title">{{ plant?.name }}</el-text>
+					<el-text>{{ plantType?.description }}</el-text>
 				</el-container>
 			</el-col>
-			<el-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
+			<!-- <el-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
 				<el-card>
 					<template #header>
 						<el-text>
@@ -16,21 +16,24 @@
 						</el-text>
 					</template>
 				</el-card>
-			</el-col>
+			</el-col> -->
 		</el-row>
 	</el-container>
 </template>
 <script>
 export default {
-	props: {
-		plant: {
-			type: Object,
-		},
-	},
 	data() {
 		return {
 
 		};
+	},
+	computed: {
+		plant() {
+			return this.$stores.plantStore.plantData;
+		},
+		plantType() {
+			return this.$stores.plantStore.plantTypeData;
+		},
 	},
 };
 </script>
