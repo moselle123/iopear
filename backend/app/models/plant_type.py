@@ -19,8 +19,8 @@ class PlantType:
 		result = current_app.config['DB']["plant_type"].find_one({"_id": ObjectId(plant_type_id)})
 		if not result:
                         return None
-                return {
-                        "_id": str(result["id"]),
+		return {
+                        "_id": str(result["_id"]),
                         "name": result["name"],
                         "nicknames": result["nicknames"],
                         "thresholds": result["thresholds"],
