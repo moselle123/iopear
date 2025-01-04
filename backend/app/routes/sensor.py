@@ -82,6 +82,9 @@ def get_readings_by_date_range(sensor_name):
 		if not start_date or not end_date:
 			return jsonify({"error": "start_date and end_date are required"}), 400
 
+		start_date = start_date.replace("Z", "+00:00")
+		end_date = end_date.replace("Z", "+00:00")
+
 		try:
 			start_date = datetime.fromisoformat(start_date)
 			end_date = datetime.fromisoformat(end_date)
