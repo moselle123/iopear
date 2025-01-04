@@ -2,7 +2,7 @@
 	<el-container class="line-chart" direction="vertical">
 		<el-text v-if="loading" size="large" class="loading">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="spinner"><path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/></svg>
-			Loading data analysis
+			Loading {{ title }} data
 		</el-text>
 		<canvas ref="chart"></canvas>
 	</el-container>
@@ -29,6 +29,27 @@ export default {
 		};
 	},
 	computed: {
+		title() {
+			let title = this.measurement.replace('_', ' ').split(' ');
+			title = title.map(word => word[0].toUpperCase() + word.substring(1));
+			return title.join(' ');
+		},
+		unit() {
+			switch (this.measurement) {
+				case 'temperature':
+					return '°C';
+				case 'humidity':
+					return '%';
+				case 'soil_moisture':
+					return '%';
+				case 'soil_temperature':
+					return '°C';
+				case 'lux':
+					return 'lx';
+				default:
+					return '';
+			};
+		},
 		color() {
 			switch (this.measurement) {
 				case 'temperature':
@@ -42,7 +63,7 @@ export default {
 				case 'lux':
 					return '#fcc26a';
 				default:
-					return
+					return '#000';
 			};
 		},
 	},
@@ -65,7 +86,7 @@ export default {
 				data: {
 					labels: steps,
 					datasets: [{
-						label: this.measurement,
+						label: this.title,
 						data: values,
 						borderColor: this.color,
 						borderWidth: 1
@@ -73,13 +94,25 @@ export default {
 				},
 				options: {
 					responsive: true,
-					scales: {y: {beginAtZero: true}},
+					plugins: {
+						title: {
+							display: true,
+							text: this.title,
+							padding: { top: 10, bottom: 20 },
+						},
+						legend: { display: false },
+					},
 					scales: {
+						y: {
+							beginAtZero: true,
+							title: { display: true, text: this.title + ' ( ' + this.unit + ' )'},
+						},
 						x: {
 							type: 'time',
 							time: {
 								unit: this.step,
 							},
+							title: { display: true, text: 'Time ( ' + this.step + 's )'}
 						},
 					},
 				},
