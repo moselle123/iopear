@@ -6,6 +6,15 @@ import storesPlugin from './plugins/storesPlugin';
 import axios from 'axios';
 window.axios = axios;
 
+
+import { Chart as ChartJS, Title, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, TimeScale, CategoryScale } from 'chart.js';
+import 'chartjs-adapter-moment';
+ChartJS.register(Title, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, TimeScale, CategoryScale);
+window.Chart = ChartJS;
+
+import moment from 'moment';
+window.moment = moment;
+
 if (location.port !== '5173') {
 	window.host = '/';
 } else {
@@ -23,6 +32,8 @@ import DashboardPage from './components/DashboardPage.vue';
 import ConfigurePage from './components/ConfigurePage.vue';
 import DataPage from './components/DataPage.vue';
 import SettingsPage from './components/SettingsPage.vue';
+
+import LineChart from './components/toolkit/LineChart.vue';
 
 const routes = [
 	{
@@ -59,6 +70,7 @@ const router = createRouter({
 const app = createApp(App);
 const pinia = createPinia();
 app.component('WelcomePage', WelcomePage);
+app.component('LineChart', LineChart);
 app.use(createPinia());
 app.use(storesPlugin);
 app.use(router);

@@ -1,12 +1,29 @@
 <template>
 	<el-container class="dashboard" direction="vertical" >
 		<el-row justify="space-between">
-			<el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
+			<!-- <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16"> -->
 				<el-container class="left-column" direction="vertical">
 					<el-text class="title">{{ plant?.name }}</el-text>
 					<el-text>{{ plantType?.description }}</el-text>
+					<el-row>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+							<line-chart :sensor="sensors.SHT31" :dateRange="[startDate, endDate]" step="minute" measurement="temperature"></line-chart>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+							<line-chart :sensor="sensors.SHT31" :dateRange="[startDate, endDate]" step="minute" measurement="humidity"></line-chart>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+							<line-chart :sensor="sensors.SS" :dateRange="[startDate, endDate]" step="minute" measurement="soil_moisture"></line-chart>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+							<line-chart :sensor="sensors.SS" :dateRange="[startDate, endDate]" step="minute" measurement="soil_temperature"></line-chart>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+							<line-chart :sensor="sensors.TSL2561" :dateRange="[startDate, endDate]" step="minute" measurement="lux"></line-chart>
+						</el-col>
+					</el-row>
 				</el-container>
-			</el-col>
+			<!-- </el-col> -->
 			<!-- <el-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
 				<el-card>
 					<template #header>
@@ -24,7 +41,8 @@
 export default {
 	data() {
 		return {
-
+			startDate: moment().subtract(1, 'hours').toISOString(),
+			endDate: moment().toISOString(),
 		};
 	},
 	computed: {
@@ -34,9 +52,9 @@ export default {
 		plantType() {
 			return this.$stores.plantStore.plantTypeData;
 		},
-	},
-	mounted() {
-		this.$stores.sensorStore.getSensors();
+		sensors() {
+			return this.$stores.sensorStore.sensorsObj;
+		},
 	},
 };
 </script>

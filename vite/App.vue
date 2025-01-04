@@ -60,12 +60,12 @@ export default {
 	methods: {
 		getData() {
 			return Promise.allSettled([
-				// this.getConfig(),
 				this.$stores.plantStore.getPlant(),
+				this.$stores.sensorStore.getSensors(),
 			])
 			.then((outcomes) => {
 				if (outcomes.some(o => o.status === 'rejected')) {
-					setTimeout(this.getData, 1000);
+					console.debug(outcomes);
 				}
 				else {
 					this.loading = false;

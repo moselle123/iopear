@@ -5,13 +5,16 @@ export const useSensorStore = defineStore('sensor', {
 		sensors: {},
 	}),
 	getters: {
-		getSht31() {
+		sensorsObj() {
+			return this.sensors;
+		},
+		SHT31() {
 			return this.sensors.SHT31;
 		},
-		getTsl2561() {
+		TSL2561() {
 			return this.sensors.TSL2561;
 		},
-		getSs() {
+		SS() {
 			return this.sensors.SS;
 		},
 		getSoilMoistureReadings() {
@@ -41,7 +44,7 @@ export const useSensorStore = defineStore('sensor', {
 						this.sensors[sensor.name].calibration = sensor.calibration;
 					}
 				});
-				Object.keys(this.sensors).forEach(sensor => this.getReadings(sensor));
+				return Promise.allSettled(Object.keys(this.sensors).map(sensorName => this.getReadings(sensorName)));
 			});
 		},
 		getReadings(sensorName) {
