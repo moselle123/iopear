@@ -43,8 +43,8 @@ export default {
 					return '#fcc26a';
 				default:
 					return
-			}
-		}
+			};
+		},
 	},
 	methods: {
 		loadChart() {
