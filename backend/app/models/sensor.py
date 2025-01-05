@@ -83,7 +83,7 @@ class Sensor:
 			}
 		return None
 
-	def get_readings_by_date_range(self, start_date, end_date):
+	def get_readings_by_date_range(self, start_date, end_date, measurement):
 		duration = (end_date - start_date).total_seconds() / 86400
 		if duration <= 1:
 			aggregation = "minute"
@@ -106,6 +106,7 @@ class Sensor:
 				"$match": {
 					"sensor_id": ObjectId(self._id),
 					"timestamp": {"$gte": start_date, "$lte": end_date},
+					"measurement": measurement,
 				},
 			},
 			{

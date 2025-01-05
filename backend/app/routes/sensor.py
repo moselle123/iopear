@@ -78,6 +78,7 @@ def get_readings_by_date_range(sensor_name):
 	try:
 		start_date = request.args.get('start_date')
 		end_date = request.args.get('end_date')
+		measurement = request.args.get('measurement')
 
 		if not start_date or not end_date:
 			return jsonify({"error": "start_date and end_date are required"}), 400
@@ -95,7 +96,7 @@ def get_readings_by_date_range(sensor_name):
 		if not sensor:
 			return jsonify({"error": "Sensor not found"}), 404
 
-		readings = sensor.get_readings_by_date_range(start_date, end_date)
+		readings = sensor.get_readings_by_date_range(start_date, end_date, measurement)
 		return jsonify(readings), 200
 	except Exception as e:
 		return jsonify({"error": str(e)}), 500
