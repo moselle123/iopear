@@ -53,19 +53,18 @@ class I2CManager:
 			self.reading_thread.join()
 
 	def _read_loop(self, interval):
-		last_temp_humidity_read = 0
+		last_read = 0
 		last_db_write = 0
 		while self.running:
 			now = time.time()
 
-			lux = self.get_lux_()
-			soil_moisture = self.get_soil_moisture()
-			soil_temperature = self.get_soil_temperature_()
-
-			if now - last_temp_humidity_read >= 20:
+			if now - last_read >= 20:
+				lux = self.get_lux_()
+				soil_moisture = self.get_soil_moisture()
+				soil_temperature = self.get_soil_temperature_()
 				temperature = self.get_temperature_()
 				humidity = self.get_humidity_()
-				last_temp_humidity_read = now
+				last_read = now
 			else:
 				temperature = self.last_readings.get('temperature')
 				humidity = self.last_readings.get('humidity')
@@ -82,9 +81,9 @@ class I2CManager:
 					if now - last_db_write >= 60:
 						self.sht.create_reading('temperature', '°C', temperature)
 						self.sht.create_reading('humidity', '%', humidity)
-						self.tsl.create_reading('lux', 'lx', lux)
+						self.tsl.create_reading('light intensity', 'lx', lux)
 						self.ss.create_reading('soil moisture', '%', soil_moisture)
-						self.ss.create_reading('soil_temperature', '°C', soil_temperature)
+						self.ss.create_reading('soil temperature', '°C', soil_temperature)
 						last_db_write = now
 				except Exception as e:
 					logging.error(f"Error writing sensor data to the database: {e}")
