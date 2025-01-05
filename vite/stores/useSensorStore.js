@@ -17,21 +17,6 @@ export const useSensorStore = defineStore('sensor', {
 		SS() {
 			return this.sensors.SS;
 		},
-		getSoilMoistureReadings() {
-			return this.sensors.SS.readings.filter(r => r.measurement === 'soil moisture');
-		},
-		getSoilTemperatureReadings() {
-			return this.sensors.SS.readings.filter(r => r.measurement === 'soil temperature');
-		},
-		getHumidityReadings() {
-			return this.sensors.SHT31.readings.filter(r => r.measurement === 'humidity');
-		},
-		getTemperatureReadings() {
-			return this.sensors.SHT31.readings.filter(r => r.measurement === 'temperature');
-		},
-		getLuxReadings() {
-			return this.sensors.TSL2561.readings.filter(r => r.measurement === 'lux');
-		},
 	},
 	actions: {
 		getSensors() {
@@ -44,14 +29,11 @@ export const useSensorStore = defineStore('sensor', {
 						this.sensors[sensor.name].calibration = sensor.calibration;
 					}
 				});
-				return Promise.allSettled(Object.keys(this.sensors).map(sensorName => this.getReadings(sensorName)));
 			});
 		},
-		getReadings(sensorName) {
-			return axios.get(host + '/sensor/' + sensorName + '/readings')
-			.then(({data}) => {
-				this.sensors[sensorName].readings = data;
-			});
+		getReadingsByDateRange(sensorName, startDate, endDate, measurement) {
+			return axios.get(host + '/sensor/' + sensorName + '/readings_by_date_range', { params: { start_date: startDate, end_date: endDate, measurement: measurement } })
+			.then(res =>  res.data);
 		},
 	}
 });

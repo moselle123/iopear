@@ -10,8 +10,8 @@
 <script>
 export default {
 	props: {
-		sensor: {
-			type: Object,
+		sensorName: {
+			type: String,
 		},
 		dateRange: {
 			type: Array,
@@ -25,8 +25,23 @@ export default {
 	},
 	data() {
 		return {
+			chart: null,
 			loading: true,
+			readings: [],
 		};
+	},
+	watch: {
+		dateRange: {
+			immediate: true,
+			handler() {
+				this.loading = true;
+				this.$stores.sensorStore.getReadingsByDateRange(this.sensorName, this.dateRange[0], this.dateRange[1], this.measurement)
+				.then((data) => {
+					this.readings = data;
+					this.loadChart();
+				});
+			},
+		},
 	},
 	computed: {
 		title() {
@@ -40,11 +55,11 @@ export default {
 					return '°C';
 				case 'humidity':
 					return '%';
-				case 'soil_moisture':
+				case 'soil moisture':
 					return '%';
-				case 'soil_temperature':
+				case 'soil temperature':
 					return '°C';
-				case 'lux':
+				case 'light intensity':
 					return 'lx';
 				default:
 					return '';
@@ -56,11 +71,11 @@ export default {
 					return '#c72222';
 				case 'humidity':
 					return '#2a0b8f';
-				case 'soil_moisture':
+				case 'soil moisture':
 					return '#49afd1';
-				case 'soil_temperature':
+				case 'soil temperature':
 					return '#c72222';
-				case 'lux':
+				case 'light intensity':
 					return '#fcc26a';
 				default:
 					return '#000';
@@ -69,7 +84,7 @@ export default {
 	},
 	methods: {
 		loadChart() {
-			let values = this.sensor.readings
+			let values = this.readings
 			.filter((reading) => {
 				return reading.measurement === this.measurement && reading.timestamp >= this.dateRange[0] && reading.timestamp < this.dateRange[1];
 			})
@@ -80,8 +95,12 @@ export default {
 			for (let i = 0; i <= stepCount; i++) {
 				steps.push(moment(this.dateRange[0]).clone().add(i, this.step).format('YYYY-MM-DD HH:mm'));
 			}
+			if (this.chart) {
+				this.chart.destroy();
+				this.chart = null;
+			}
 
-			new Chart(this.$refs.chart.getContext('2d'), {
+			this.chart = new Chart(this.$refs.chart.getContext('2d'), {
 				type: 'line',
 				data: {
 					labels: steps,
@@ -121,13 +140,14 @@ export default {
 			this.loading = false;
 		},
 	},
-	mounted() {
-		this.loadChart();
-	}
 };
 </script>
 <style lang="scss" scoped>
 .line-chart {
+	.loading {
+		margin-top: 3em;
 
+		align-self: center !important;
+	}
 }
 </style>
