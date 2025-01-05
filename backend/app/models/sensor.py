@@ -84,21 +84,56 @@ class Sensor:
 		return None
 
 	def get_readings_by_date_range(self, start_date, end_date):
-		readings_cursor = current_app.config['DB']["reading"].find({
-			"sensor_id": ObjectId(self._id),
-			"timestamp": {"$gte": start_date, "$lte": end_date}
-		}).sort("timestamp", -1)
+		duration = (end_date - start_date).total_seconds() / 86400
+		if duration <= 1:
+			aggregation = "minute"
+		elif duration <= 7:
+			aggregation = "hour"
+		elif duration <= 30:
+			aggregation = "day"
+		else:
+			aggregation = "month"
+
+		time_fields = {
+			"minute": {"minute": {"$minute": "$timestamp"}, "hour": {"$hour": "$timestamp"}, "day": {"$dayOfMonth": "$timestamp"}, "month": {"$month": "$timestamp"}, "year": {"$year": "$timestamp"}},
+			"hour": {"hour": {"$hour": "$timestamp"}, "day": {"$dayOfMonth": "$timestamp"}, "month": {"$month": "$timestamp"}, "year": {"$year": "$timestamp"}},
+			"day": {"day": {"$dayOfMonth": "$timestamp"}, "month": {"$month": "$timestamp"}, "year": {"$year": "$timestamp"}},
+			"month": {"month": {"$month": "$timestamp"}, "year": {"$year": "$timestamp"}}
+		}
+
+		pipeline = [
+			{
+				"$match": {
+					"sensor_id": ObjectId(self._id),
+					"timestamp": {"$gte": start_date, "$lte": end_date},
+				},
+			},
+			{
+				"$group": {
+					"_id": time_fields[aggregation],
+					"timestamp": {"$min": "$timestamp"},
+					"value": {"$avg": "$value"},
+					"unit": {"$first": "$unit"},
+					"measurement": {"$first": "$measurement"},
+					"sensor_id": {"$first": "$sensor_id"},
+				},
+			},
+			{
+				"$sort": {"timestamp": 1},
+			}
+		]
+
+		results = list(current_app.config['DB']["reading"].aggregate(pipeline))
 
 		return [
 			{
-				"_id": str(reading["_id"]),
-				"sensor_id": str(reading["sensor_id"]),
-				"timestamp": reading["timestamp"].isoformat(),
-				"value": reading["value"],
-				"unit": reading["unit"],
-				"measurement": reading["measurement"],
+				"sensor_id": str(result["sensor_id"]),
+				"timestamp": result["timestamp"].isoformat(),
+				"value": result["value"],
+				"unit": result["unit"],
+				"measurement": result["measurement"],
 			}
-			for reading in readings_cursor
+			for result in results
 		]
 
 	def get_readings_by_measurement(self, measurement, limit=100, skip=0):
