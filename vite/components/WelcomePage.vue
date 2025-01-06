@@ -1,6 +1,6 @@
 <template>
 	<el-container class="welcome">
-		<el-text size="large" type="primary">Welcome to ioPear!</el-text>
+		<el-text size="large" class="title" type="primary">Welcome to ioPear!</el-text>
 		<el-steps :active="step" align-center>
 			<el-step title="Species" />
 			<el-step title="Name" />
@@ -8,8 +8,9 @@
 			<el-step title="Calibrate" />
 			<el-step title="Confirm" />
 		</el-steps>
-		<el-text v-if="step < 3" size="large">Firstly we need to know some information about your plant...</el-text>
-		<el-text v-else-if="step === 3" size="large">Next we need to calibrate your soil moisture sensor...</el-text>
+		<el-text v-if="step < 3" class="subtitle" size="large">Firstly we need to know some information about your plant...</el-text>
+		<el-text v-else-if="step === 3" class="subtitle" size="large">Next we need to calibrate your soil moisture sensor...</el-text>
+		<el-text v-else-if="step === 4" class="subtitle" size="large">Now confirm the details you've selected to save your plant.</el-text>
 		<el-form label-width="auto" label-position="top">
 			<el-form-item v-if="step === 0" label="What is the species of your plant?">
 				<el-select v-model="plant.plantTypeId" placeholder="Select a species" @change="assignThresholds">
@@ -46,32 +47,45 @@
 				<template v-if=" ! calibrationReadings.length">
 					<el-text size="large" tag="b">Step 1: Dry Calibration</el-text>
 					<el-text>Make sure your soil moisture sensor is completely dry and removed from any soil. When ready, click below to take a baseline reading.</el-text>
-					<el-button @click="getSoilMoistureReading">Measure Dry Level</el-button>
+					<el-button type="primary" @click="getSoilMoistureReading">Measure Dry Level</el-button>
 				</template>
 				<template v-else-if="calibrationReadings.length === 1">
 					<el-text size="large" tag="b">Step 2: Wet Calibration</el-text>
 					<el-text>Now, place your soil moisture sensor in a glass of water. When it’s fully submerged, click below to take a maximum reading. Keep the sensor in the water until prompted.</el-text>
-					<el-button @click="getSoilMoistureReading">Measure Saturated Level</el-button>
+					<el-button type="primary" @click="getSoilMoistureReading">Measure Saturated Level</el-button>
 				</template>
 				<template v-else>
-					<el-text>Your soil moisture sensor has now been calibrated! Click next to continue.</el-text>
+					<el-alert type="success" :closable="false" show-icon title="Your soil moisture sensor has now been calibrated! Click next to continue." />
 				</template>
 			</el-container>
-			<el-container v-if="step === 4" class="confirm" direction="vertical">
-				<el-text tag="ins">Plant Details:</el-text>
-				<el-text>Plant Type: {{ plantTypes.name }}</el-text>
-				<el-text>Plant Name: {{ plant.name }}</el-text>
-				<el-text tag="ins">Thresholds:</el-text>
-				<el-text>Soil Moisture: {{ plant.thresholds.soil_moisture }}</el-text>
-				<el-text>Soil Temperature: {{ plant.thresholds.soil_temperature }}</el-text>
-				<el-text>Humidity: {{ plant.thresholds.humidity }}</el-text>
-				<el-text>Air Temperature: {{ plant.thresholds.temperature }}</el-text>
-				<el-text>Light Intensity: {{ plant.thresholds.lux }}</el-text>
-				<el-text>CO2: </el-text>
-				<el-text>Barometric Pressure:</el-text>
+			<el-container v-if="step === 4" class="confirm" direction="vertical" justify="space-evenly">
+				<el-row justify="center">
+					<el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10" class="keys">
+						<el-text>Plant Type:</el-text>
+						<el-text style="margin-bottom: 1em;">Plant Name:</el-text>
+						<el-text>Soil Moisture Threshold:</el-text>
+						<el-text>Soil Temperature Threshold:</el-text>
+						<el-text>Humidity Threshold:</el-text>
+						<el-text>Temperature Threshold:</el-text>
+						<el-text>Light Intensity Threshold:</el-text>
+						<el-text>CO2 Threshold:</el-text>
+						<el-text>Barometric Pressure Threshold:</el-text>
+					</el-col>
+					<el-col class="values" :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+						<el-text>{{ selectedPlantType.name }}</el-text>
+						<el-text style="margin-bottom: 1em;">{{ plant.name }}</el-text>
+						<el-text>{{ plant.thresholds.soil_moisture }}</el-text>
+						<el-text>{{ plant.thresholds.soil_temperature }}</el-text>
+						<el-text>{{ plant.thresholds.humidity }}</el-text>
+						<el-text>{{ plant.thresholds.temperature }}</el-text>
+						<el-text>{{ plant.thresholds.light_intensity }}</el-text>
+						<el-text></el-text>
+						<el-text></el-text>
+					</el-col>
+				</el-row>
 			</el-container>
-			<el-row justify="space-between">
-				<el-button @click="previousStep">Back</el-button>
+			<el-row justify="space-between" class="navigation-buttons">
+				<el-button @click="previousStep" :disabled="step === 0">Back</el-button>
 				<el-button v-if="step < 4" @click="nextStep" :disabled="(step === 0 && !plant.plantTypeId) || (step === 1 && !plant.name)">Next</el-button>
 				<el-button v-else @click="createPlant">Confirm</el-button>
 			</el-row>
@@ -91,7 +105,7 @@ export default {
 					humidity: null,
 					soil_moisture: null,
 					soil_temperature: null,
-					lux: null,
+					light_intensity: null,
 				},
 			},
 			step: 0,
@@ -125,7 +139,7 @@ export default {
 			marks.light_intensity[this.selectedPlantType?.thresholds.light_intensity[1]] = this.selectedPlantType?.thresholds.light_intensity[1] + 'lx';
 
 			return marks;
-		}
+		},
 	},
 	methods: {
 		getPlantTypes() {
@@ -186,12 +200,17 @@ export default {
 	max-width: 600px;
 	width: 60%;
 
+	.title, .subtitle {
+		align-self: center !important;
+	}
+
 	.el-steps {
 		margin: 2em 0;
 	}
 
 	.el-form {
-		margin-top: 3em;
+		margin: 2em 0;
+
 		.el-form-item {
 			margin-bottom: 4em;
 		}
@@ -204,7 +223,25 @@ export default {
 			gap: 2em;
 
 			margin: 2em 0;
+
+			.el-button {
+				width: 12em !important;
+				margin: 0 auto;
+			}
+		}
+
+		.confirm {
+			.keys {
+				font-weight: 400;
+			}
 		}
 	}
+
+
+	.navigation-buttons {
+		margin-top: 2em;
+	}
+
+
 }
 </style>
