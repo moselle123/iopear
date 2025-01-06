@@ -8,8 +8,8 @@ logger = logging.getLogger(__name__)
 
 sensors_bp = Blueprint('sensors', __name__)
 
-@sensors_bp.route("/get_sensor_data")
-def get_sensor_data():
+@sensors_bp.route("/get_latest_readings")
+def get_latest_readings():
 	try:
 		return jsonify(current_app.config['I2C_MANAGER'].get_last_readings())
 	except Exception as e:
@@ -39,6 +39,13 @@ def get_calibration_reading():
 @sensors_bp.route('/calibrate_soil_moisture_sensor', methods=['POST'])
 def calibrate_soil_moisture_sensor():
 	data = request.json
+	try:
+		current_app.config['I2C_MANAGER'].ss.update_calibration(data[0], data[1])
+		return jsonify({"message": "Calibration updated successfully"}), 200
+	except Exception as e:
+		logger.error(f"Error setting soil moisture calibration settings: {e}")
+		return {"error": "Failed to calibrate soil moisture sensor."}, 500
+
 @sensors_bp.route('/update_thresholds', methods=['POST'])
 def update_thresholds():
 	data = request.json
@@ -61,7 +68,8 @@ def get_readings(sensor_name):
 		readings = sensor.get_readings(limit=limit, skip=skip)
 		return jsonify(readings), 200
 	except Exception as e:
-		return jsonify({"error": str(e)}), 500
+		logger.error(f"Error getting {sensor_name} readings: {e}")
+		return {"error": "Failed to get sensor readings"}, 500
 
 
 @sensors_bp.route('/sensor/<sensor_name>/latest_reading', methods=['GET'])
@@ -77,7 +85,8 @@ def get_latest_reading(sensor_name):
 
 		return jsonify(reading), 200
 	except Exception as e:
-		return jsonify({"error": str(e)}), 500
+		logger.error(f"Error getting {sensor_name} latest reading: {e}")
+		return {"error": "Failed to get latest reading"}, 500
 
 
 @sensors_bp.route('/sensor/<sensor_name>/readings_by_date_range', methods=['GET'])
@@ -106,7 +115,8 @@ def get_readings_by_date_range(sensor_name):
 		readings = sensor.get_readings_by_date_range(start_date, end_date, measurement)
 		return jsonify(readings), 200
 	except Exception as e:
-		return jsonify({"error": str(e)}), 500
+		logger.error(f"Error getting readings by date range: {e}")
+		return {"error": "Failed to get readings by date range."}, 500
 
 
 @sensors_bp.route('/sensor/<sensor_name>/readings_by_measurement', methods=['GET'])
@@ -126,4 +136,5 @@ def get_readings_by_measurement(sensor_name):
 		readings = sensor.get_readings_by_measurement(measurement, limit=limit, skip=skip)
 		return jsonify(readings), 200
 	except Exception as e:
-		return jsonify({"error": str(e)}), 500
+		logger.error(f"Error getting readings by date range: {e}")
+		return {"error": "Failed to get readings by measurement"}, 500

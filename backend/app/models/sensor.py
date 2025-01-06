@@ -12,10 +12,15 @@ class Sensor:
 			self.calibration = None
 
 	def to_dict(self):
-		return {
+		sensor = {
 			"_id": str(self._id),
 			"name": self.name,
+			"thresholds": self.thresholds
 		}
+		if self.calibration:
+			sensor["calibration"] = self.calibration
+
+		return sensor
 
 	def update_calibration(self, min_val, max_val):
 		if self.name == 'SS':
