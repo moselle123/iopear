@@ -1,5 +1,6 @@
 from bson import ObjectId
 from flask import current_app
+from app.services.sensor_registry import SensorRegistry
 
 class Plant:
 	@staticmethod
@@ -16,7 +17,6 @@ class Plant:
 			"_id": plant['id'],
 			"name": plant['name'],
 			"plant_type_id": plant['plant_type_id'],
-			"thresholds": plant['thresholds'],
 			"sensors": plant['sensors'],
 		}
 
@@ -24,9 +24,11 @@ class Plant:
 	def create(name, plant_type_id, thresholds):
 		sensors = list(current_app.config['DB']["sensors"].find({}))
 		plant_type_id = ObjectId(plant_type_id)
-		plant = cls(name, plant_type_id, thresholds, sensors)
 
-		result = current_app.config['DB']["plant"].insert_one({"name": name, "plant_type_id": ObjectId(plant_type_id), "thresholds": thresholds, "sensors": sensors})
+		for key, value in thresholds.items():
+			SensorRegistry.update_thresholds(key, value)
+
+		result = current_app.config['DB']["plant"].insert_one({"name": name, "plant_type_id": ObjectId(plant_type_id), "sensors": sensors})
 		return result.inserted_id
 
 	@classmethod

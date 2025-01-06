@@ -6,6 +6,7 @@ class Sensor:
 	def __init__(self, _id, name):
 		self._id = _id
 		self.name = name
+		self.thresholds = {}
 		self.adafruit_instance = None
 		if name == 'SS':
 			self.calibration = None
@@ -20,6 +21,10 @@ class Sensor:
 		if self.name == 'SS':
 			self.calibration = {"min": min_val, "max": max_val}
 			current_app.config['DB']["sensors"].update_one({"_id": ObjectId(self._id)}, {"$set": {"calibration": self.calibration}})
+
+	def update_thresholds(self, measurement, thresholds):
+		self.thresholds[measurement] = thresholds
+		current_app.config['DB']["sensors"].update_one({"_id": ObjectId(self._id)}, {"$set": {"thresholds": self.thresholds}})
 
 	@classmethod
 	def create(cls, name):
