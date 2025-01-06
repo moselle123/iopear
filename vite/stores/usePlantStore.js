@@ -18,7 +18,9 @@ export const usePlantStore = defineStore('plant', {
 			return axios.get(host + '/get_plant')
 			.then(({data}) => {
 				Object.assign(this.plant, data);
-				this.getPlantType();
+				if (Object.keys(this.plant).length) {
+					this.getPlantType();
+				}
 			});
 		},
 		getPlantType() {
