@@ -1,6 +1,5 @@
 from bson import ObjectId
 from flask import current_app
-from app.services.sensor_registry import SensorRegistry
 
 class Plant:
 	@staticmethod
