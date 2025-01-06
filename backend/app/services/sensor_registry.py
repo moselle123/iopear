@@ -21,14 +21,17 @@ class SensorRegistry:
 
 	@classmethod
 	def update_thresholds(cls, measurement, thresholds):
+		sensor = None
+
 		if measurement == "humidity" or measurement == "temperature":
 			sensor = cls.get_sensor("SHT31")
-		elif measurement == "soil moisture" or measurement == "soil temperature":
+		elif measurement == "soil_moisture" or measurement == "soil_temperature":
 			sensor = cls.get_sensor("SS")
-		elif measurement == "light intensity":
+		elif measurement == "light_intensity":
 			sensor = cls.get_sensor("TSL2561")
 
-		sensor.update_thresholds(measurement, thresholds)
+		if sensor:
+			sensor.update_thresholds(measurement, thresholds)
 
 	@classmethod
 	def attach_adafruit_instance(cls, name, adafruit_instance):

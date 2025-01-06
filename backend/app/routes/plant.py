@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, current_app, request
 from app.models import Plant
 from bson.json_util import dumps, loads
+from app.services.sensor_registry import SensorRegistry
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -20,5 +21,9 @@ def get_plant():
 @plant_bp.route('/create_plant', methods=['POST'])
 def new_plant():
 	data = request.json
-	Plant.create(name=data['name'], plant_type_id=data['plantTypeId'], thresholds=data['thresholds'])
+
+	for key, value in data["thresholds"].items():
+		SensorRegistry.update_thresholds(key, value)
+
+	Plant.create(name=data['name'], plant_type_id=data['plantTypeId'])
 	return {"message": "Created plant successfully."}, 200

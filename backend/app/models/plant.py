@@ -20,12 +20,9 @@ class Plant:
 		}
 
 	@staticmethod
-	def create(name, plant_type_id, thresholds):
+	def create(name, plant_type_id):
 		sensors = list(current_app.config['DB']["sensors"].find({}))
 		plant_type_id = ObjectId(plant_type_id)
-
-		for key, value in thresholds.items():
-			SensorRegistry.update_thresholds(key, value)
 
 		result = current_app.config['DB']["plant"].insert_one({"name": name, "plant_type_id": ObjectId(plant_type_id), "sensors": sensors})
 		return result.inserted_id
