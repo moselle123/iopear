@@ -28,8 +28,8 @@
 					<el-collapse-item :title="'Soil Temperature: ' +  plant.thresholds.soil_temperature[0] + ' - ' + plant.thresholds.soil_temperature[1] + ' (°C)'" name="2">
 						<el-slider v-model="plant.thresholds.soil_temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.soil_temperature" />
 					</el-collapse-item>
-					<el-collapse-item :title="'Light Intensity: ' +  plant.thresholds.lux[0] + ' - ' + plant.thresholds.lux[1] + ' (lx)'" name="3">
-						<el-slider v-model="plant.thresholds.lux" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.lux" :step="50" />
+					<el-collapse-item :title="'Light Intensity: ' +  plant.thresholds.light_intensity[0] + ' - ' + plant.thresholds.light_intensity[1] + ' (lx)'" name="3">
+						<el-slider v-model="plant.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
 					</el-collapse-item>
 					<el-collapse-item  :title="'Environmental Temperature: ' +  plant.thresholds.temperature[0] + ' - ' + plant.thresholds.temperature[1] + ' (°C)'" name="4">
 						<el-slider v-model="plant.thresholds.temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.temperature" />
@@ -112,7 +112,7 @@ export default {
 			return 'Common nicknames: ' + this.selectedPlantType?.nicknames[0] + ', ' + this.selectedPlantType?.nicknames[1];
 		},
 		marks() {
-			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, lux: {50: '50lx', 1000: '1000lx'}};
+			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}};
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[0]] = this.selectedPlantType?.thresholds.temperature[0] + '°C';
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[1]] = this.selectedPlantType?.thresholds.temperature[1] + '°C';
 			marks.humidity[this.selectedPlantType?.thresholds.humidity[0]] = this.selectedPlantType?.thresholds.humidity[0] + '%';
@@ -121,8 +121,8 @@ export default {
 			marks.soil_moisture[this.selectedPlantType?.thresholds.soil_moisture[1]] = this.selectedPlantType?.thresholds.soil_moisture[1] + '%';
 			marks.soil_temperature[this.selectedPlantType?.thresholds.soil_temperature[0]] = this.selectedPlantType?.thresholds.soil_temperature[0] + '°C';
 			marks.soil_temperature[this.selectedPlantType?.thresholds.soil_temperature[1]] = this.selectedPlantType?.thresholds.soil_temperature[1] + '°C';
-			marks.lux[this.selectedPlantType?.thresholds.lux[0]] = this.selectedPlantType?.thresholds.lux[0] + 'lx';
-			marks.lux[this.selectedPlantType?.thresholds.lux[1]] = this.selectedPlantType?.thresholds.lux[1] + 'lx';
+			marks.light_intensity[this.selectedPlantType?.thresholds.light_intensity[0]] = this.selectedPlantType?.thresholds.light_intensity[0] + 'lx';
+			marks.light_intensity[this.selectedPlantType?.thresholds.light_intensity[1]] = this.selectedPlantType?.thresholds.light_intensity[1] + 'lx';
 
 			return marks;
 		}

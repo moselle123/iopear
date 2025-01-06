@@ -8,15 +8,6 @@ export const useSensorStore = defineStore('sensor', {
 		sensorsObj() {
 			return this.sensors;
 		},
-		SHT31() {
-			return this.sensors.SHT31;
-		},
-		TSL2561() {
-			return this.sensors.TSL2561;
-		},
-		SS() {
-			return this.sensors.SS;
-		},
 	},
 	actions: {
 		getSensors() {
@@ -28,6 +19,7 @@ export const useSensorStore = defineStore('sensor', {
 					if (sensor.calibration) {
 						this.sensors[sensor.name].calibration = sensor.calibration;
 					}
+					this.sensors[sensor.name].thresholds = sensor.thresholds;
 				});
 			});
 		},
