@@ -116,7 +116,7 @@ export default {
 					plugins: {
 						title: {
 							display: true,
-							text: this.title,
+							text: this.title + ' ( ' + moment(this.dateRange[0]).format('DD/MM/YY HH:mm') + ' - ' + moment(this.dateRange[1]).format('DD/MM/YY HH:mm') + ' )',
 							padding: { top: 10, bottom: 20 },
 						},
 						legend: { display: false },

@@ -5,21 +5,21 @@
 				<el-container class="left-column" direction="vertical">
 					<el-text class="title">{{ plant?.name }}</el-text>
 					<el-text>{{ plantType?.description }}</el-text>
-					<el-row>
+					<el-row justify="space-between">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart :sensor="sensors.SHT31" :dateRange="[startDate, endDate]" step="minute" measurement="temperature"></line-chart>
+							<line-chart sensorName="SHT31" :dateRange="[startDate, endDate]" step="minute" measurement="temperature"></line-chart>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart :sensor="sensors.SHT31" :dateRange="[startDate, endDate]" step="minute" measurement="humidity"></line-chart>
+							<line-chart sensorName="SHT31" :dateRange="[startDate, endDate]" step="minute" measurement="humidity"></line-chart>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart :sensor="sensors.SS" :dateRange="[startDate, endDate]" step="minute" measurement="soil_moisture"></line-chart>
+							<line-chart sensorName="SS" :dateRange="[startDate, endDate]" step="minute" measurement="soil moisture"></line-chart>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart :sensor="sensors.SS" :dateRange="[startDate, endDate]" step="minute" measurement="soil_temperature"></line-chart>
+							<line-chart sensorName="SS" :dateRange="[startDate, endDate]" step="minute" measurement="soil temperature"></line-chart>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart :sensor="sensors.TSL2561" :dateRange="[startDate, endDate]" step="minute" measurement="lux"></line-chart>
+							<line-chart sensorName="TSL2561" :dateRange="[startDate, endDate]" step="minute" measurement="light intensity"></line-chart>
 						</el-col>
 					</el-row>
 				</el-container>
@@ -51,9 +51,6 @@ export default {
 		},
 		plantType() {
 			return this.$stores.plantStore.plantTypeData;
-		},
-		sensors() {
-			return this.$stores.sensorStore.sensorsObj;
 		},
 	},
 };
