@@ -16,6 +16,7 @@ class Sensor:
 		sensor = {
 			"_id": str(self._id),
 			"name": self.name,
+			"enabled": self.enabled,
 			"thresholds": self.thresholds
 		}
 		if self.calibration:
@@ -28,9 +29,10 @@ class Sensor:
 			self.calibration = {"min": min_val, "max": max_val}
 			current_app.config['DB']["sensors"].update_one({"_id": ObjectId(self._id)}, {"$set": {"calibration": self.calibration}})
 
-	def update_thresholds(self, measurement, thresholds):
-		self.thresholds[measurement] = thresholds
-		current_app.config['DB']["sensors"].update_one({"_id": ObjectId(self._id)}, {"$set": {"thresholds": self.thresholds}})
+	def update_settings(self, enabled, thresholds):
+		self.enabled = enabled
+		self.thresholds = thresholds
+		current_app.config['DB']["sensors"].update_one({"_id": ObjectId(self._id)}, {"$set": {"enabled": self.enabled, "thresholds": self.thresholds}})
 
 	@classmethod
 	def create(cls, name):

@@ -46,15 +46,18 @@ def calibrate_soil_moisture_sensor():
 		logger.error(f"Error setting soil moisture calibration settings: {e}")
 		return {"error": "Failed to calibrate soil moisture sensor."}, 500
 
-@sensors_bp.route('/update_thresholds', methods=['POST'])
-def update_thresholds():
+@sensors_bp.route('/update_settings', methods=['POST'])
+def update_settings():
 	data = request.json
+	if 'enabled' not in data or 'thresholds' not in data:
+		return {"error": "'enabled' and 'thresholds' are required fields."}, 400
 	try:
-		SensorRegistry.update_thresholds(data.measurement, data.thresholds)
-		return jsonify({"message": "Sensor threshold updated successfully"}), 200
+		sensor = SensorRegistry.getSensor(data.name)
+		sensor.update_settings(data.enabled, data.thresholds)
+		return jsonify({"message": "Sensor settings updated successfully", "sensor": sensor.to_dict()}), 200
 	except Exception as e:
-		logger.error(f"Error setting threshold: {e}")
-		return {"error": "Failed to update sensor threshold."}, 500
+		logger.error(f"Error setting settings: {e}")
+		return {"error": "Failed to update sensor settings."}, 500
 
 @sensors_bp.route('/sensor/<sensor_name>/readings', methods=['GET'])
 def get_readings(sensor_name):
