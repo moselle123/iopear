@@ -46,7 +46,7 @@ def calibrate_soil_moisture_sensor():
 		logger.error(f"Error setting soil moisture calibration settings: {e}")
 		return {"error": "Failed to calibrate soil moisture sensor."}, 500
 
-@sensors_bp.route('/update_settings/<sensor_name>', methods=['PUT'])
+@sensors_bp.route('sensor/<sensor_name>/update_settings', methods=['PUT'])
 def update_settings(sensor_name):
 	data = request.json
 	if 'enabled' not in data or 'thresholds' not in data:
