@@ -34,6 +34,7 @@ import DataPage from './components/DataPage.vue';
 import SettingsPage from './components/SettingsPage.vue';
 
 import LineChart from './components/toolkit/LineChart.vue';
+import SensorsConfiguration from './components/toolkit/SensorsConfiguration.vue';
 
 const routes = [
 	{
@@ -71,6 +72,7 @@ const app = createApp(App);
 const pinia = createPinia();
 app.component('WelcomePage', WelcomePage);
 app.component('LineChart', LineChart);
+app.component('SensorsConfiguration', SensorsConfiguration);
 app.use(createPinia());
 app.use(storesPlugin);
 app.use(router);
