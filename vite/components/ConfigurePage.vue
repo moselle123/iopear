@@ -21,13 +21,7 @@
 				</el-collapse>
 			</el-tab-pane>
 			<el-tab-pane label="Sensors" name="sensors">
-				<el-collapse accordion>
-					<el-collapse-item v-for="(sensor, index) in sensors" :key="index" :title="sensor.name" :name="index">
-						<template #header>
-							<el-text>{{ sensor.name }}</el-text>
-						</template>
-					</el-collapse-item>
-				</el-collapse>
+				<sensors-configuration />
 			</el-tab-pane>
 		</el-tabs>
 	</el-container>
