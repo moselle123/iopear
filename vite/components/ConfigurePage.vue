@@ -3,22 +3,26 @@
 		<el-text class="title">Configure</el-text>
 		<el-tabs v-model="activeTab">
 			<el-tab-pane label="Actions" name="actions">
-				<el-collapse accordion>
-					<el-collapse-item v-for="(action, index) in actions" :key="index" :title="action.name" :name="index">
-						<template #header>
-							<el-text>{{ action.name }}</el-text>
-						</template>
-					</el-collapse-item>
-				</el-collapse>
+				<el-card v-if="activeTab === 'actions'">
+					<el-collapse accordion>
+						<el-collapse-item v-for="(action, index) in actions" :key="index" :title="action.name" :name="index">
+							<template #header>
+								<el-text>{{ action.name }}</el-text>
+							</template>
+						</el-collapse-item>
+					</el-collapse>
+				</el-card>
 			</el-tab-pane>
 			<el-tab-pane label="Events" name="events">
-				<el-collapse accordion>
-					<el-collapse-item v-for="(event, index) in events" :key="index" :title="event.name" :name="index">
-						<template #header>
-							<el-text>{{ event.name }}</el-text>
-						</template>
-					</el-collapse-item>
-				</el-collapse>
+				<el-card v-if="activeTab === 'events'">
+					<el-collapse accordion>
+						<el-collapse-item v-for="(event, index) in events" :key="index" :title="event.name" :name="index">
+							<template #header>
+								<el-text>{{ event.name }}</el-text>
+							</template>
+						</el-collapse-item>
+					</el-collapse>
+				</el-card>
 			</el-tab-pane>
 			<el-tab-pane label="Sensors" name="sensors">
 				<sensors-configuration />

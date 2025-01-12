@@ -32,7 +32,7 @@
 					<el-form-item v-if="sensor.name === 'TSL2561'" label="Light Intensity">
 						<el-slider v-model="altered.TSL2561.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.lux" :step="50" />
 					</el-form-item>
-					<el-button type="primary" @click="updateSensor(sensor.name)">Save Changes</el-button>
+					<el-button @click="updateSensor(sensor.name)">Save Changes</el-button>
 				</el-form>
 			</el-card>
 		</el-col>

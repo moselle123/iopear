@@ -58,5 +58,9 @@ export default {
 <style lang="scss" scoped>
 .left-column {
 	gap: 1em;
+
+	.el-col {
+		padding: 0.5em;
+	}
 }
 </style>

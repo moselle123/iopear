@@ -1,11 +1,52 @@
+$primary: #236f23;
+$bg: #ffffff;
+$accent: #e9bb72;
+
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
 	$colors: (
+		'white': #FFFFFF,
+		'black': #000000,
 		'primary': (
-			'base': green,
+			'base': $primary,
 		),
 	),
 	$bg-color: (
-		'': #333,
+		'': $accent,
+	),
+	$fill-color: (
+		'': $bg,
+		'blank': $bg,
+	),
+	$border-color: (
+		'': $accent,
+		'light': $accent,
+	),
+	$text-color: (
+		'primary': $primary,
+		'regular': $primary,
+	),
+	$menu:   (
+		'active-color': $accent,
+		'text-color': $bg,
+		'hover-text-color': $primary,
+		'bg-color': $bg,
+		'hover-bg-color': $accent,
+		'border-color': $accent,
+	),
+	$collapse: (
+		'border-color': $bg,
+		'header-bg-color': $bg,
+		'header-text-color': $primary,
+		'header-font-size': 14px,
+		'content-bg-color': $bg,
+		'content-font-size': 14px,
+		'content-text-color': $primary,
+	),
+	$card: (
+		'border-color': $accent,
+		'border-radius': 4px,
+		'padding': 10px,
+		'bg-color': $bg,
 	),
 );
 

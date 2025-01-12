@@ -1,5 +1,7 @@
 @import "./theme.scss";
 
+$regularFontWeight: 400;
+
 html, body, #app {
 	height: 100%;
 	width: 100%;
@@ -22,8 +24,10 @@ input[type=range]::-webkit-slider-thumb {
 	margin: 0;
 
 	font-family: Inter;
-	font-weight: 200;
+	font-weight: $regularFontWeight;
 	font-size: 14px;
+
+	background: #ffffff;
 
 	overflow-y: auto;
 
@@ -49,6 +53,17 @@ input[type=range]::-webkit-slider-thumb {
 		svg {
 			fill: var(--el-color-primary);
 		}
+	}
+
+	.grid {
+		.el-col {
+			padding: 0.5em;
+
+			.el-card {
+				height: 100%;
+			}
+		}
+
 	}
 
 	// element plus overrides
@@ -91,7 +106,7 @@ input[type=range]::-webkit-slider-thumb {
 		}
 		.el-step__main {
 			.el-step__title {
-				font-weight: 400;
+				font-weight: $regularFontWeight;
 				font-size: 1em;
 			}
 		}
@@ -104,7 +119,55 @@ input[type=range]::-webkit-slider-thumb {
 
 	.el-tabs {
 		.el-tabs__item {
-			font-weight: 200;
+			color: var(--el-text-color-regular);
+			font-weight: $regularFontWeight;
+		}
+	}
+
+	.el-divider--horizontal {
+		margin: 1em 0;
+
+		border-top: 1px #FFFFFF solid;
+	}
+
+	.el-card {
+		.el-card__header {
+			.el-text {
+				flex: 1;
+			}
+
+			.el-tag {
+				margin-right: 7px;
+			}
+		}
+
+		.el-card__body {
+			padding: 1em;
+		}
+	}
+
+	.el-collapse {
+		.el-collapse-item {
+
+			border-top: 1px var(--el-border-color) solid;
+			border-bottom: 1px var(--el-border-color) solid;
+
+			&:first-child {
+				border-top: none;
+			}
+			&:last-child {
+				border-bottom: none;
+			}
+
+			.el-collapse-item__header {
+				display: flex;
+
+				font-family: Inter;
+				font-weight: $regularFontWeight;
+
+
+
+			}
 		}
 	}
 }

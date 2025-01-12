@@ -3,7 +3,7 @@
 		<el-header>
 			<el-menu default-active="/" mode="horizontal" :ellipsis="false" router>
 				<el-menu-item>
-					<el-text class="title">🍐 ioPear</el-text>
+					<el-text class="title">🌵 ioPear</el-text>
 				</el-menu-item>
 				<template v-if="!loading && Object.keys(plant).length">
 					<el-menu-item index="/">

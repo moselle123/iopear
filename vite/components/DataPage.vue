@@ -8,10 +8,10 @@
 						<el-text>{{ measurement.text }}</el-text>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
-						<el-row justify="space-evenly">
+						<el-row justify="space-evenly" class="filter">
 							<el-alert v-if="invalidDate" title="Invalid date range: Please chose a date range which is under a month." />
 							<el-date-picker v-model="filteredRange" type="datetimerange" start-placeholder="Start date" end-placeholder="End date" format="DD/MM/YY HH:mm" date-format="DD/MM/YY" time-format="HH:mm" value-format="YYYY-MM-DDTHH:mm:ssZ" />
-							<el-button @click="setFilter" type="primary">Filter Data</el-button>
+							<el-button @click="setFilter">Filter Data</el-button>
 						</el-row>
 						<line-chart v-if="activeTab === measurement.label.toLowerCase()" :sensorName="measurement.sensorName" :dateRange="dateRange" :step="step" :measurement="measurement.label.toLowerCase()"></line-chart>
 					</el-col>
@@ -100,6 +100,10 @@ export default {
 		.el-button {
 			margin-left: 12px;
 		}
+	}
+
+	.filter {
+		margin-bottom: 1em;
 	}
 }
 </style>
