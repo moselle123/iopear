@@ -59,3 +59,11 @@ This week:
 - Fix some issues with API
 - Built out basic pages
 - Pulled real data from the db to frontend.
+
+## 29 - 5 January
+- Created chart component to visualise sensor data through graphs.
+- Refactored lots of things to make the functionality of everything cleaner
+
+## 6 - 12 January
+- User can update sensor thresholds from within the app.
+- User can disabled sensors if they do not need to information collected by them.
