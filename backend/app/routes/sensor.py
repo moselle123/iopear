@@ -52,11 +52,11 @@ def update_settings(sensor_name):
 	if 'enabled' not in data or 'thresholds' not in data:
 		return {"error": "'enabled' and 'thresholds' are required fields."}, 400
 	try:
-		sensor = SensorRegistry.getSensor(sensor_name)
-		sensor.update_settings(data.enabled, data.thresholds)
-		return jsonify({"message": "Sensor settings updated successfully", "sensor": sensor.to_dict()}), 200
+		sensor = SensorRegistry.get_sensor(sensor_name)
+		sensor.update_settings(data["enabled"], data["thresholds"])
+		return jsonify({"message": "Sensor settings updated successfully"}), 200
 	except Exception as e:
-		logger.error(f"Error setting settings: {e}")
+		logger.error(f"Error updating sensor settings: {e}")
 		return {"error": "Failed to update sensor settings."}, 500
 
 @sensors_bp.route('/sensor/<sensor_name>/readings', methods=['GET'])
