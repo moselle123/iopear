@@ -23,20 +23,23 @@
 			<template v-if="step === 2">
 				<el-text>Recommended environmental settings for a {{ selectedPlantType.name }}. To customize, select a field and adjust the slider as desired.</el-text>
 				<el-collapse accordion>
-					<el-collapse-item :title="'Soil Moisture: ' +  plant.thresholds.soil_moisture[0] + ' - ' + plant.thresholds.soil_moisture[1] + ' (%)'" name="1">
-						<el-slider v-model="plant.thresholds.soil_moisture" range show-stops show-tooltip :min="0" :max="100" :marks="marks.soil_moisture" :step="5" />
+					<el-collapse-item :title="'Soil Moisture: ' +  plant.thresholds.SS.soil_moisture[0] + ' - ' + plant.thresholds.SS.soil_moisture[1] + ' (%)'" name="1">
+						<el-slider v-model="plant.thresholds.SS.soil_moisture" range show-stops show-tooltip :min="0" :max="100" :marks="marks.soil_moisture" :step="5" />
 					</el-collapse-item>
-					<el-collapse-item :title="'Soil Temperature: ' +  plant.thresholds.soil_temperature[0] + ' - ' + plant.thresholds.soil_temperature[1] + ' (°C)'" name="2">
-						<el-slider v-model="plant.thresholds.soil_temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.soil_temperature" />
+					<el-collapse-item :title="'Soil Temperature: ' +  plant.thresholds.SS.soil_temperature[0] + ' - ' + plant.thresholds.SS.soil_temperature[1] + ' (°C)'" name="2">
+						<el-slider v-model="plant.thresholds.SS.soil_temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.soil_temperature" />
 					</el-collapse-item>
-					<el-collapse-item :title="'Light Intensity: ' +  plant.thresholds.light_intensity[0] + ' - ' + plant.thresholds.light_intensity[1] + ' (lx)'" name="3">
-						<el-slider v-model="plant.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
+					<el-collapse-item :title="'Light Intensity: ' +  plant.thresholds.TSL2561.light_intensity[0] + ' - ' + plant.thresholds.TSL2561.light_intensity[1] + ' (lx)'" name="3">
+						<el-slider v-model="plant.thresholds.TSL2561.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
 					</el-collapse-item>
-					<el-collapse-item  :title="'Environmental Temperature: ' +  plant.thresholds.temperature[0] + ' - ' + plant.thresholds.temperature[1] + ' (°C)'" name="4">
-						<el-slider v-model="plant.thresholds.temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.temperature" />
+					<el-collapse-item  :title="'Environmental Temperature: ' +  plant.thresholds.SHT31.temperature[0] + ' - ' + plant.thresholds.SHT31.temperature[1] + ' (°C)'" name="4">
+						<el-slider v-model="plant.thresholds.SHT31.temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.temperature" />
 					</el-collapse-item>
-					<el-collapse-item  :title="'Humidity: ' +  plant.thresholds.humidity[0] + ' - ' + plant.thresholds.humidity[1] + ' (%)'" name="5">
-						<el-slider v-model="plant.thresholds.humidity" range show-stops show-tooltip :min="0" :max="100" :marks="marks.humidity" :step="5" />
+					<el-collapse-item  :title="'Humidity: ' +  plant.thresholds.SHT31.humidity[0] + ' - ' + plant.thresholds.SHT31.humidity[1] + ' (%)'" name="5">
+						<el-slider v-model="plant.thresholds.SHT31.humidity" range show-stops show-tooltip :min="0" :max="100" :marks="marks.humidity" :step="5" />
+					</el-collapse-item>
+					<el-collapse-item  :title="'Barometric Pressure: ' +  plant.thresholds.BMP280.barometric_pressure[0] + ' - ' + plant.thresholds.BMP280.barometric_pressure[1] + ' (%)'" name="6">
+						<el-slider v-model="plant.thresholds.BMP280.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
 					</el-collapse-item>
 				</el-collapse>
 			</template>
@@ -74,13 +77,13 @@
 					<el-col class="values" :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
 						<el-text>{{ selectedPlantType.name }}</el-text>
 						<el-text style="margin-bottom: 1em;">{{ plant.name }}</el-text>
-						<el-text>{{ plant.thresholds.soil_moisture }}</el-text>
-						<el-text>{{ plant.thresholds.soil_temperature }}</el-text>
-						<el-text>{{ plant.thresholds.humidity }}</el-text>
-						<el-text>{{ plant.thresholds.temperature }}</el-text>
-						<el-text>{{ plant.thresholds.light_intensity }}</el-text>
+						<el-text>{{ plant.thresholds.SS.soil_moisture }}</el-text>
+						<el-text>{{ plant.thresholds.SS.soil_temperature }}</el-text>
+						<el-text>{{ plant.thresholds.SHT31.humidity }}</el-text>
+						<el-text>{{ plant.thresholds.SHT31.temperature }}</el-text>
+						<el-text>{{ plant.thresholds.TSL2561.light_intensity }}</el-text>
 						<el-text></el-text>
-						<el-text></el-text>
+						<el-text>{{ plant.thresholds.BMP280.barometric_pressure }}</el-text>
 					</el-col>
 				</el-row>
 			</el-container>
@@ -100,13 +103,7 @@ export default {
 			plant: {
 				name: null,
 				plantTypeId: null,
-				thresholds: {
-					temperature: null,
-					humidity: null,
-					soil_moisture: null,
-					soil_temperature: null,
-					light_intensity: null,
-				},
+				settings: null,
 			},
 			step: 0,
 			calibrationReadings: [],
@@ -126,7 +123,7 @@ export default {
 			return 'Common nicknames: ' + this.selectedPlantType?.nicknames[0] + ', ' + this.selectedPlantType?.nicknames[1];
 		},
 		marks() {
-			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}};
+			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}, barometric_pressure: {960: '960hPa', 1060: '1050hPa'}};
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[0]] = this.selectedPlantType?.thresholds.temperature[0] + '°C';
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[1]] = this.selectedPlantType?.thresholds.temperature[1] + '°C';
 			marks.humidity[this.selectedPlantType?.thresholds.humidity[0]] = this.selectedPlantType?.thresholds.humidity[0] + '%';
@@ -137,19 +134,34 @@ export default {
 			marks.soil_temperature[this.selectedPlantType?.thresholds.soil_temperature[1]] = this.selectedPlantType?.thresholds.soil_temperature[1] + '°C';
 			marks.light_intensity[this.selectedPlantType?.thresholds.light_intensity[0]] = this.selectedPlantType?.thresholds.light_intensity[0] + 'lx';
 			marks.light_intensity[this.selectedPlantType?.thresholds.light_intensity[1]] = this.selectedPlantType?.thresholds.light_intensity[1] + 'lx';
+			marks.barometric_pressure[this.selectedPlantType?.thresholds.barometric_pressure[0]] = this.selectedPlantType?.thresholds.barometric_pressure[0] + 'hPa';
+			marks.barometric_pressure[this.selectedPlantType?.thresholds.barometric_pressure[1]] = this.selectedPlantType?.thresholds.barometric_pressure[1] + 'hPa';
 
 			return marks;
 		},
 	},
 	methods: {
-		getPlantTypes() {
-			return axios.get(host + '/get_plant_types')
-			.then(({data}) => {
-				this.plantTypes = data;
-			});
-		},
-		assignThresholds() {
-			Object.assign(this.plant.thresholds, this.selectedPlantType.thresholds);
+		assignSettings() {
+			return this.plant.settings = {
+				SHT31: {
+					enabled: true,
+					temperature: this.selectedPlantType.thresholds.temperature,
+					humidity: this.selectedPlantType.humidity,
+				},
+				TSL2561: {
+					enabled: true,
+					light_intensity: this.selectedPlantType.light_intensity,
+				},
+				BMP280: {
+					enabled: true,
+					barometric_pressure: this.selectedPlantType.barometric_pressure,
+				},
+				SS: {
+					enabled: true,
+					soil_moisture: this.selectedPlantType.soil_moisture,
+					soil_temperature: this.selectedPlantType.soil_temperature,
+				},
+			};
 		},
 		nextStep() {
 			this.step++;
@@ -187,7 +199,8 @@ export default {
 		},
 	},
 	beforeMount() {
-		this.getPlantTypes();
+		this.$stores.plantStore.getPlantTypes()
+		.then(data => this.plantTypes = data);
 	},
 };
 </script>

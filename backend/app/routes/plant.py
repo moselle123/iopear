@@ -22,8 +22,7 @@ def get_plant():
 def new_plant():
 	data = request.json
 
-	for key, value in data["thresholds"].items():
-		SensorRegistry.update_thresholds(key, value)
+	SensorRegistry.initialise_settings(data["settings"])
 
 	Plant.create(name=data['name'], plant_type_id=data['plantTypeId'])
 	return {"message": "Created plant successfully."}, 200
