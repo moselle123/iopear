@@ -40,7 +40,7 @@ class Sensor:
 		if sensor_data:
 			return cls(sensor_data["_id"], sensor_data["name"], sensor_data["enabled"])
 
-		result = current_app.config['DB']["sensors"].insert_one({"name": name})
+		result = current_app.config['DB']["sensors"].insert_one({"name": name, "enabled": True})
 		return cls(result.inserted_id, name, True)
 
 	@classmethod

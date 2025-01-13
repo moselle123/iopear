@@ -5,8 +5,8 @@ adafruit-circuitpython-connectionmanager==3.1.2
 adafruit-circuitpython-requests==4.1.8
 adafruit-circuitpython-sht31d==2.3.25
 adafruit-circuitpython-tsl2561==3.3.19
-adafruit-circuitpython-bme280
-adafruit_scd4x
+adafruit-circuitpython-bmp280
+adafruit-circuitpython-scd4x
 adafruit-circuitpython-seesaw
 adafruit-circuitpython-typing==1.11.1
 Adafruit-PlatformDetect==3.75.0
