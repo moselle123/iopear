@@ -5,6 +5,8 @@ import threading
 import logging
 import adafruit_sht31d
 import adafruit_tsl2561
+from adafruit_bme280 import basic as adafruit_bme280
+import adafruit_scd4x
 from adafruit_seesaw.seesaw import Seesaw
 from app.services.sensor_registry import SensorRegistry
 
@@ -13,7 +15,7 @@ class I2CManager:
 		self.app = app
 		self.i2c = busio.I2C(board.SCL, board.SDA)
 		self.last_readings = {}
-		self.sht = self.tsl = self.ss  = None
+		self.sht = self.tsl = self.bme = self.scd, self.ss  = None
 
 		self.sensors_initialised = False
 		self.running = False
@@ -31,6 +33,18 @@ class I2CManager:
 			SensorRegistry.attach_adafruit_instance("TSL2561", adafruit_tsl)
 		except OSError as e:
 			print(f"Error initialising TSL2561: {e}")
+		try:
+			adafruit_bme = adafruit_bme280.Adafruit_BME280_I2C(self.i2c)
+			self.bme = SensorRegistry.get_sensor("BME280")
+			SensorRegistry.attach_adafruit_instance("BME280", adafruit_bme)
+		except OSError as e:
+			print(f"Error initialising TSL2561: {e}")
+		try:
+			adafruit_scd = adafruit_scd4x.SCD4X(self.i2c)
+			self.scd = SensorRegistry.get_sensor("SCD40")
+			SensorRegistry.attach_adafruit_instance("SCD40", adafruit_scd)
+		except OSError as e:
+			print(f"Error initialising SCD40: {e}")
 		try:
 			adafruit_ss = Seesaw(self.i2c, addr=0x36)
 			self.ss = SensorRegistry.get_sensor("SS")
@@ -59,29 +73,30 @@ class I2CManager:
 			now = time.time()
 
 			if now - last_read >= 20:
+				temperature = self.get_temperature_()
+				humidity = self.get_humidity_()
+				barometric_pressure = self.get_barometric_pressure_()
+				co2 = self.get_co2_()
 				lux = self.get_lux_()
 				soil_moisture = self.get_soil_moisture()
 				soil_temperature = self.get_soil_temperature_()
-				temperature = self.get_temperature_()
-				humidity = self.get_humidity_()
 				last_read = now
-			else:
-				temperature = self.last_readings.get('temperature')
-				humidity = self.last_readings.get('humidity')
 
-			self.last_readings = {
-				'temperature': temperature,
-				'humidity': humidity,
-				'soil_moisture': soil_moisture,
-				'soil_temperature': soil_temperature,
-				'lux': lux,
-			}
+				self.last_readings = {
+					'temperature': temperature,
+					'humidity': humidity,
+					'soil_moisture': soil_moisture,
+					'soil_temperature': soil_temperature,
+					'lux': lux,
+				}
 			with self.app.app_context():
 				try:
 					if now - last_db_write >= 60:
 						self.sht.create_reading('temperature', '°C', temperature)
 						self.sht.create_reading('humidity', '%', humidity)
 						self.tsl.create_reading('light intensity', 'lx', lux)
+						self.tsl.create_reading('barometric pressure', 'hPa', barometric_pressure)
+						self.tsl.create_reading('CO2', 'ppm', co2)
 						self.ss.create_reading('soil moisture', '%', soil_moisture)
 						self.ss.create_reading('soil temperature', '°C', soil_temperature)
 						last_db_write = now
@@ -129,6 +144,24 @@ class I2CManager:
 			return self.tsl.adafruit_instance.lux
 		except OSError as e:
 			print(f"Error reading lux: {e}")
+			return None
+
+	def get_co2_(self):
+		try:
+			self.scd.start_periodic_measurement()
+
+			while True:
+				if self.scd.data_ready:
+					return self.scd.CO2
+		except OSError as e:
+			print(f"Error reading lux: {e}")
+			return None
+
+	def get_barometric_pressure_(self):
+		try:
+			return self.bme.adafruit_instance.pressure
+		except OSError as e:
+			print(f"Error reading barometric pressure: {e}")
 			return None
 
 	def get_last_readings(self):
