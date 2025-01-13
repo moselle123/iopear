@@ -25,6 +25,7 @@ class SensorRegistry:
 		if sensor:
 			sensor.adafruit_instance = adafruit_instance
 
-	def initialise_settings(settings):
+	@classmethod
+	def initialise_settings(cls, settings):
 		for key, value in settings.items():
-			cls.getSensor(key).update_settings(value["enabled"], value["thresholds"])
+			cls.get_sensor(key).update_settings(value["enabled"], value["thresholds"])
