@@ -95,19 +95,11 @@ class I2CManager:
 					if now - last_db_write >= 60:
 						self.sht.create_reading('temperature', '°C', temperature)
 						self.sht.create_reading('humidity', '%', humidity)
-<<<<<<< Updated upstream
 						self.tsl.create_reading('light_intensity', 'lx', lux)
 						self.bmp.create_reading('barometric_pressure', 'hPa', barometric_pressure)
-						self.scd.create_reading('co2', 'ppm', co2)
+						# self.scd.create_reading('co2', 'ppm', co2)
 						self.ss.create_reading('soil_moisture', '%', soil_moisture)
 						self.ss.create_reading('soil_temperature', '°C', soil_temperature)
-=======
-						self.tsl.create_reading('light intensity', 'lx', lux)
-						self.bmp.create_reading('barometric pressure', 'hPa', barometric_pressure)
-						#self.scd.create_reading('CO2', 'ppm', co2)
-						self.ss.create_reading('soil moisture', '%', soil_moisture)
-						self.ss.create_reading('soil temperature', '°C', soil_temperature)
->>>>>>> Stashed changes
 						last_db_write = now
 				except Exception as e:
 					logging.error(f"Error writing sensor data to the database: {e}")
