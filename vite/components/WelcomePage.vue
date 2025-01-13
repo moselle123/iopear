@@ -13,7 +13,7 @@
 		<el-text v-else-if="step === 4" class="subtitle" size="large">Now confirm the details you've selected to save your plant.</el-text>
 		<el-form label-width="auto" label-position="top">
 			<el-form-item v-if="step === 0" label="What is the species of your plant?">
-				<el-select v-model="plant.plantTypeId" placeholder="Select a species" @change="assignThresholds">
+				<el-select v-model="plant.plantTypeId" placeholder="Select a species" @change="assignSettings">
 					<el-option v-for="species in plantTypes" :key="species" :label="species.name" :value="species._id"/>
 				</el-select>
 			</el-form-item>
@@ -23,23 +23,23 @@
 			<template v-if="step === 2">
 				<el-text>Recommended environmental settings for a {{ selectedPlantType.name }}. To customize, select a field and adjust the slider as desired.</el-text>
 				<el-collapse accordion>
-					<el-collapse-item :title="'Soil Moisture: ' +  plant.thresholds.SS.soil_moisture[0] + ' - ' + plant.thresholds.SS.soil_moisture[1] + ' (%)'" name="1">
-						<el-slider v-model="plant.thresholds.SS.soil_moisture" range show-stops show-tooltip :min="0" :max="100" :marks="marks.soil_moisture" :step="5" />
+					<el-collapse-item :title="'Soil Moisture: ' +  plant.settings.SS.thresholds.soil_moisture[0] + ' - ' + plant.settings.SS.thresholds.soil_moisture[1] + ' (%)'" name="1">
+						<el-slider v-model="plant.settings.SS.thresholds.soil_moisture" range show-stops show-tooltip :min="0" :max="100" :marks="marks.soil_moisture" :step="5" />
 					</el-collapse-item>
-					<el-collapse-item :title="'Soil Temperature: ' +  plant.thresholds.SS.soil_temperature[0] + ' - ' + plant.thresholds.SS.soil_temperature[1] + ' (°C)'" name="2">
-						<el-slider v-model="plant.thresholds.SS.soil_temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.soil_temperature" />
+					<el-collapse-item :title="'Soil Temperature: ' +  plant.settings.SS.thresholds.soil_temperature[0] + ' - ' + plant.settings.SS.thresholds.soil_temperature[1] + ' (°C)'" name="2">
+						<el-slider v-model="plant.settings.SS.thresholds.soil_temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.soil_temperature" />
 					</el-collapse-item>
-					<el-collapse-item :title="'Light Intensity: ' +  plant.thresholds.TSL2561.light_intensity[0] + ' - ' + plant.thresholds.TSL2561.light_intensity[1] + ' (lx)'" name="3">
-						<el-slider v-model="plant.thresholds.TSL2561.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
+					<el-collapse-item :title="'Light Intensity: ' +  plant.settings.TSL2561.thresholds.light_intensity[0] + ' - ' + plant.settings.TSL2561.thresholds.light_intensity[1] + ' (lx)'" name="3">
+						<el-slider v-model="plant.settings.TSL2561.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
 					</el-collapse-item>
-					<el-collapse-item  :title="'Environmental Temperature: ' +  plant.thresholds.SHT31.temperature[0] + ' - ' + plant.thresholds.SHT31.temperature[1] + ' (°C)'" name="4">
-						<el-slider v-model="plant.thresholds.SHT31.temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.temperature" />
+					<el-collapse-item  :title="'Environmental Temperature: ' +  plant.settings.SHT31.thresholds.temperature[0] + ' - ' + plant.settings.SHT31.thresholds.temperature[1] + ' (°C)'" name="4">
+						<el-slider v-model="plant.settings.SHT31.thresholds.temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.temperature" />
 					</el-collapse-item>
-					<el-collapse-item  :title="'Humidity: ' +  plant.thresholds.SHT31.humidity[0] + ' - ' + plant.thresholds.SHT31.humidity[1] + ' (%)'" name="5">
-						<el-slider v-model="plant.thresholds.SHT31.humidity" range show-stops show-tooltip :min="0" :max="100" :marks="marks.humidity" :step="5" />
+					<el-collapse-item  :title="'Humidity: ' +  plant.settings.SHT31.thresholds.humidity[0] + ' - ' + plant.settings.SHT31.thresholds.humidity[1] + ' (%)'" name="5">
+						<el-slider v-model="plant.settings.SHT31.thresholds.humidity" range show-stops show-tooltip :min="0" :max="100" :marks="marks.humidity" :step="5" />
 					</el-collapse-item>
-					<el-collapse-item  :title="'Barometric Pressure: ' +  plant.thresholds.BMP280.barometric_pressure[0] + ' - ' + plant.thresholds.BMP280.barometric_pressure[1] + ' (%)'" name="6">
-						<el-slider v-model="plant.thresholds.BMP280.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
+					<el-collapse-item  :title="'Barometric Pressure: ' +  plant.settings.BMP280.thresholds.barometric_pressure[0] + ' - ' + plant.settings.BMP280.thresholds.barometric_pressure[1] + ' (%)'" name="6">
+						<el-slider v-model="plant.settings.BMP280.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
 					</el-collapse-item>
 				</el-collapse>
 			</template>
@@ -77,13 +77,13 @@
 					<el-col class="values" :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
 						<el-text>{{ selectedPlantType.name }}</el-text>
 						<el-text style="margin-bottom: 1em;">{{ plant.name }}</el-text>
-						<el-text>{{ plant.thresholds.SS.soil_moisture }}</el-text>
-						<el-text>{{ plant.thresholds.SS.soil_temperature }}</el-text>
-						<el-text>{{ plant.thresholds.SHT31.humidity }}</el-text>
-						<el-text>{{ plant.thresholds.SHT31.temperature }}</el-text>
-						<el-text>{{ plant.thresholds.TSL2561.light_intensity }}</el-text>
+						<el-text>{{ plant.settings.SS.thresholds.soil_moisture }}</el-text>
+						<el-text>{{ plant.settings.SS.thresholds.soil_temperature }}</el-text>
+						<el-text>{{ plant.settings.SHT31.thresholds.humidity }}</el-text>
+						<el-text>{{ plant.settings.SHT31.thresholds.temperature }}</el-text>
+						<el-text>{{ plant.settings.TSL2561.thresholds.light_intensity }}</el-text>
 						<el-text></el-text>
-						<el-text>{{ plant.thresholds.BMP280.barometric_pressure }}</el-text>
+						<el-text>{{ plant.settings.BMP280.thresholds.barometric_pressure }}</el-text>
 					</el-col>
 				</el-row>
 			</el-container>
@@ -145,21 +145,29 @@ export default {
 			return this.plant.settings = {
 				SHT31: {
 					enabled: true,
-					temperature: this.selectedPlantType.thresholds.temperature,
-					humidity: this.selectedPlantType.humidity,
+					thresholds: {
+						temperature: this.selectedPlantType.thresholds.temperature,
+						humidity: this.selectedPlantType.thresholds.humidity,
+					},
 				},
 				TSL2561: {
 					enabled: true,
-					light_intensity: this.selectedPlantType.light_intensity,
+					thresholds: {
+						light_intensity: this.selectedPlantType.thresholds.light_intensity,
+					},
 				},
 				BMP280: {
 					enabled: true,
-					barometric_pressure: this.selectedPlantType.barometric_pressure,
+					thresholds: {
+						barometric_pressure: this.selectedPlantType.thresholds.barometric_pressure,
+					},
 				},
 				SS: {
 					enabled: true,
-					soil_moisture: this.selectedPlantType.soil_moisture,
-					soil_temperature: this.selectedPlantType.soil_temperature,
+					thresholds: {
+						soil_moisture: this.selectedPlantType.thresholds.soil_moisture,
+						soil_temperature: this.selectedPlantType.thresholds.soil_temperature,
+					},
 				},
 			};
 		},
