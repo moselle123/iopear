@@ -76,7 +76,7 @@ class I2CManager:
 				temperature = self.get_temperature_()
 				humidity = self.get_humidity_()
 				barometric_pressure = self.get_barometric_pressure_()
-				co2 = self.get_co2_()
+				#co2 = self.get_co2_()
 				lux = self.get_lux_()
 				soil_moisture = self.get_soil_moisture()
 				soil_temperature = self.get_soil_temperature_()
@@ -88,17 +88,26 @@ class I2CManager:
 					'soil_moisture': soil_moisture,
 					'soil_temperature': soil_temperature,
 					'lux': lux,
+					'barometric_pressure': barometric_pressure,
 				}
 			with self.app.app_context():
 				try:
 					if now - last_db_write >= 60:
 						self.sht.create_reading('temperature', '°C', temperature)
 						self.sht.create_reading('humidity', '%', humidity)
+<<<<<<< Updated upstream
 						self.tsl.create_reading('light_intensity', 'lx', lux)
 						self.bmp.create_reading('barometric_pressure', 'hPa', barometric_pressure)
 						self.scd.create_reading('co2', 'ppm', co2)
 						self.ss.create_reading('soil_moisture', '%', soil_moisture)
 						self.ss.create_reading('soil_temperature', '°C', soil_temperature)
+=======
+						self.tsl.create_reading('light intensity', 'lx', lux)
+						self.bmp.create_reading('barometric pressure', 'hPa', barometric_pressure)
+						#self.scd.create_reading('CO2', 'ppm', co2)
+						self.ss.create_reading('soil moisture', '%', soil_moisture)
+						self.ss.create_reading('soil temperature', '°C', soil_temperature)
+>>>>>>> Stashed changes
 						last_db_write = now
 				except Exception as e:
 					logging.error(f"Error writing sensor data to the database: {e}")
@@ -148,8 +157,8 @@ class I2CManager:
 
 	def get_co2_(self):
 		try:
+			print(f"Sensor serial number: {self.scd.adafruit_instance.serial_number}")
 			self.scd.adafruit_instance.start_periodic_measurement()
-
 			while True:
 				if self.scd.adafruit_instance.data_ready:
 					return self.scd.adafruit_instance.CO2
