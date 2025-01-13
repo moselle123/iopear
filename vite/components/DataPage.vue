@@ -24,7 +24,7 @@
 export default {
 	data() {
 		return {
-			activeTab: 'soil moisture',
+			activeTab: 'soil_moisture',
 			tabData: [
 				{
 					label: 'Soil Moisture',
@@ -49,12 +49,12 @@ export default {
 				{
 					label: 'CO2',
 					text: 'Carbon dioxide is a critical component of photosynthesis, driving energy production and growth. Elevated CO₂ levels within optimal ranges can boost photosynthetic efficiency, improve biomass, and enhance crop yields.',
-					sensorName: 'SHT31',
+					sensorName: 'SCD40',
 				},
 				{
 					label: 'Barometric Pressure',
 					text: 'Barometric pressure influences gas exchange, water movement, and plant transpiration rates. Stable atmospheric pressure supports efficient physiological processes, ensuring steady growth and development.',
-					sensorName: 'SHT31',
+					sensorName: 'BMP280',
 				},
 				{
 					label: 'Light Intensity',

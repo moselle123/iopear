@@ -8,14 +8,24 @@ export const useSensorStore = defineStore('sensor', {
 		sensorsArr() {
 			return this.sensors;
 		},
-		SHT31() {
-			return this.sensors.find(s => s.name === 'SHT31');
+		sensorsObj() {
+			let obj = {};
+			this.sensors.forEach((sensor) => {
+				obj[sensor.name] = sensor;
+				delete obj[sensor.name].name;
+
+			});
+			return obj;
 		},
-		TSL2561() {
-			return this.sensors.find(s => s.name === 'TSL2561');
-		},
-		SS() {
-			return this.sensors.find(s => s.name === 'SS');
+		sensorsByMeasurement() {
+			return {
+				temperature: this.sensors.find(s => s.name === 'SHT31'),
+				humidity: this.sensors.find(s => s.name === 'SHT31'),
+				soil_moisture: this.sensors.find(s => s.name === 'SS'),
+				soil_temperature: this.sensors.find(s => s.name === 'SS'),
+				barometric_pressure:this.sensors.find(s => s.name === 'BMP280'),
+				light_intensity: this.sensors.find(s => s.name === 'TSL2561'),
+			};
 		},
 	},
 	actions: {

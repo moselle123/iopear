@@ -30,7 +30,10 @@
 						<el-slider  v-model="altered.SHT31.thresholds.humidity" range show-stops show-tooltip :min="0" :max="100" :marks="marks.humidity" :step="5" />
 					</el-form-item>
 					<el-form-item v-if="sensor.name === 'TSL2561'" label="Light Intensity">
-						<el-slider v-model="altered.TSL2561.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.lux" :step="50" />
+						<el-slider v-model="altered.TSL2561.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
+					</el-form-item>
+					<el-form-item v-if="sensor.name === 'BMP280'" label="Barometric Pressure">
+						<el-slider v-model="altered.BMP280.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
 					</el-form-item>
 					<el-button @click="updateSensor(sensor.name)">Save Changes</el-button>
 				</el-form>
@@ -46,6 +49,7 @@ export default {
 				SHT31: {},
 				TSL2561: {},
 				SS: {},
+				BMP280: {},
 			},
 		};
 	},
@@ -57,8 +61,9 @@ export default {
 			let SHT31 = this.$stores.sensorStore.SHT31;
 			let TSL2561 = this.$stores.sensorStore.TSL2561;
 			let SS = this.$stores.sensorStore.SS;
+			let BMP280 = this.$stores.sensorStore.BMP280;
 
-			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}};
+			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}, barometric_pressure: {960: '960hPa', 1000: '1050hPa'}};
 			marks.temperature[SHT31.thresholds.temperature[0]] = SHT31.thresholds.temperature[0] + '°C';
 			marks.temperature[SHT31.thresholds.temperature[1]] = SHT31.thresholds.temperature[1] + '°C';
 			marks.humidity[SHT31.thresholds.humidity[0]] = SHT31.thresholds.humidity[0] + '%';
@@ -69,6 +74,8 @@ export default {
 			marks.soil_temperature[SS.thresholds.soil_temperature[1]] = SS.thresholds.soil_temperature[1] + '°C';
 			marks.light_intensity[TSL2561.thresholds.light_intensity[0]] = TSL2561.thresholds.light_intensity[0] + 'lx';
 			marks.light_intensity[TSL2561.thresholds.light_intensity[1]] = TSL2561.thresholds.light_intensity[1] + 'lx';
+			marks.barometric_pressure[BMP280.thresholds.barometric_pressure[0]] = BMP280.thresholds.barometric_pressure[0] + 'hPa';
+			marks.barometric_pressure[BMP280.thresholds.barometric_pressure[1]] = BMP280.thresholds.barometric_pressure[1] + 'hPa';
 
 			return marks;
 		},
@@ -82,6 +89,7 @@ export default {
 		Object.assign(this.altered.SHT31, this.$stores.sensorStore.SHT31);
 		Object.assign(this.altered.TSL2561, this.$stores.sensorStore.TSL2561);
 		Object.assign(this.altered.SS, this.$stores.sensorStore.SS);
+		Object.assign(this.altered.BMP280, this.$stores.sensorStore.BMP280);
 	},
 };
 </script>

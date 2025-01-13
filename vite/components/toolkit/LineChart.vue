@@ -59,12 +59,16 @@ export default {
 					return '°C';
 				case 'humidity':
 					return '%';
-				case 'soil moisture':
+				case 'soil_moisture':
 					return '%';
-				case 'soil temperature':
+				case 'soil_temperature':
 					return '°C';
-				case 'light intensity':
+				case 'light_intensity':
 					return 'lx';
+				case 'barometric_pressure':
+					return 'hPa';
+				case 'co2':
+					return 'ppm';
 				default:
 					return '';
 			};
@@ -75,11 +79,15 @@ export default {
 					return '#c72222';
 				case 'humidity':
 					return '#2a0b8f';
-				case 'soil moisture':
+				case 'soil_moisture':
 					return '#49afd1';
-				case 'soil temperature':
+				case 'soil_temperature':
 					return '#c72222';
-				case 'light intensity':
+				case 'light_intensity':
+					return '#fcc26a';
+				case 'barometric_pressure':
+					return '#fcc26a';
+				case 'co2':
 					return '#fcc26a';
 				default:
 					return '#000';
