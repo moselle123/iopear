@@ -9,6 +9,7 @@ import adafruit_bmp280
 import adafruit_scd4x
 from adafruit_seesaw.seesaw import Seesaw
 from app.services.sensor_registry import SensorRegistry
+from app.services.event_manager import EventManager
 
 class I2CManager:
 	def __init__(self, app):
@@ -87,7 +88,7 @@ class I2CManager:
 					'humidity': humidity,
 					'soil_moisture': soil_moisture,
 					'soil_temperature': soil_temperature,
-					'lux': lux,
+					'light_intensity': lux,
 					'barometric_pressure': barometric_pressure,
 				}
 			with self.app.app_context():
@@ -101,6 +102,9 @@ class I2CManager:
 						self.ss.create_reading('soil_moisture', '%', soil_moisture)
 						self.ss.create_reading('soil_temperature', '°C', soil_temperature)
 						last_db_write = now
+
+						for key, value in self.last_readings.items():
+							EventManager.checkEvents(key, value)
 				except Exception as e:
 					logging.error(f"Error writing sensor data to the database: {e}")
 
