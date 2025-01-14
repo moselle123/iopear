@@ -26,6 +26,7 @@ def create_app(config_class=Config):
 	app.register_blueprint(plant_bp)
 	app.register_blueprint(plant_type_bp)
 	app.register_blueprint(sensors_bp)
+	app.register_blueprint(event_bp)
 
 
 	def signal_handler(sig, frame):
