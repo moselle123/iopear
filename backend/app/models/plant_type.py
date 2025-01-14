@@ -18,14 +18,14 @@ class PlantType:
 	def get_by_id(plant_type_id):
 		result = current_app.config['DB']["plant_type"].find_one({"_id": ObjectId(plant_type_id)})
 		if not result:
-                        return None
+			return None
 		return {
-                        "_id": str(result["_id"]),
-                        "name": result["name"],
-                        "nicknames": result["nicknames"],
-                        "thresholds": result["thresholds"],
-                        "description": result["description"],
-                }
+			"_id": str(result["_id"]),
+			"name": result["name"],
+			"nicknames": result["nicknames"],
+			"thresholds": result["thresholds"],
+			"description": result["description"],
+		}
 
 	@staticmethod
 	def delete(plant_type_id):
