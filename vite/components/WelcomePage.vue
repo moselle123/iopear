@@ -41,6 +41,9 @@
 					<el-collapse-item  :title="'Barometric Pressure: ' +  plant.settings.BMP280.thresholds.barometric_pressure[0] + ' - ' + plant.settings.BMP280.thresholds.barometric_pressure[1] + ' (%)'" name="6">
 						<el-slider v-model="plant.settings.BMP280.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
 					</el-collapse-item>
+					<el-collapse-item  :title="'CO2: ' +  plant.settings.SCD40.thresholds.barometric_pressure[0] + ' - ' + plant.settings.SCD40.thresholds.barometric_pressure[1] + ' (%)'" name="6">
+						<el-slider v-model="plant.settings.SCD40.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
+					</el-collapse-item>
 				</el-collapse>
 			</template>
 			<el-container v-if="step === 3" class="calibration" direction="vertical">
@@ -123,7 +126,7 @@ export default {
 			return 'Common nicknames: ' + this.selectedPlantType?.nicknames[0] + ', ' + this.selectedPlantType?.nicknames[1];
 		},
 		marks() {
-			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}, barometric_pressure: {960: '960hPa', 1060: '1050hPa'}};
+			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}, barometric_pressure: {960: '960hPa', 1060: '1050hPa'}, co2: {400: '400ppm', 1060: '1000ppm'}};
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[0]] = this.selectedPlantType?.thresholds.temperature[0] + '°C';
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[1]] = this.selectedPlantType?.thresholds.temperature[1] + '°C';
 			marks.humidity[this.selectedPlantType?.thresholds.humidity[0]] = this.selectedPlantType?.thresholds.humidity[0] + '%';
@@ -136,6 +139,8 @@ export default {
 			marks.light_intensity[this.selectedPlantType?.thresholds.light_intensity[1]] = this.selectedPlantType?.thresholds.light_intensity[1] + 'lx';
 			marks.barometric_pressure[this.selectedPlantType?.thresholds.barometric_pressure[0]] = this.selectedPlantType?.thresholds.barometric_pressure[0] + 'hPa';
 			marks.barometric_pressure[this.selectedPlantType?.thresholds.barometric_pressure[1]] = this.selectedPlantType?.thresholds.barometric_pressure[1] + 'hPa';
+			marks.co2[this.selectedPlantType?.thresholds.co2[0]] = this.selectedPlantType?.thresholds.co2[0] + 'ppm';
+			marks.co2[this.selectedPlantType?.thresholds.co2[1]] = this.selectedPlantType?.thresholds.co2[1] + 'ppm';
 
 			return marks;
 		},
@@ -167,6 +172,12 @@ export default {
 					thresholds: {
 						soil_moisture: this.selectedPlantType.thresholds.soil_moisture,
 						soil_temperature: this.selectedPlantType.thresholds.soil_temperature,
+					},
+				},
+				SCD40: {
+					enabled: false,
+					thresholds: {
+						co2: this.selectedPlantType.thresholds.co2,
 					},
 				},
 			};

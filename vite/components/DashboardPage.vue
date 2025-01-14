@@ -6,21 +6,11 @@
 					<el-text class="title">{{ plant?.name }}</el-text>
 					<el-text>{{ plantType?.description }}</el-text>
 					<el-row justify="space-between">
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart sensorName="SHT31" :dateRange="[startDate, endDate]" step="minute" measurement="temperature"></line-chart>
-						</el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart sensorName="SHT31" :dateRange="[startDate, endDate]" step="minute" measurement="humidity"></line-chart>
-						</el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart sensorName="SS" :dateRange="[startDate, endDate]" step="minute" measurement="soil moisture"></line-chart>
-						</el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart sensorName="SS" :dateRange="[startDate, endDate]" step="minute" measurement="soil temperature"></line-chart>
-						</el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
-							<line-chart sensorName="TSL2561" :dateRange="[startDate, endDate]" step="minute" measurement="light intensity"></line-chart>
-						</el-col>
+						<template v-for="(sensor, key) in sensors" :key="key">
+							<el-col v-if="sensor.enabled" :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+								<line-chart :sensorName="sensor.name" :dateRange="[startDate, endDate]" step="minute" :measurement="key"></line-chart>
+							</el-col>
+						</template>
 					</el-row>
 				</el-container>
 			<!-- </el-col> -->
@@ -51,6 +41,9 @@ export default {
 		},
 		plantType() {
 			return this.$stores.plantStore.plantTypeData;
+		},
+		sensors() {
+			return this.$stores.sensorStore.sensorsByMeasurement;
 		},
 	},
 };

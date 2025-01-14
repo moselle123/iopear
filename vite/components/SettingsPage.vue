@@ -2,8 +2,8 @@
 	<el-container class="settings" direction="vertical" >
 		<el-text class="title">Settings</el-text>
 		<el-row justify="space-between">
-			<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-				<el-card>
+			<!-- <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12"> -->
+				<!-- <el-card>
 					<template #header>
 						<el-text>Network</el-text>
 						<el-text size="small">Update network settings or switch to Ethernet connection.</el-text>
@@ -78,7 +78,7 @@
 						<el-text>Enable insights about potential plant health trends based on sensor data.</el-text>
 					</el-form>
 				</el-card>
-			</el-col>
+			</el-col> -->
 		</el-row>
 	</el-container>
 </template>

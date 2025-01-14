@@ -8,15 +8,6 @@ export const useSensorStore = defineStore('sensor', {
 		sensorsArr() {
 			return this.sensors;
 		},
-		sensorsObj() {
-			let obj = {};
-			this.sensors.forEach((sensor) => {
-				obj[sensor.name] = sensor;
-				delete obj[sensor.name].name;
-
-			});
-			return obj;
-		},
 		sensorsByMeasurement() {
 			return {
 				temperature: this.sensors.find(s => s.name === 'SHT31'),
@@ -26,6 +17,21 @@ export const useSensorStore = defineStore('sensor', {
 				barometric_pressure:this.sensors.find(s => s.name === 'BMP280'),
 				light_intensity: this.sensors.find(s => s.name === 'TSL2561'),
 			};
+		},
+		SHT31() {
+			return this.sensors.find(s => s.name === 'SHT31');
+		},
+		TSL2561() {
+			return this.sensors.find(s => s.name === 'TSL2561');
+		},
+		BMP280() {
+			return this.sensors.find(s => s.name === 'BMP280');
+		},
+		SS() {
+			return this.sensors.find(s => s.name === 'SS');
+		},
+		SCD40() {
+			return this.sensors.find(s => s.name === 'SCD40');
 		},
 	},
 	actions: {
