@@ -13,6 +13,11 @@ class Event:
 		return result.inserted_id
 
 	@staticmethod
+	def update_last_triggered(event_id, date):
+		result = current_app.config['DB']["event"].update_one({"_id": event_id}, {"$set": {"last_triggered": date}})
+		return result.inserted_id
+
+	@staticmethod
 	def delete(event_id):
 		result = current_app.config['DB']["event"].delete_one({"_id": ObjectId(event_id)})
 		return result.deleted_count
