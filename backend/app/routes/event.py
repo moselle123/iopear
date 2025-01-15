@@ -14,11 +14,12 @@ def get_events():
 		events = list(Event.get_events())
 		for event in events:
 			event["_id"] = str(event["_id"])
+			event["sensor_id"] = str(event["sensor_id"])
 
 		return jsonify(events)
 	except Exception as e:
-		logger.error(f"Error getting sensors data: {e}")
-		return {"error": "Failed to retrieve sensors"}, 500
+		logger.error(f"Error getting events data: {e}")
+		return {"error": "Failed to retrieve events"}, 500
 
 @event_bp.route('/create_event', methods=['POST'])
 def create_event():
