@@ -103,8 +103,11 @@ class I2CManager:
 						self.ss.create_reading('soil_temperature', '°C', soil_temperature)
 						last_db_write = now
 
-						for key, value in self.last_readings.items():
-							EventManager.checkEvents(key, value)
+						try:
+							for key, value in self.last_readings.items():
+								EventManager.checkEvents(key, value)
+						except Exception as e:
+							logging.error(f"Error checking for event instances: {e}")
 				except Exception as e:
 					logging.error(f"Error writing sensor data to the database: {e}")
 
