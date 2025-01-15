@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from models import Event
+from app.models.event import Event
 
 class EventManager():
 	@staticmethod

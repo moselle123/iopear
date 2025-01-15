@@ -11,7 +11,7 @@ event_bp = Blueprint('event', __name__)
 @event_bp.route('/get_events', methods=['GET'])
 def get_events():
 	try:
-		events = Event.get_events()
+		events = list(Event.get_events())
 		for event in events:
 			event["_id"] = str(event["_id"])
 
