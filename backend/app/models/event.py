@@ -3,13 +3,13 @@ from flask import current_app
 
 class Event:
 	@staticmethod
-	def create(sensor_id, measurement, condition, threshold, active):
-		result = current_app.config['DB']["event"].insert_one({"sensor_id": ObjectId(sensor_id), "measurement": measurement, "condition": condition, "threshold": threshold, "active": active})
+	def create(sensor_id, measurement, condition, threshold, isActive):
+		result = current_app.config['DB']["event"].insert_one({"sensor_id": ObjectId(sensor_id), "measurement": measurement, "condition": condition, "threshold": threshold, "isActive": isActive})
 		return result.inserted_id
 
 	@staticmethod
-	def update(event_id, measurement, condition, threshold, active):
-		result = current_app.config['DB']["event"].update_one({"_id": ObjectId(event_id)}, {"$set": {"measurement": measurement, "condition": condition, "threshold": threshold, "active": active}})
+	def update(event_id, measurement, condition, threshold, isActive):
+		result = current_app.config['DB']["event"].update_one({"_id": ObjectId(event_id)}, {"$set": {"measurement": measurement, "condition": condition, "threshold": threshold, "isActive": isActive}})
 		return result.inserted_id
 
 	@staticmethod
@@ -23,7 +23,7 @@ class Event:
 
 	@staticmethod
 	def get_events_by_measurement(measurement):
-		return current_app.config['DB']["event"].find({"measurement": measurement, "active": True})
+		return current_app.config['DB']["event"].find({"measurement": measurement, "isActive": True})
 
 	@staticmethod
 	def create_event_instance(event_id, value, timestamp):
