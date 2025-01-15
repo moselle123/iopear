@@ -35,10 +35,12 @@ def create_event():
 def update_event(event_id):
 	data = request.json
 	try:
-		Event.update(event_id, data["measurement"], data["condition"], data["threshold"], data["is_enabled"])
-		return {"message": "Event updated"}, 200
+		message = Event.update(event_id, data["measurement"], data["condition"], data["threshold"], data["is_enabled"])
+		if not message["success"]:
+			return {"message": message}, 404
+		return {"message": message}, 200
 	except Exception as e:
-		logger.error(f"Error getting updating event: {e}")
+		logger.error(f"Error updating event: {e}")
 		return {"error": "Failed to update event"}, 500
 
 @event_bp.route('/delete_event/<event_id>', methods=['DELETE'])
@@ -47,8 +49,8 @@ def delete_event(event_id):
 		Event.delete(event_id)
 		return {"message": "Event deleted"}, 200
 	except Exception as e:
-		logger.error(f"Error getting updating event: {e}")
-		return {"error": "Failed to update event"}, 500
+		logger.error(f"Error deleting event: {e}")
+		return {"error": "Failed to delete event"}, 500
 
 @event_bp.route('/get_event_instances', methods=['GET'])
 def get_event_instances():
