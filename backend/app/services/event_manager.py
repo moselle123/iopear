@@ -20,12 +20,7 @@ class EventManager():
 					if (datetime.now(timezone.utc) - last_triggered) < timedelta(hours=1):
 						continue
 
-				event_instance = {
-					"event_id": event["_id"],
-					"sensor_id": event["sensor_id"],
-					"value": value,
-					"timestamp": datetime.now(timezone.utc)
-				}
+				now =  datetime.now(timezone.utc)
+				Event.create_event_instance(event["_id"], value. now)
+				Event.update_last_triggered(event["_id"], now)
 
-				Event.create_event_instance(event_instance)
-				Event.update_last_triggered(event["_id"], event_instance["timestamp"])
