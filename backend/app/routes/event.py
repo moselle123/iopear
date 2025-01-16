@@ -52,8 +52,8 @@ def delete_event(event_id):
 		logger.error(f"Error deleting event: {e}")
 		return {"error": "Failed to delete event"}, 500
 
-@event_bp.route('/get_event_instances', methods=['GET'])
-def get_event_instances():
+@event_bp.route('/get_notifications', methods=['GET'])
+def get_notifications():
 	try:
 		start_date = request.args.get('start_date')
 		end_date = request.args.get('end_date')
@@ -68,12 +68,12 @@ def get_event_instances():
 			start_date = datetime.fromisoformat(start_date)
 			end_date = datetime.fromisoformat(end_date)
 
-			event_instances = list(Event.get_event_instances_by_date_range(start_date, end_date))
-			for instance in event_instances:
+			notifications = list(Event.get_notifications_by_date_range(start_date, end_date))
+			for instance in notifications:
 				instance["_id"] = str(instance["_id"])
 				instance["event_id"] = str(instance["event_id"])
 
-			return jsonify(event_instances)
+			return jsonify(notifications)
 		except ValueError:
 			return jsonify({"error": "Invalid date format. Use ISO 8601 format"}), 400
 

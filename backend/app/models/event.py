@@ -37,11 +37,11 @@ class Event:
 		return current_app.config['DB']["event"].find({"measurement": measurement, "is_enabled": True})
 
 	@staticmethod
-	def create_event_instance(event_id, value, timestamp):
-		result = current_app.config['DB']["event_instance"].insert_one({"event_id": ObjectId(event_id), "value": value, "timestamp": timestamp})
+	def create_notification(event_id, value, timestamp):
+		result = current_app.config['DB']["notification"].insert_one({"event_id": ObjectId(event_id), "value": value, "timestamp": timestamp})
 		return result.inserted_id
 
 	@staticmethod
-	def get_event_instances_by_date_range(start_date, end_date):
-		instances = current_app.config['DB']["event_instance"].find({"timestamp": {"$gte": start_date, "$lte": end_date}})
+	def get_notifications_by_date_range(start_date, end_date):
+		instances = current_app.config['DB']["notification"].find({"timestamp": {"$gte": start_date, "$lte": end_date}})
 		return instances
