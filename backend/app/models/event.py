@@ -43,5 +43,5 @@ class Event:
 
 	@staticmethod
 	def get_event_instances_by_date_range(start_date, end_date):
-		instances = current_app.config['DB']["event_instance"].find({"$match": {"timestamp": {"$gte": start_date, "$lte": end_date}}})
+		instances = current_app.config['DB']["event_instance"].find({"timestamp": {"$gte": start_date, "$lte": end_date}})
 		return instances

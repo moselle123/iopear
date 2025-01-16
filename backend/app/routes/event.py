@@ -69,7 +69,7 @@ def get_event_instances():
 			start_date = datetime.fromisoformat(start_date)
 			end_date = datetime.fromisoformat(end_date)
 
-			event_instances = Event.get_event_instances_by_date_range(start_date, end_date)
+			event_instances = list(Event.get_event_instances_by_date_range(start_date, end_date))
 			for instance in event_instances:
 				instance["_id"] = str(instance["_id"])
 				instance["event_id"] = str(instance["event_id"])
