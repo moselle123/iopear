@@ -2,23 +2,15 @@
 	<el-container class="configure" direction="vertical" >
 		<el-text class="title">Configure</el-text>
 		<el-tabs v-model="activeTab">
+			<el-tab-pane label="Events" name="events">
+				<events-configuration v-if="activeTab === 'events'" />
+			</el-tab-pane>
 			<el-tab-pane label="Actions" name="actions">
 				<el-card v-if="activeTab === 'actions'">
 					<el-collapse accordion>
 						<el-collapse-item v-for="(action, index) in actions" :key="index" :title="action.name" :name="index">
 							<template #header>
 								<el-text>{{ action.name }}</el-text>
-							</template>
-						</el-collapse-item>
-					</el-collapse>
-				</el-card>
-			</el-tab-pane>
-			<el-tab-pane label="Events" name="events">
-				<el-card v-if="activeTab === 'events'">
-					<el-collapse accordion>
-						<el-collapse-item v-for="(event, index) in events" :key="index" :title="event.name" :name="index">
-							<template #header>
-								<el-text>{{ event.name }}</el-text>
 							</template>
 						</el-collapse-item>
 					</el-collapse>
@@ -34,7 +26,7 @@
 export default {
 	data() {
 		return {
-			activeTab: 'actions',
+			activeTab: 'events',
 			actions: [
 				{
 					name: 'Turn on water pump',

@@ -49,9 +49,22 @@ input[type=range]::-webkit-slider-thumb {
 		font-size: 1.5em;
 	}
 
+	.page-header {
+		justify-content: end;
+		gap: 1em;
+
+		margin: 1em 0;
+
+		.el-alert {
+			flex: 1;
+
+			height: 32px;
+		}
+	}
+
 	.el-menu-item {
 		svg {
-			fill: var(--el-color-primary);
+			fill: var(--el-color-primary) !important;
 		}
 	}
 
@@ -90,7 +103,7 @@ input[type=range]::-webkit-slider-thumb {
 			height: 1em;
 			margin-right: 7px;
 
-			color: inherit;
+			fill: var(--el-fill-color);
 		}
 	}
 
@@ -142,7 +155,7 @@ input[type=range]::-webkit-slider-thumb {
 		}
 
 		.el-card__body {
-			padding: 1em;
+			padding: 0.5em;
 		}
 	}
 
