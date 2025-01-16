@@ -57,7 +57,6 @@ def get_event_instances():
 	try:
 		start_date = request.args.get('start_date')
 		end_date = request.args.get('end_date')
-		measurement = request.args.get('measurement')
 
 		if not start_date or not end_date:
 			return jsonify({"error": "start_date and end_date are required"}), 400
