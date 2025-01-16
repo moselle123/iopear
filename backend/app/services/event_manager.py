@@ -17,6 +17,9 @@ class EventManager():
 			if condition_met:
 				last_triggered = event["last_triggered"]
 				if last_triggered:
+					if last_triggered.tzinfo is None:
+						last_triggered = last_triggered.replace(tzinfo=timezone.utc)
+
 					if (datetime.now(timezone.utc) - last_triggered) < timedelta(hours=1):
 						continue
 
