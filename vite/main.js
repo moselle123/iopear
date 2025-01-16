@@ -31,6 +31,7 @@ import WelcomePage from './components/WelcomePage.vue';
 import DashboardPage from './components/DashboardPage.vue';
 import ConfigurePage from './components/ConfigurePage.vue';
 import DataPage from './components/DataPage.vue';
+import LogPage from './components/LogPage.vue';
 import SettingsPage from './components/SettingsPage.vue';
 
 import LineChart from './components/toolkit/LineChart.vue';
@@ -54,6 +55,12 @@ const routes = [
 		path: '/data',
 		name: 'Data',
 		component: DataPage,
+		props: true,
+	},
+	{
+		path: '/log',
+		name: 'Log',
+		component: LogPage,
 		props: true,
 	},
 	{

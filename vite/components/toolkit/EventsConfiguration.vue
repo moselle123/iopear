@@ -8,7 +8,7 @@
 				Create Event
 			</el-button>
 		</el-row>
-		<el-text v-if=" ! (events.length || newEvents.length)">No Events to Display</el-text>
+		<el-text v-if=" ! (events.length || newEvents.length)" class="no-content">No Events to Display</el-text>
 		<el-card v-else>
 			<el-collapse accordion>
 				<el-collapse-item v-for="(event, index) in displayedEvents" :key="index" :title="event._id ? event.measurement + ' ' + event.condition + ' ' + event.threshold : 'New Event'" :name="index">

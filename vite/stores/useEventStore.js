@@ -8,6 +8,15 @@ export const useEventStore = defineStore('event', {
 		eventsArr() {
 			return this.events;
 		},
+		eventsObj() {
+			let obj = {}
+			this.events.forEach((event) => {
+				obj[event._id] = {}
+				Object.assign(obj[event._id], event);
+				delete obj[event._id]._id;
+			})
+			return obj;
+		},
 	},
 	actions: {
 		getEvents() {
@@ -28,8 +37,8 @@ export const useEventStore = defineStore('event', {
 			return axios.delete(host + '/delete_event/' + event._id)
 			.then(() => this.getEvents());
 		},
-		getEventInstances(startDate, endDate) {
-			return axios.get(host + '/get_event_instances', { params: { start_date: startDate, end_date: endDate } })
+		getNotifications(startDate, endDate) {
+			return axios.get(host + '/get_notifications', { params: { start_date: startDate, end_date: endDate } })
 			.then(({data}) => data);
 		},
 	}
