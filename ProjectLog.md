@@ -67,3 +67,6 @@ This week:
 ## 6 - 12 January
 - User can update sensor thresholds from within the app.
 - User can disabled sensors if they do not need to information collected by them.
+
+## 13 - 19 January
+- User can set up events which trigger notifications when their condition is met.
