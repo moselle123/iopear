@@ -3,9 +3,9 @@ from flask import current_app
 class Actuator:
 	@staticmethod
 	def create(name, pin):
-                result = current_app.config['DB']["actuator"].insert_one({"name": name, "pin": pin})
-                return result.inserted_id
+		result = current_app.config['DB']["actuator"].insert_one({"name": name, "pin": pin})
+		return result.inserted_id
 
-        @staticmethod
+	@staticmethod
 	def get_actuators():
-                return current_app.config['DB']["actuators"].find()
+		return current_app.config['DB']["actuators"].find()
