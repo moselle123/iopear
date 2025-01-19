@@ -52,6 +52,9 @@ def create_app(config_class=Config):
 			PlantType.create(name="Zanzibar Gem", nicknames=["ZZ Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "light_intensity": [800, 900], "barometric_pressure": [960, 1050], "co2": [400, 1000]}, description="The ZZ Plant, or Zamioculcas zamiifolia, is a hardy, low-maintenance houseplant with glossy, dark green leaves, perfect for beginners and thriving in low-light conditions.")
 			PlantType.create(name="Strelitzia Nicolai", nicknames=["Birds of Paradise"], thresholds={"soil_moisture": [30, 50], "soil_temperature": [18, 24], "humidity": [50, 70], "temperature": [16, 29], "light_intensity": [800, 900], "barometric_pressure": [960, 1050], "co2": [400, 1000]}, description="The Bird of Paradise, or Strelitzia reginae, is a striking, tropical houseplant known for its lush, banana-like leaves and vibrant, bird-shaped flowers, thriving in bright, indirect light and adding a bold, exotic touch to any space.")
 
+		if "actuator" not in app.config['DB'].list_collection_names():
+			Actuator.create('Grow Light', 17)
+
 		if "plant" in app.config['DB'].list_collection_names():
 			i2c_manager.start_reading()
 
