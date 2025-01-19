@@ -35,7 +35,7 @@ def create_event():
 def update_event(event_id):
 	data = request.json
 	try:
-		message = Event.update(event_id, data["measurement"], data["condition"], data["threshold"], data["is_enabled"])
+		message = Event.update(event_id, data)
 		if not message["success"]:
 			return {"message": message}, 404
 		return {"message": message}, 200
