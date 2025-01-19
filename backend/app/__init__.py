@@ -25,7 +25,8 @@ def create_app(config_class=Config):
 
 	app.register_blueprint(plant_bp)
 	app.register_blueprint(plant_type_bp)
-	app.register_blueprint(sensors_bp)
+	app.register_blueprint(sensor_bp)
+	app.register_blueprint(reading_bp)
 	app.register_blueprint(event_bp)
 
 
