@@ -10,11 +10,10 @@ import adafruit_scd4x
 from adafruit_seesaw.seesaw import Seesaw
 from app.services.sensor_registry import SensorRegistry
 from app.services.event_manager import EventManager
+from app.models import Reading
 
 class I2CManager:
 	def __init__(self, app):
-		
-
 		self.app = app
 		self.i2c = busio.I2C(board.SCL, board.SDA)
 		self.last_readings = {}
@@ -96,13 +95,13 @@ class I2CManager:
 			with self.app.app_context():
 				try:
 					if now - last_db_write >= 60:
-						self.sht.create_reading('temperature', '°C', temperature)
-						self.sht.create_reading('humidity', '%', humidity)
-						self.tsl.create_reading('light_intensity', 'lx', lux)
-						self.bmp.create_reading('barometric_pressure', 'hPa', barometric_pressure)
-						# self.scd.create_reading('co2', 'ppm', co2)
-						self.ss.create_reading('soil_moisture', '%', soil_moisture)
-						self.ss.create_reading('soil_temperature', '°C', soil_temperature)
+						Reading.create(self.sht._id, 'temperature', '°C', temperature)
+						Reading.create(self.sht._id, 'humidity', '%', humidity)
+						Reading.create(self.tsl._id, 'light_intensity', 'lx', lux)
+						Reading.create(self.bmp._id, 'barometric_pressure', 'hPa', barometric_pressure)
+						# Reading.create(self.scd._id, 'co2', 'ppm', co2)
+						Reading.create(self.ss._id, 'soil_moisture', '%', soil_moisture, self.ss.calibration)
+						Reading.create(self.ss._id, 'soil_temperature', '°C', soil_temperature)
 						last_db_write = now
 
 						try:

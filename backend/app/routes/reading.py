@@ -48,7 +48,7 @@ def get_readings_by_date_range(sensor_name):
 		if not sensor:
 			return jsonify({"error": "Sensor not found"}), 404
 
-		readings = Reading.get_readings_by_date_range(sensor["_id"], start_date, end_date, measurement)
+		readings = Reading.get_readings_by_date_range(sensor._id, start_date, end_date, measurement)
 		return jsonify(readings), 200
 	except Exception as e:
 		logger.error(f"Error getting readings by date range: {e}")
