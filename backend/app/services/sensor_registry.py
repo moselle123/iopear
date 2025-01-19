@@ -1,4 +1,4 @@
-from app.models.sensor import Sensor
+from app.models import Sensor
 
 class SensorRegistry:
 	_registry = {}

@@ -8,8 +8,8 @@ import adafruit_tsl2561
 import adafruit_bmp280
 import adafruit_scd4x
 from adafruit_seesaw.seesaw import Seesaw
-from app.services.sensor_registry import SensorRegistry
-from app.services.event_manager import EventManager
+from app.services import SensorRegistry
+from app.services import EventManager
 from app.models import Reading
 
 class I2CManager:

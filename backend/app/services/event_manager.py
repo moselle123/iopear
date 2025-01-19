@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, timedelta
-from app.models.event import Event
-from app.models.notification import Notification
+from app.models import Event
+from app.models import Notification
 
 class EventManager():
 	@staticmethod

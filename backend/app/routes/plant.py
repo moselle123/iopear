@@ -1,7 +1,6 @@
-from flask import Blueprint, jsonify, current_app, request
+from flask import Blueprint, jsonify, request
 from app.models import Plant
-from bson.json_util import dumps, loads
-from app.services.sensor_registry import SensorRegistry
+from app.services import SensorRegistry
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
