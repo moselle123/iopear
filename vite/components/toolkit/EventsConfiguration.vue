@@ -11,20 +11,14 @@
 		<el-text v-if=" ! (events.length || newEvents.length)" class="no-content">No Events to Display</el-text>
 		<el-card v-else>
 			<el-collapse accordion>
-				<el-collapse-item v-for="(event, index) in displayedEvents" :key="index" :title="event._id ? event.measurement + ' ' + event.condition + ' ' + event.threshold : 'New Event'" :name="index">
+				<el-collapse-item v-for="(event, index) in displayedEvents" :key="index" :title="event._id ? labels.measurements[event.measurement] + ' ' + labels[event.condition] + ' ' + event.threshold : 'New Event'" :name="index">
 					<el-form label-position="top">
 						<el-form-item label="Enabled">
 							<el-switch v-model="event.is_enabled" />
 						</el-form-item>
 						<el-form-item label="Measurement">
 							<el-select v-model="event.measurement">
-								<el-option label="Soil Moisture" value="soil_moisture" />
-								<el-option label="Soil Temperature" value="soil_temperature" />
-								<el-option label="Humidity" value="humidity" />
-								<el-option label="Temperature" value="temperature" />
-								<el-option label="Light Intensity" value="light_intensity" />
-								<el-option label="Barometric Pressure" value="barometric_pressure" />
-								<el-option label="CO2" value="co2" />
+								<el-option v-for="(label, measurement) in labels.measurements" :key="label" :label="label" :value="measurement" />
 							</el-select>
 						</el-form-item>
 						<el-form-item label="Condition">
@@ -67,7 +61,25 @@ export default {
 			return this.$stores.sensorStore.sensorsByMeasurement;
 		},
 		displayedEvents() {
-			return this.newEvents.concat(this.events);
+			return this.events.concat(this.newEvents);
+		},
+		labels() {
+			return {
+				measurements: {
+					soil_moisture: 'Soil Moisture',
+					soil_temperature: 'Soil Temperature',
+					humidity: 'Humidity',
+					temperature: 'Temperature',
+					light_intensity: 'Light Intensity',
+					barometric_pressure: 'Barometric Pressure',
+					co2: 'CO2',
+				},
+				greater_than: 'Greater Than',
+				less_than: 'Less Than',
+			};
+		},
+		notificationName() {
+			return
 		},
 	},
 	methods: {
@@ -84,9 +96,8 @@ export default {
 		createEvent(event, index) {
 			event.sensor_id = this.sensors[event.measurement]._id;
 			event.threshold = Number(event.threshold);
-			this.$stores.eventStore.createEvent(event);
-
-			this.newEvents.splice(index, 1);
+			this.$stores.eventStore.createEvent(event)
+			.then(() => this.newEvents.splice(index, 1));
 		},
 		updateEvent(event) {
 			this.$stores.eventStore.updateEvent(event);
