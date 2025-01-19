@@ -3,7 +3,7 @@
 $regularFontWeight: 400;
 
 html, body, #app {
-	height: 100%;
+	height: 100vh;
 	width: 100%;
 	margin: 0;
 
@@ -60,29 +60,40 @@ input[type=range]::-webkit-slider-thumb {
 
 			height: 32px;
 		}
-	}
 
-	.el-menu-item {
-		svg {
-			fill: var(--el-color-primary) !important;
-		}
-	}
-
-	.grid {
-		.el-col {
-			padding: 0.5em;
-
-			.el-card {
-				height: 100%;
+		.el-menu-item {
+			svg {
+				fill: var(--el-color-primary) !important;
 			}
 		}
-
 	}
 
-	.no-content {
-		align-self: center !important;
+	.el-main {
+		display: flex;
+		flex-direction: column;
 
-		margin: 1em 0;
+		.grid {
+			.el-col {
+				padding: 0.5em;
+
+				.el-card {
+					height: 100%;
+				}
+			}
+
+		}
+
+		.no-content {
+			align-self: center !important;
+
+			margin: 1em 0;
+		}
+
+		.timeline {
+			max-height: 100%;
+
+			overflow-y: auto;
+		}
 	}
 
 	// element plus overrides
@@ -168,6 +179,7 @@ input[type=range]::-webkit-slider-thumb {
 	}
 
 	.el-collapse {
+		margin: 0 0.5em;
 		.el-collapse-item {
 
 			// border-top: 1px var(--el-border-color) solid;
