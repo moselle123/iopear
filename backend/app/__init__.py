@@ -28,6 +28,7 @@ def create_app(config_class=Config):
 	app.register_blueprint(sensor_bp)
 	app.register_blueprint(reading_bp)
 	app.register_blueprint(event_bp)
+	app.register_blueprint(notification_bp)
 
 
 	def signal_handler(sig, frame):

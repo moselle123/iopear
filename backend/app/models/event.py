@@ -21,11 +21,17 @@ class Event:
 	@staticmethod
 	def update_last_triggered(event_id, date):
 		result = current_app.config['DB']["event"].update_one({"_id": event_id}, {"$set": {"last_triggered": date}})
-		return result.inserted_id
+		if result.matched_count == 0:
+			return {"success": False, "message": "Event not found"}
+		if result.modified_count == 0:
+			return {"success": True, "message": "No changes were made to the event"}
+
+		return {"success": True, "message": "Event updated successfully"}
 
 	@staticmethod
 	def delete(event_id):
 		result = current_app.config['DB']["event"].delete_one({"_id": ObjectId(event_id)})
+		current_app.config['DB']["notifications"].delete_many({"event_id": ObjectId(event_id)})
 		return result.deleted_count
 
 	@staticmethod
@@ -35,13 +41,3 @@ class Event:
 	@staticmethod
 	def get_events_by_measurement(measurement):
 		return current_app.config['DB']["event"].find({"measurement": measurement, "is_enabled": True})
-
-	@staticmethod
-	def create_notification(event_id, value, timestamp):
-		result = current_app.config['DB']["notification"].insert_one({"event_id": ObjectId(event_id), "value": value, "timestamp": timestamp})
-		return result.inserted_id
-
-	@staticmethod
-	def get_notifications_by_date_range(start_date, end_date):
-		instances = current_app.config['DB']["notification"].find({"timestamp": {"$gte": start_date, "$lte": end_date}})
-		return instances
