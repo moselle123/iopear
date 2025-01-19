@@ -13,6 +13,8 @@ from app.services.event_manager import EventManager
 
 class I2CManager:
 	def __init__(self, app):
+		
+
 		self.app = app
 		self.i2c = busio.I2C(board.SCL, board.SDA)
 		self.last_readings = {}
