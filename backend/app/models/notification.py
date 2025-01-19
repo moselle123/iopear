@@ -11,3 +11,8 @@ class Notification:
 	def get_notifications_by_date_range(start_date, end_date):
 		instances = current_app.config['DB']["notification"].find({"timestamp": {"$gte": start_date, "$lte": end_date}})
 		return instances
+
+	@staticmethod
+	def delete_notifications_by_event(event_id):
+		result = current_app.config['DB']["notification"].delete_many({"event_id": ObjectId(event_id)})
+		return result.deleted_count

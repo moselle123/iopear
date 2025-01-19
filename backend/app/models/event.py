@@ -31,7 +31,6 @@ class Event:
 	@staticmethod
 	def delete(event_id):
 		result = current_app.config['DB']["event"].delete_one({"_id": ObjectId(event_id)})
-		current_app.config['DB']["notifications"].delete_many({"event_id": ObjectId(event_id)})
 		return result.deleted_count
 
 	@staticmethod

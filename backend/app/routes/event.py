@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 import logging
 from app.models import Event
+from app.models import Notification
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -46,6 +47,7 @@ def update_event(event_id):
 def delete_event(event_id):
 	try:
 		Event.delete(event_id)
+		Notification.delete_notification_by_event(event_id)
 		return {"message": "Event deleted"}, 200
 	except Exception as e:
 		logger.error(f"Error deleting event: {e}")

@@ -1,5 +1,6 @@
 from datetime import datetime, timezone, timedelta
 from app.models.event import Event
+from app.models.notification import Notification
 
 class EventManager():
 	@staticmethod
@@ -24,6 +25,6 @@ class EventManager():
 						continue
 
 				now =  datetime.now(timezone.utc)
-				Event.create_notification(event["_id"], value, now)
+				Notification.create(event["_id"], value, now)
 				Event.update_last_triggered(event["_id"], now)
 
