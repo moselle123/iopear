@@ -27,7 +27,7 @@
 export default {
 	data() {
 		return {
-			activeTab: 'soil_moisture',
+			activeTab: 'temperature',
 			tabData: {
 				soil_moisture: {
 					label: 'Soil Moisture',
