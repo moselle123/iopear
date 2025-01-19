@@ -25,6 +25,6 @@ class EventManager():
 						continue
 
 				now =  datetime.now(timezone.utc)
-				Notification.create(event["_id"], value, now)
+				Notification.create("event", event["_id"], value, now)
 				Event.update_last_triggered(event["_id"], now)
 
