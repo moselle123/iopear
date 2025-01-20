@@ -30,7 +30,7 @@ export const useEventStore = defineStore('event', {
 			.then(() => this.getEvents());
 		},
 		updateEvent(event) {
-			return axios.put(host + '/update_event/' + event._id, event)
+			return axios.put(host + '/update_event/' + event._id, {condition: event.condition, measurement: event.measurement, threshold: Number(event.threshold)})
 			.then(() => this.getEvents());
 		},
 		deleteEvent(event) {

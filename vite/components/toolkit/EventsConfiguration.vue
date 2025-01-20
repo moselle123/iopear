@@ -95,7 +95,6 @@ export default {
 		},
 		createEvent(event, index) {
 			event.sensor_id = this.sensors[event.measurement]._id;
-			event.threshold = Number(event.threshold);
 			this.$stores.eventStore.createEvent(event)
 			.then(() => this.newEvents.splice(index, 1));
 		},
