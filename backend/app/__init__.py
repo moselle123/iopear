@@ -22,6 +22,7 @@ def create_app(config_class=Config):
 
 	i2c_manager = I2CManager(app)
 	app.config['I2C_MANAGER'] = i2c_manager
+	ActionManager.initialise()
 
 	app.register_blueprint(plant_bp)
 	app.register_blueprint(plant_type_bp)
@@ -29,6 +30,7 @@ def create_app(config_class=Config):
 	app.register_blueprint(reading_bp)
 	app.register_blueprint(event_bp)
 	app.register_blueprint(notification_bp)
+	app.register_blueprint(action_bp)
 
 
 	def signal_handler(sig, frame):

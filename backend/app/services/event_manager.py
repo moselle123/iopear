@@ -1,6 +1,7 @@
 from datetime import datetime, timezone, timedelta
 from app.models import Event
 from app.models import Notification
+from .action_manager import ActionManager
 
 class EventManager():
 	@staticmethod
@@ -27,4 +28,7 @@ class EventManager():
 				now =  datetime.now(timezone.utc)
 				Notification.create("event", event["_id"], value, now)
 				Event.update(event["_id"], {"last_triggered": now})
+
+				for action in event["actions"]:
+					ActionManager.trigger_action(action)
 
