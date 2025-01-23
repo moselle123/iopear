@@ -59,9 +59,6 @@ export default {
 		};
 	},
 	computed: {
-		path() {
-
-		},
 		plant() {
 			return this.$stores.plantStore.plantData;
 		},
@@ -71,6 +68,9 @@ export default {
 			return Promise.allSettled([
 				this.$stores.plantStore.getPlant(),
 				this.$stores.sensorStore.getSensors(),
+				this.$stores.eventStore.getEvents(),
+				this.$stores.actionStore.getActions(),
+				this.$stores.actuatorStore.getActuators(),
 			])
 			.then((outcomes) => {
 				if (outcomes.some(o => o.status === 'rejected')) {
