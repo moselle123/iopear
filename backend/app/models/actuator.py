@@ -8,4 +8,4 @@ class Actuator:
 
 	@staticmethod
 	def get_actuators():
-		return current_app.config['DB']["actuators"].find()
+		return current_app.config['DB']["actuator"].find()
