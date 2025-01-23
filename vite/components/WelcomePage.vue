@@ -41,8 +41,8 @@
 					<el-collapse-item  :title="'Barometric Pressure: ' +  plant.settings.BMP280.thresholds.barometric_pressure[0] + ' - ' + plant.settings.BMP280.thresholds.barometric_pressure[1] + ' (%)'" name="6">
 						<el-slider v-model="plant.settings.BMP280.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
 					</el-collapse-item>
-					<el-collapse-item  :title="'CO2: ' +  plant.settings.SCD40.thresholds.barometric_pressure[0] + ' - ' + plant.settings.SCD40.thresholds.barometric_pressure[1] + ' (%)'" name="6">
-						<el-slider v-model="plant.settings.SCD40.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
+					<el-collapse-item  :title="'CO2: ' +  plant.settings.SCD40.thresholds.co2[0] + ' - ' + plant.settings.SCD40.thresholds.co2[1] + ' (ppm)'" name="7">
+						<el-slider v-model="plant.settings.SCD40.thresholds.co2" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.co2" :step="10" />
 					</el-collapse-item>
 				</el-collapse>
 			</template>
