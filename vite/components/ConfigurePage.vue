@@ -6,15 +6,7 @@
 				<events-configuration v-if="activeTab === 'events'" />
 			</el-tab-pane>
 			<el-tab-pane label="Actions" name="actions">
-				<el-card v-if="activeTab === 'actions'">
-					<el-collapse accordion>
-						<el-collapse-item v-for="(action, index) in actions" :key="index" :title="action.name" :name="index">
-							<template #header>
-								<el-text>{{ action.name }}</el-text>
-							</template>
-						</el-collapse-item>
-					</el-collapse>
-				</el-card>
+				<actions-configuration v-if="activeTab === 'actions'" />
 			</el-tab-pane>
 			<el-tab-pane label="Sensors" name="sensors">
 				<sensors-configuration />
@@ -27,32 +19,6 @@ export default {
 	data() {
 		return {
 			activeTab: 'events',
-			actions: [
-				{
-					name: 'Turn on water pump',
-				},
-				{
-					name: 'Turn off water pump',
-				},
-			],
-			events: [
-				{
-					name: 'Temperature too high',
-				},
-				{
-					name: 'Temperature too low',
-				},
-
-			],
-			sensors: [
-				{
-					name: 'Soil Moisture Sensor',
-				},
-				{
-					name: 'Humidity Sensor',
-				},
-
-			],
 		};
 	},
 };
