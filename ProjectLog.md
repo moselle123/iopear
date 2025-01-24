@@ -70,3 +70,10 @@ This week:
 
 ## 13 - 19 January
 - User can set up events which trigger notifications when their condition is met.
+- Fixed various bugs.
+- Partially implemented actions.
+
+## 20 - 26 January
+- User can trigger actions from the ui
+- After meeting with Yi I am going to restructure the way I have implemented my event triggers using a rules engine for more sophisticated logic.
+- Started researching rules engine and building out new event system.
