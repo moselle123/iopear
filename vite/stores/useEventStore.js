@@ -37,9 +37,5 @@ export const useEventStore = defineStore('event', {
 			return axios.delete(host + '/delete_event/' + event._id)
 			.then(() => this.getEvents());
 		},
-		getNotifications(startDate, endDate) {
-			return axios.get(host + '/get_notifications', { params: { start_date: startDate, end_date: endDate } })
-			.then(({data}) => data);
-		},
-	}
+	},
 });

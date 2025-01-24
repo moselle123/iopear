@@ -3,6 +3,7 @@ import { useSensorStore } from '../stores/useSensorStore';
 import { useEventStore } from '../stores/useEventStore';
 import { useActionStore } from '../stores/useActionStore';
 import { useActuatorStore } from '../stores/useActuatorStore';
+import { useNotificationStore } from '../stores/useNotificationStore';
 
 export default {
 	install(app) {
@@ -12,6 +13,7 @@ export default {
 			eventStore: useEventStore(),
 			actionStore: useActionStore(),
 			actuatorStore: useActuatorStore(),
+			notificationStore: useNotificationStore(),
 		};
 	}
 };

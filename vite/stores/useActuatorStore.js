@@ -5,14 +5,8 @@ export const useActuatorStore = defineStore('actuator', {
 		actuators: [],
 	}),
 	getters: {
-		actuatorsObj() {
-			let obj = {}
-			this.actuators.forEach((action) => {
-				obj[action._id] = {}
-				Object.assign(obj[action._id], action);
-				delete obj[action._id]._id;
-			})
-			return obj;
+		actuatorsArr() {
+			return this.actuators;
 		},
 	},
 	actions: {
@@ -22,5 +16,5 @@ export const useActuatorStore = defineStore('actuator', {
 				this.actuators = data;
 			});
 		},
-	}
+	},
 });

@@ -52,5 +52,5 @@ export const useSensorStore = defineStore('sensor', {
 				this.getSensors();
 			});
 		},
-	}
+	},
 });

@@ -37,5 +37,5 @@ export const useActionStore = defineStore('action', {
 			return axios.delete(host + '/delete_action/' + action._id)
 			.then(() => this.getActions());
 		},
-	}
+	},
 });

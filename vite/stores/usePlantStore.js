@@ -35,5 +35,5 @@ export const usePlantStore = defineStore('plant', {
 				return data;
 			});
 		},
-	}
+	},
 });
