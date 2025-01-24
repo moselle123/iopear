@@ -13,6 +13,6 @@ class Notification:
 		return instances
 
 	@staticmethod
-	def delete_notifications_by_event(event_id):
-		result = current_app.config['DB']["notification"].delete_many({"event_id": ObjectId(event_id)})
+	def delete_notifications_by_entity(entity_id):
+		result = current_app.config['DB']["notification"].delete_many({"entity_id": ObjectId(entity_id)})
 		return result.deleted_count

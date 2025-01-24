@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 import logging
 from app.models import Action
+from app.models import Notification
 from app.services import ActionManager
 
 logging.basicConfig(level=logging.DEBUG)
@@ -53,6 +54,7 @@ def update_action(action_id):
 def delete_action(action_id):
 	try:
 		Action.delete(action_id)
+		Notification.delete_notifications_by_entity(action_id)
 		ActionManager.update_action_list()
 		return {"message": "action deleted"}, 200
 
