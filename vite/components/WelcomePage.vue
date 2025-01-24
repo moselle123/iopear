@@ -42,7 +42,7 @@
 						<el-slider v-model="plant.settings.BMP280.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
 					</el-collapse-item>
 					<el-collapse-item  :title="'CO2: ' +  plant.settings.SCD40.thresholds.co2[0] + ' - ' + plant.settings.SCD40.thresholds.co2[1] + ' (ppm)'" name="7">
-						<el-slider v-model="plant.settings.SCD40.thresholds.co2" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.co2" :step="10" />
+						<el-slider v-model="plant.settings.SCD40.thresholds.co2" range show-stops show-tooltip :min="100" :max="1500" :marks="marks.co2" :step="100" />
 					</el-collapse-item>
 				</el-collapse>
 			</template>
@@ -126,7 +126,7 @@ export default {
 			return 'Common nicknames: ' + this.selectedPlantType?.nicknames[0] + ', ' + this.selectedPlantType?.nicknames[1];
 		},
 		marks() {
-			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}, barometric_pressure: {960: '960hPa', 1060: '1050hPa'}, co2: {400: '400ppm', 1060: '1000ppm'}};
+			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}, barometric_pressure: {900: '900hPa', 1100: '1100hPa'}, co2: {100: '100ppm', 1500: '1500ppm'}};
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[0]] = this.selectedPlantType?.thresholds.temperature[0] + '°C';
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[1]] = this.selectedPlantType?.thresholds.temperature[1] + '°C';
 			marks.humidity[this.selectedPlantType?.thresholds.humidity[0]] = this.selectedPlantType?.thresholds.humidity[0] + '%';

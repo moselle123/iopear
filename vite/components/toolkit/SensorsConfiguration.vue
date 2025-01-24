@@ -33,7 +33,7 @@
 						<el-slider v-model="altered.TSL2561.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
 					</el-form-item>
 					<el-form-item v-if="sensor.name === 'SCD40'" label="CO2">
-						<el-slider v-model="altered.SCD40.thresholds.co2" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.co2" :step="50" />
+						<el-slider v-model="altered.SCD40.thresholds.co2" range show-stops show-tooltip :min="100" :max="1500" :marks="marks.co2" :step="100" />
 					</el-form-item>
 					<el-form-item v-if="sensor.name === 'BMP280'" label="Barometric Pressure">
 						<el-slider v-model="altered.BMP280.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
@@ -68,7 +68,7 @@ export default {
 			let BMP280 = this.$stores.sensorStore.BMP280;
 			let SCD40 = this.$stores.sensorStore.SCD40;
 
-			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}, barometric_pressure: {960: '960hPa', 1000: '1050hPa'}, co2: {400: '400ppm', 1060: '1000ppm'}};
+			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}, barometric_pressure: {900: '900hPa', 1100: '110hPa'}, co2: {100: '100ppm', 1500: '1500ppm'}};
 			marks.temperature[SHT31.thresholds.temperature[0]] = SHT31.thresholds.temperature[0] + '°C';
 			marks.temperature[SHT31.thresholds.temperature[1]] = SHT31.thresholds.temperature[1] + '°C';
 			marks.humidity[SHT31.thresholds.humidity[0]] = SHT31.thresholds.humidity[0] + '%';
