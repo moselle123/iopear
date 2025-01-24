@@ -26,7 +26,7 @@ def get_actions():
 def create_action():
 	data = request.json
 	try:
-		Action.create(date["name"], data["actuator_id"], data["actuator_state"], data["duration"])
+		Action.create(data["name"], data["actuator_id"], data["actuator_state"], data["duration"])
 		ActionManager.update_action_list()
 		return {"message": "action created"}, 201
 
