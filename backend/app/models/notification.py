@@ -9,7 +9,7 @@ class Notification:
 
 	@staticmethod
 	def get_notifications_by_date_range(start_date, end_date):
-		instances = current_app.config['DB']["notification"].find({"timestamp": {"$gte": start_date, "$lte": end_date}})
+		instances = current_app.config['DB']["notification"].find({"timestamp": {"$gte": start_date, "$lte": end_date}}).sort("timestamp", -1)
 		return instances
 
 	@staticmethod
