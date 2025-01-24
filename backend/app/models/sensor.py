@@ -38,7 +38,7 @@ class Sensor:
 	def create(cls, name):
 		sensor_data = current_app.config['DB']["sensors"].find_one({"name": name})
 		if sensor_data:
-			if sensor_data["name"] == "SS":
+			if sensor_data["name"] == "SS" and "calibration" in sensor_data:
 				return cls(sensor_data["_id"], sensor_data["name"], sensor_data["enabled"], sensor_data["calibration"])
 			return cls(sensor_data["_id"], sensor_data["name"], sensor_data["enabled"])
 

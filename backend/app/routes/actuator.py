@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 actuator_bp = Blueprint('actuator', __name__)
 
-@action_bp.route('/get_actuators', methods=['GET'])
+@actuator_bp.route('/get_actuators', methods=['GET'])
 def get_actuators():
 	try:
 		actuators = list(Actuator.get_actuators())

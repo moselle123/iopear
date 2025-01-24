@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
 import logging
 from app.models import Action
-from app.models import Actuator
 from app.services import ActionManager
 
 logging.basicConfig(level=logging.DEBUG)
@@ -18,19 +17,6 @@ def get_actions():
 			action["actuator_id"] = str(action["actuator_id"])
 
 		return jsonify(actions)
-
-	except Exception as e:
-		logger.error(f"Error getting actions data: {e}")
-		return {"error": "Failed to retrieve actions"}, 500
-
-@action_bp.route('/get_actuators', methods=['GET'])
-def get_actions():
-	try:
-		actuators = list(Actuator.get_actuators())
-		for actuator in actuators:
-			actuator["_id"] = str(actuator["_id"])
-
-		return jsonify(actuators)
 
 	except Exception as e:
 		logger.error(f"Error getting actions data: {e}")
