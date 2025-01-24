@@ -25,7 +25,7 @@ def get_events():
 def create_event():
 	data = request.json
 	try:
-		Event.create(data["sensor_id"], data["measurement"], data["condition"], data["threshold"], data["is_enabled"])
+		Event.create(data["name"], data["sensor_id"], data["measurement"], data["condition"], data["threshold"], data["is_enabled"])
 		return {"message": "Event created"}, 201
 	except Exception as e:
 		logger.error(f"Error getting updating event: {e}")

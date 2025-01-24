@@ -3,8 +3,9 @@ from flask import current_app
 
 class Action:
 	@staticmethod
-	def create(actuator_id, actuator_state, duration=None):
+	def create(name, actuator_id, actuator_state, duration=None):
 		action_data = {
+			"name": name,
 			"actuator_id": ObjectId(actuator_id),
 			"actuator_state": actuator_state,
 			"last_triggered": None,

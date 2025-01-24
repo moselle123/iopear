@@ -3,9 +3,9 @@ from flask import current_app
 
 class Event:
 	@staticmethod
-	def create(sensor_id, measurement, condition, threshold, is_enabled):
+	def create(name, sensor_id, measurement, condition, threshold, is_enabled):
 		threshold = float(threshold)
-		result = current_app.config['DB']["event"].insert_one({"sensor_id": ObjectId(sensor_id), "measurement": measurement, "condition": condition, "threshold": threshold, "is_enabled": is_enabled, "actions": [], "last_triggered": None})
+		result = current_app.config['DB']["event"].insert_one({"name": name, "sensor_id": ObjectId(sensor_id), "measurement": measurement, "condition": condition, "threshold": threshold, "is_enabled": is_enabled, "actions": [], "last_triggered": None})
 		return result.inserted_id
 
 	@staticmethod
