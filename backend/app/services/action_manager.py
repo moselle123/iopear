@@ -32,8 +32,8 @@ class ActionManager():
 			GPIO.output(actuator["pin"], state)
 
 			now =  datetime.now(timezone.utc)
-			Action.update(action["_id"], {"last_triggered": now})
-			Notification.create("action", action["_id"], action["actuator_state"], now)
+			Action.update(action_id, {"last_triggered": now})
+			Notification.create("action", action_id, action["actuator_state"], now)
 
 		except Exception as e:
 			logging.error(f"Error triggering action: {e}")
