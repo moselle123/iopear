@@ -18,7 +18,8 @@
 			</template>
 			<el-timeline>
 				<el-timeline-item v-for="notification in notifications" :key="notification" :timestamp="notification.timestamp" >
-					{{ labels[events[notification.event_id].measurement] + ' ' + labels[events[notification.event_id].condition] + ' ' + events[notification.event_id].threshold }}
+					<el-text>{{ entities[notification.entity_id].name }}</el-text>
+					<el-tag :type="notification.notification_type === 'event' ? 'danger' : 'info'">{{ notification.notification_type }}</el-tag>
 				</el-timeline-item>
 			</el-timeline>
 		</el-card>
@@ -32,29 +33,12 @@ export default {
 			dateRange: [moment().subtract(24, 'hours').toISOString(), moment().toISOString()],
 			notifications: {},
 			invalidDate: false,
+			entities: null,
 		};
-	},
-	computed: {
-		events() {
-			return this.$stores.eventStore.eventsObj;
-		},
-		labels() {
-			return {
-				soil_moisture: 'Soil Moisture',
-				soil_temperature: 'Soil Temperature',
-				humidity: 'Humidity',
-				temperature: 'Temperature',
-				light_intensity: 'Light Intensity',
-				barometric_pressure: 'Barometric Pressure',
-				co2: 'CO2',
-				greater_than: 'Greater Than',
-				less_than: 'Less Than',
-			};
-		},
 	},
 	methods: {
 		getNotifications() {
-			this.$stores.eventStore.getNotifications(this.dateRange[0], this.dateRange[1])
+			this.$stores.notificationStore.getNotifications(this.dateRange[0], this.dateRange[1])
 			.then((data) => {
 				this.notifications = data;
 			});
@@ -73,10 +57,8 @@ export default {
 		},
 	},
 	mounted() {
-		this.$stores.eventStore.getEvents()
-		.then(() => {
-			return this.$stores.eventStore.getNotifications(this.dateRange[0], this.dateRange[1]);
-		})
+		this.entities = Object.assign({}, this.$stores.eventStore.eventsObj, this.$stores.actionStore.actionsObj);
+		this.$stores.notificationStore.getNotifications(this.dateRange[0], this.dateRange[1])
 		.then((data) => {
 			this.notifications = data;
 		});
@@ -102,6 +84,10 @@ export default {
 
 	.el-timeline {
 		margin: 1em 0;
+
+		.el-tag {
+			margin: 1em 0;
+		}
 	}
 }
 </style>

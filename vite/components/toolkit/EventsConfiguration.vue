@@ -11,7 +11,7 @@
 		<el-text v-if=" ! (events.length || newEvents.length)" class="no-content">No Events to Display</el-text>
 		<el-card v-else>
 			<el-collapse accordion>
-				<el-collapse-item v-for="(event, index) in displayedEvents" :key="index" :title="event._id ? labels.measurements[event.measurement] + ' ' + labels[event.condition] + ' ' + event.threshold : 'New Event'" :name="index">
+				<el-collapse-item v-for="(event, index) in displayedEvents" :key="index" :title="event._id ? event.name : 'New Event'" :name="index">
 					<el-form label-position="top">
 						<el-form-item label="Enabled">
 							<el-switch v-model="event.is_enabled" />
@@ -33,7 +33,7 @@
 					</el-form>
 					<el-row justify="end">
 						<el-button type="primary" v-if="event?._id" @click="deleteEvent(event)">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
 							Delete Event
 						</el-button>
 						<el-button type="primary" @click="saveChanges(event)">
@@ -59,6 +59,9 @@ export default {
 		},
 		sensors() {
 			return this.$stores.sensorStore.sensorsByMeasurement;
+		},
+		actions() {
+			return this.$stores.actionStore.actionsArr;
 		},
 		displayedEvents() {
 			return this.events.concat(this.newEvents);
@@ -94,6 +97,7 @@ export default {
 			event?._id ? this.updateEvent(event) : this.createEvent(event, index);
 		},
 		createEvent(event, index) {
+			event.name = this.formatPhrase(event.measurement) + ' ' + this.formatPhrase(event.condition) + ' ' + event.threshold;
 			event.sensor_id = this.sensors[event.measurement]._id;
 			this.$stores.eventStore.createEvent(event)
 			.then(() => this.newEvents.splice(index, 1));
@@ -104,9 +108,11 @@ export default {
 		deleteEvent(event) {
 			this.$stores.eventStore.deleteEvent(event);
 		},
-	},
-	mounted() {
-		this.$stores.eventStore.getEvents();
+		formatPhrase(phrase) {
+			phrase = phrase.replace('_', ' ').split(' ');
+			phrase = phrase.map(word => word[0].toUpperCase() + word.substring(1));
+			return phrase.join(' ');
+		},
 	},
 };
 </script>

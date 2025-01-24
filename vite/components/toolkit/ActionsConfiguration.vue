@@ -11,7 +11,7 @@
 		<el-text v-if=" ! (actions.length || newActions.length)" class="no-content">No Actions to Display</el-text>
 		<el-card v-else>
 			<el-collapse accordion>
-				<el-collapse-item v-for="(action, index) in displayedActions" :key="index" :title="action._id ? 'action' : 'New Event'" :name="index">
+				<el-collapse-item v-for="(action, index) in displayedActions" :key="index" :title="action._id ? action.name : 'New Action'" :name="index">
 					<el-form label-position="top">
 						<el-form-item label="Actuator">
 							<el-select v-model="action.actuator_id">
@@ -21,12 +21,9 @@
 						<el-form-item label="Actuator State">
 							<el-switch v-model="action.actuator_state" active-text="On" inactive-text="Off"/>
 						</el-form-item>
-						<el-form-item label="Set Duration">
-							<el-checkbox v-model="action.actuator_state"/>
-						</el-form-item>
-						<el-form-item label="Duration">
+						<!-- <el-form-item label="Duration">
 							<el-input v-model="action.duration" type="number" inputmode="tel" />
-						</el-form-item>
+						</el-form-item> -->
 					</el-form>
 					<el-row justify="end">
 						<el-button type="primary" v-if="action?._id" @click="testAction(action._id)">
@@ -59,7 +56,7 @@ export default {
 			return this.$stores.actionStore.actionsArr;
 		},
 		actuators() {
-			return this.$stores.actuatorStore.actuatorsObj;
+			return this.$stores.actuatorStore.actuatorsArr;
 		},
 		displayedActions() {
 			return this.actions.concat(this.newActions);
@@ -77,7 +74,7 @@ export default {
 			action?._id ? this.updateAction(action) : this.createAction(action, index);
 		},
 		createAction(action, index) {
-			action.sensor_id = this.sensors[action.measurement]._id;
+			action.name =  this.generateName(action);
 			this.$stores.actionStore.createAction(action)
 			.then(() => this.newActions.splice(index, 1));
 		},
@@ -87,6 +84,11 @@ export default {
 		deleteAction(action) {
 			this.$stores.actionStore.deleteAction(action);
 		},
+		generateName(action) {
+			let actuatorName = this.actuators.find(a => a._id === action.actuator_id).name;
+			let state = action.actuator_state ? 'On' : 'Off';
+			return actuatorName + ' ' + state;
+		}
 	},
 };
 </script>
