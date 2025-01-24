@@ -27,12 +27,12 @@ def get_notifications():
 			notifications = list(Notification.get_notifications_by_date_range(start_date, end_date))
 			for instance in notifications:
 				instance["_id"] = str(instance["_id"])
-				instance["event_id"] = str(instance["event_id"])
+				instance["entity_id"] = str(instance["entity_id"])
 
 			return jsonify(notifications)
 		except ValueError:
 			return jsonify({"error": "Invalid date format. Use ISO 8601 format"}), 400
 
 	except Exception as e:
-		logger.error(f"Error getting event instances: {e}")
-		return {"error": "Failed to retrieve event instances"}, 500
+		logger.error(f"Error getting notifications: {e}")
+		return {"error": "Failed to retrieve notifications"}, 500
