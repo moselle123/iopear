@@ -79,9 +79,6 @@ export default {
 				less_than: 'Less Than',
 			};
 		},
-		notificationName() {
-			return
-		},
 	},
 	methods: {
 		addEvent() {
