@@ -50,13 +50,11 @@
 export default {
 	data() {
 		return {
+			events: [],
 			newEvents: [],
 		};
 	},
 	computed: {
-		events() {
-			return this.$stores.eventStore.eventsArr;
-		},
 		sensors() {
 			return this.$stores.sensorStore.sensorsByMeasurement;
 		},
@@ -100,19 +98,31 @@ export default {
 			event.name = this.formatPhrase(event.measurement) + ' ' + this.formatPhrase(event.condition) + ' ' + event.threshold;
 			event.sensor_id = this.sensors[event.measurement]._id;
 			this.$stores.eventStore.createEvent(event)
-			.then(() => this.newEvents.splice(index, 1));
+			.then(() => {
+				this.events = this.$stores.eventStore.eventsArr.slice();
+				this.newEvents.splice(index, 1)
+			});
 		},
 		updateEvent(event) {
-			this.$stores.eventStore.updateEvent(event);
+			this.$stores.eventStore.updateEvent(event)
+			.then(() => {
+				this.events = this.$stores.eventStore.eventsArr.slice();
+			});
 		},
 		deleteEvent(event) {
-			this.$stores.eventStore.deleteEvent(event);
+			this.$stores.eventStore.deleteEvent(event)
+			.then(() => {
+				this.events = this.$stores.eventStore.eventsArr.slice();
+			});
 		},
 		formatPhrase(phrase) {
 			phrase = phrase.replace('_', ' ').split(' ');
 			phrase = phrase.map(word => word[0].toUpperCase() + word.substring(1));
 			return phrase.join(' ');
 		},
+	},
+	mounted() {
+		this.events = this.$stores.eventStore.eventsArr.slice();
 	},
 };
 </script>
