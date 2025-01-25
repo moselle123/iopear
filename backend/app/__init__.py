@@ -49,6 +49,7 @@ def create_app(config_class=Config):
 	with app.app_context():
 		i2c_manager._initialise_sensors()
 		ActionManager.initialise()
+		load_rules()
 
 		if "plant_type" not in app.config['DB'].list_collection_names():
 			PlantType.create(name="Monstera Deliciousa", nicknames=["Cheese Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "light_intensity": [800, 900], "barometric_pressure": [960, 1050], "co2": [400, 1000]}, description="The Monstera Deliciosa, also known as the Swiss Cheese Plant, is a tropical climbing plant with large, fenestrated leaves, admired for its striking aesthetic and easy care.")

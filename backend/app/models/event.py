@@ -3,9 +3,9 @@ from flask import current_app
 
 class Event:
 	@staticmethod
-	def create(name, sensor_id, measurement, condition, threshold, is_enabled):
+	def create(name, sensor_id, measurement, conditions, logic, threshold, is_enabled):
 		threshold = float(threshold)
-		result = current_app.config['DB']["event"].insert_one({"name": name, "sensor_id": ObjectId(sensor_id), "measurement": measurement, "condition": condition, "threshold": threshold, "is_enabled": is_enabled, "actions": [], "last_triggered": None})
+		result = current_app.config['DB']["event"].insert_one({"name": name, "sensor_id": ObjectId(sensor_id), "measurement": measurement, "conditions": conditions, "logic": logic, "threshold": threshold, "is_enabled": is_enabled, "actions": [], "last_triggered": None})
 		return result.inserted_id
 
 	@staticmethod
@@ -25,9 +25,13 @@ class Event:
 		return result.deleted_count
 
 	@staticmethod
-	def get_events():
-		return current_app.config['DB']["event"].find()
+	def get_events(id=None, measurement=None, enabled=None):
+		query = {}
+		if id is not None:
+			query["_id"] = id
+		if measurement is not None:
+			query["measurement"] = measurement
+		if enabled is not None:
+			query["enabled"] = enabled
 
-	@staticmethod
-	def get_events_by_measurement(measurement):
-		return current_app.config['DB']["event"].find({"measurement": measurement, "is_enabled": True})
+		return current_app.config['DB']["event"].find(query)
