@@ -181,19 +181,18 @@ input[type=range]::-webkit-slider-thumb {
 	.el-collapse {
 		margin: 0 0.5em;
 		.el-collapse-item {
-
-			// border-top: 1px var(--el-border-color) solid;
-			// border-bottom: 1px var(--el-border-color) solid;
-
-			&:first-child {
-				border-top: none;
-			}
 			&:last-child {
-				border-bottom: none;
+				.el-collapse-item__header {
+					&:not(.is-active) {
+						border-bottom: none;
+					}
+				}
 			}
 
 			.el-collapse-item__header {
 				display: flex;
+
+				border-bottom: 1px solid var(--el-bg-color);
 
 				font-family: Inter;
 				font-weight: $regularFontWeight;
