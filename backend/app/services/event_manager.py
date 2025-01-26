@@ -3,6 +3,9 @@ from datetime import datetime, timezone
 from app.models import Event
 from app.models import Notification
 from .action_manager import ActionManager
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 def check_events(measurement, value):
 	events = Event.get_events(measurement=measurement, enabled=True)
@@ -22,37 +25,39 @@ def load_rules(event_id=None):
 		if event and event["is_enabled"]:
 			events = [event]
 		else:
-			print(f"Cannot load rules for this event with id {event_id}, it is either not found or not enabled.")
+			logger.error(f"Cannot load rules for this event with id {event_id}, it is either not found or not enabled.")
 			return
 	else:
 		events = Event.get_events(enabled=True)
 
 	for event in events:
-		with ruleset(event["_id"]):
-			condition = None
-			for cond in event["conditions"]:
-				if cond["type"] == "less_than":
-					sub_condition = m.value < cond["value"]
-				elif cond["type"] == "greater_than":
-					sub_condition = m.value > cond["value"]
-				elif cond["type"] == "time_elapsed":
-					sub_condition = m.hours_off > cond["hours"]
+		try:
+			with ruleset(event["_id"]):
+				condition = None
+				for cond in event["conditions"]:
+					if cond["type"] == "less_than":
+						sub_condition = m.value < cond["value"]
+					elif cond["type"] == "greater_than":
+						sub_condition = m.value > cond["value"]
+					elif cond["type"] == "time_elapsed":
+						sub_condition = m.hours_off > cond["hours"]
 
-				condition = condition & sub_condition if condition else sub_condition
+					condition = condition & sub_condition if condition else sub_condition
 
-			logic = all if event["logic"] == "AND" else any
-			condition = logic([condition])
+				logic = all if event["logic"] == "AND" else any
+				condition = logic([condition])
 
-			@when_all(condition)
-			def trigger_event(c):
-				print(f"Event triggered")
-				for action_id in event["actions"]:
-					ActionManager.trigger_action(action_id)
+				@when_all(condition)
+				def trigger_event(c):
+					print(f"Event triggered")
+					for action_id in event["actions"]:
+						ActionManager.trigger_action(action_id)
 
-				now = datetime.now(timezone.utc)
-				Event.update(event_id, {"last_triggered": now})
-				Notification.create(notification_type="event", entity_id=event["_id"], value=c.m.value, timestamp=now)
-
+					now = datetime.now(timezone.utc)
+					Event.update(event_id, {"last_triggered": now})
+					Notification.create(notification_type="event", entity_id=event["_id"], value=c.m.value, timestamp=now)
+		except Exception as e:
+			logger.error(f"Error loading rules: {e}")
 
 def post_fact(ruleset_name, fact):
 	try:
