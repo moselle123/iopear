@@ -5,7 +5,7 @@ class Event:
 	@staticmethod
 	def create(name, sensor_id, measurement, conditions, logic, threshold, is_enabled):
 		threshold = float(threshold)
-		result = current_app.config['DB']["event"].insert_one({"name": name, "sensor_id": ObjectId(sensor_id), "measurement": measurement, "conditions": conditions, "logic": logic, "threshold": threshold, "is_enabled": is_enabled, "actions": [], "last_triggered": None})
+		result = current_app.config['DB']["event"].insert_one({"name": name, "sensor_id": ObjectId(sensor_id), "measurement": measurement, "conditions": conditions, "logic": logic, "is_enabled": is_enabled, "actions": [], "last_triggered": None})
 		return result.inserted_id
 
 	@staticmethod

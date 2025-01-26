@@ -26,11 +26,11 @@ def get_events():
 def create_event():
 	data = request.json
 	try:
-		event_id = Event.create(name=data["name"], sensor_id=data["sensor_id"], measurement=data["measurement"], condition=data["condition"], logic=data["logic"], threshold=data["threshold"], is_enabled=data["is_enabled"])
+		event_id = Event.create(name=data["name"], sensor_id=data["sensor_id"], measurement=data["measurement"], conditions=data["conditions"], logic=data["logic"], is_enabled=data["is_enabled"])
 		load_rules(event_id)
 		return {"message": "Event created"}, 201
 	except Exception as e:
-		logger.error(f"Error getting updating event: {e}")
+		logger.error(f"Error creating event: {e}")
 		return {"error": "Failed to create event"}, 500
 
 @event_bp.route('/update_event/<event_id>', methods=['PUT'])
