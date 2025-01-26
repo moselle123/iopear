@@ -19,7 +19,7 @@ def check_events(measurement, value):
 def load_rules(event_id=None):
 	if event_id:
 		event = Event.get_events(id=event_id)
-		if event and event["enabled"]:
+		if event and event["is_enabled"]:
 			events = [event]
 		else:
 			print(f"Cannot load rules for this event with id {event_id}, it is either not found or not enabled.")
@@ -30,13 +30,13 @@ def load_rules(event_id=None):
 	for event in events:
 		with ruleset(event["_id"]):
 			condition = None
-			for condition in event["conditions"]:
-				if condition["type"] == "less_than":
-					sub_condition = m.value < condition["value"]
-				elif condition["type"] == "greater_than":
-					sub_condition = m.value > condition["value"]
-				elif condition["type"] == "time_elapsed":
-					sub_condition = m.hours_off > condition["hours"]
+			for cond in event["conditions"]:
+				if cond["type"] == "less_than":
+					sub_condition = m.value < cond["value"]
+				elif cond["type"] == "greater_than":
+					sub_condition = m.value > cond["value"]
+				elif cond["type"] == "time_elapsed":
+					sub_condition = m.hours_off > cond["hours"]
 
 				condition = condition & sub_condition if condition else sub_condition
 
@@ -45,7 +45,7 @@ def load_rules(event_id=None):
 
 			@when_all(condition)
 			def trigger_event(c):
-				print(f"Event triggered: {event["name"]}")
+				print(f"Event triggered")
 				for action_id in event["actions"]:
 					ActionManager.trigger_action(action_id)
 

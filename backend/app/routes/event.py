@@ -26,7 +26,7 @@ def get_events():
 def create_event():
 	data = request.json
 	try:
-		event_id = Event.create(name=data["name"], sensor_id=data["sensor_id"], measurement=data["measurement"], conditions=data["conditions"], logic=data["logic"], is_enabled=data["is_enabled"])
+		event_id = Event.create(name=data["name"], sensor_id=data["sensor_id"], measurement=data["measurement"], conditions=data["conditions"], logic=data["logic"], actions=data["actions"], is_enabled=data["is_enabled"])
 		load_rules(event_id)
 		return {"message": "Event created"}, 201
 	except Exception as e:

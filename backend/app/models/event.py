@@ -3,8 +3,9 @@ from flask import current_app
 
 class Event:
 	@staticmethod
-	def create(name, sensor_id, measurement, conditions, logic, threshold, is_enabled):
-		threshold = float(threshold)
+	def create(name, sensor_id, measurement, conditions, logic, actions, is_enabled):
+		for condition in conditions:
+			condition["value"] = int(condition["value"])
 		result = current_app.config['DB']["event"].insert_one({"name": name, "sensor_id": ObjectId(sensor_id), "measurement": measurement, "conditions": conditions, "logic": logic, "is_enabled": is_enabled, "actions": [], "last_triggered": None})
 		return result.inserted_id
 
@@ -27,11 +28,13 @@ class Event:
 	@staticmethod
 	def get_events(id=None, measurement=None, enabled=None):
 		query = {}
-		if id is not None:
-			query["_id"] = id
-		if measurement is not None:
+
+		if measurement:
 			query["measurement"] = measurement
-		if enabled is not None:
-			query["enabled"] = enabled
+		if enabled:
+			query["is_enabled"] = enabled
+		if id:
+			query["_id"] = id
+			return db.events.find_one(query)
 
 		return current_app.config['DB']["event"].find(query)
