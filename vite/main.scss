@@ -94,6 +94,43 @@ input[type=range]::-webkit-slider-thumb {
 
 			overflow-y: auto;
 		}
+
+		.complex-form-item {
+			.el-form-item__content {
+				display: flex;
+				flex-direction: column;
+				gap: 1em !important;
+
+				.el-button {
+					margin-left: auto;
+				}
+			}
+		}
+
+		.select-with-button {
+			.el-select {
+				flex: 1;
+
+				.el-select__wrapper {
+					border-right: 0;
+					border-top-right-radius: 0;
+					border-bottom-right-radius: 0;
+				}
+			}
+			.el-button {
+				width: 3em !important;
+				margin: 0;
+
+				border-left: 0;
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+
+				svg {
+					margin: 0;
+					fill: var(--el-color-danger);
+				}
+			}
+		}
 	}
 
 	// element plus overrides
@@ -122,7 +159,13 @@ input[type=range]::-webkit-slider-thumb {
 			height: 1em;
 			margin-right: 7px;
 
-			fill: var(--el-fill-color);
+			fill: var(--el-color-primary);
+		}
+
+		&.el-button--primary {
+			svg {
+				fill: var(--el-fill-color);
+			}
 		}
 	}
 
@@ -159,7 +202,7 @@ input[type=range]::-webkit-slider-thumb {
 	.el-divider--horizontal {
 		margin: 1em 0;
 
-		border-top: 1px #FFFFFF solid;
+		border-top: 1px var(--el-bg-color) solid;
 	}
 
 	.el-card {
@@ -197,6 +240,10 @@ input[type=range]::-webkit-slider-thumb {
 				font-family: Inter;
 				font-weight: $regularFontWeight;
 			}
+
+			.el-collapse-item__content {
+				margin-top: 1em;
+			}
 		}
 	}
 
@@ -204,6 +251,29 @@ input[type=range]::-webkit-slider-thumb {
 		.el-timeline-item {
 			&:last-child {
 				padding-bottom: 0;
+			}
+		}
+	}
+
+	.el-input-group__prepend{
+		background-color: var(--el-color-bg);
+	}
+
+	.el-input-group__append {
+		padding: 0;
+		width: 3em;
+
+		background-color: var(--el-color-bg);
+
+		color: var(--el-fill-color);
+
+		.el-button {
+			width: 100%;
+			margin: 0;
+
+			svg {
+				margin: 0;
+				fill: var(--el-color-danger);
 			}
 		}
 	}

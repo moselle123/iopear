@@ -13,24 +13,68 @@
 			<el-collapse accordion>
 				<el-collapse-item v-for="(event, index) in displayedEvents" :key="index" :title="event._id ? event.name : 'New Event'" :name="index">
 					<el-form label-position="top">
-						<el-form-item label="Enabled">
-							<el-switch v-model="event.is_enabled" />
-						</el-form-item>
-						<el-form-item label="Measurement">
-							<el-select v-model="event.measurement">
-								<el-option v-for="(label, measurement) in labels.measurements" :key="label" :label="label" :value="measurement" />
-							</el-select>
-						</el-form-item>
-						<el-form-item label="Condition">
-							<el-select v-model="event.condition">
-								<el-option label="Greater Than" value="greater_than" />
-								<el-option label="Less Than" value="less_than" />
-							</el-select>
-						</el-form-item>
-						<el-form-item label="Threshold">
-							<el-input v-model="event.threshold" type="number" inputmode="tel" />
-						</el-form-item>
+						<el-row class="grid" justify="space-evenly">
+							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
+								<el-form-item label="Name">
+									<el-input v-model="event.name" placeholder="Describe this event" />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
+								<el-form-item label="Measurement">
+									<el-select v-model="event.measurement" placeholder="Select a measurement to monitor">
+										<el-option v-for="(label, measurement) in labels.measurements" :key="label" :label="label" :value="measurement" />
+									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
+								<el-form-item label="Conditions" class="complex-form-item">
+									<el-text v-if=" ! Object.keys(event.conditions).length" class="no-content">Assign a condition which will be used to determine if this event is triggered.</el-text>
+									<template v-else>
+										<el-input v-for="(condition, index) in event.conditions" :key="condition" v-model="condition.value" placeholder="Condition value" type="number" inputmode="tel" >
+											<template #prepend>
+												<el-select v-model="condition.type" placeholder="Select Condition Type" style="width: 200px">
+													<el-option label="Greater Than" value="greater_than" />
+													<el-option label="Less Than" value="less_than" />
+													<el-option label="Time Elapsed (hours)" value="time_elapsed" />
+												</el-select>
+											</template>
+											<template #append>
+												<el-button @click="deleteCondition(event, index)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></el-button>
+											</template>
+										</el-input>
+									</template>
+									<el-row justify="space-between">
+										<!-- <el-switch :disabled="event.conditions.length > 1" v-model="event.logic" active-text="Meet All Conditions" active-value="AND" inactive-text="Meet At Least 1 Condition" inactive-value="OR" /> -->
+										<el-button @click="addCondition(event)">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
+											Add Condition
+										</el-button>
+									</el-row>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
+								<el-form-item label="Actions" class="complex-form-item">
+									<el-text v-if=" ! Object.keys(event.actions).length" class="no-content">No actions are assigned to this event.</el-text>
+									<template v-else>
+										<el-row v-for="(actionId, index) in event.actions" v-model="event.actions[index]" class="select-with-button">
+											<el-select>
+												<el-option v-for="action in actions" :key="action" :label="action.name" :value="action._id" />
+											</el-select>
+											<el-button @click="deleteAction(event, index)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></el-button>
+										</el-row>
+									</template>
+									<el-button @click="addAction(event)">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
+										Add Action
+									</el-button>
+								</el-form-item>
+								<!-- <el-form-item label="Enable Event">
+									<el-switch v-model="event.is_enabled" />
+								</el-form-item> -->
+							</el-col>
+						</el-row>
 					</el-form>
+					<el-divider />
 					<el-row justify="end">
 						<el-button type="primary" v-if="event?._id" @click="deleteEvent(event)">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
@@ -83,16 +127,20 @@ export default {
 	methods: {
 		addEvent() {
 			this.newEvents.push({
+				name: null,
 				is_enabled: true,
 				measurement: null,
-				condition: null,
+				conditions: [
+					{ type: null, value: null }
+				],
+				actions: [null],
+				logic: 'AND',
 			});
 		},
 		saveChanges(event, index) {
 			event?._id ? this.updateEvent(event) : this.createEvent(event, index);
 		},
 		createEvent(event, index) {
-			event.name = this.formatPhrase(event.measurement) + ' ' + this.formatPhrase(event.condition) + ' ' + event.threshold;
 			event.sensor_id = this.sensors[event.measurement]._id;
 			this.$stores.eventStore.createEvent(event)
 			.then(() => {
@@ -112,10 +160,20 @@ export default {
 				this.events = this.$stores.eventStore.eventsArr.slice();
 			});
 		},
-		formatPhrase(phrase) {
-			phrase = phrase.replace('_', ' ').split(' ');
-			phrase = phrase.map(word => word[0].toUpperCase() + word.substring(1));
-			return phrase.join(' ');
+		addCondition(event) {
+			event.conditions.push({
+				type: null,
+				value: null,
+			});
+		},
+		deleteCondition(event, index) {
+			event.conditions.splice(index, 1);
+		},
+		addAction(event) {
+			event.actions.push(null);
+		},
+		deleteAction(event, index) {
+			event.actions.splice(index);
 		},
 	},
 	mounted() {
@@ -123,8 +181,3 @@ export default {
 	},
 };
 </script>
-<style lang="scss" scoped>
-.configure-events {
-
-}
-</style>
