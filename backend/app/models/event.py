@@ -6,7 +6,7 @@ class Event:
 	def create(name, sensor_id, measurement, conditions, logic, actions, is_enabled):
 		for condition in conditions:
 			condition["value"] = int(condition["value"])
-		result = current_app.config['DB']["event"].insert_one({"name": name, "sensor_id": ObjectId(sensor_id), "measurement": measurement, "conditions": conditions, "logic": logic, "is_enabled": is_enabled, "actions": [], "last_triggered": None})
+		result = current_app.config['DB']["event"].insert_one({"name": name, "sensor_id": ObjectId(sensor_id), "measurement": measurement, "conditions": conditions, "logic": logic, "is_enabled": is_enabled, "actions": actions, "last_triggered": None})
 		return result.inserted_id
 
 	@staticmethod
