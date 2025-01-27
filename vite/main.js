@@ -29,15 +29,14 @@ import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import WelcomePage from './components/WelcomePage.vue';
 import DashboardPage from './components/DashboardPage.vue';
-import ConfigurePage from './components/ConfigurePage.vue';
 import DataPage from './components/DataPage.vue';
 import LogPage from './components/LogPage.vue';
 import SettingsPage from './components/SettingsPage.vue';
+import SensorsPage from './components/SensorsPage.vue';
+import EventsPage from './components/EventsPage.vue';
+import ActionsPage from './components/ActionsPage.vue';
 
-import LineChart from './components/toolkit/LineChart.vue';
-import SensorsConfiguration from './components/toolkit/SensorsConfiguration.vue';
-import EventsConfiguration from './components/toolkit/EventsConfiguration.vue';
-import ActionsConfiguration from './components/toolkit/ActionsConfiguration.vue';
+import LineChart from './components/LineChart.vue';
 
 const routes = [
 	{
@@ -47,9 +46,21 @@ const routes = [
 		props: true,
 	},
 	{
-		path: '/configure',
-		name: 'configure',
-		component: ConfigurePage,
+		path: '/events',
+		name: 'events',
+		component: EventsPage,
+		props: true,
+	},
+	{
+		path: '/actions',
+		name: 'actions',
+		component: ActionsPage,
+		props: true,
+	},
+	{
+		path: '/sensors',
+		name: 'sensors',
+		component: SensorsPage,
 		props: true,
 	},
 	{
@@ -81,9 +92,6 @@ const app = createApp(App);
 const pinia = createPinia();
 app.component('WelcomePage', WelcomePage);
 app.component('LineChart', LineChart);
-app.component('SensorsConfiguration', SensorsConfiguration);
-app.component('EventsConfiguration', EventsConfiguration);
-app.component('ActionsConfiguration', ActionsConfiguration);
 app.use(createPinia());
 app.use(storesPlugin);
 app.use(router);
