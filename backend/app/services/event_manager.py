@@ -6,68 +6,83 @@ from .action_manager import ActionManager
 import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+from apscheduler.schedulers.background import BackgroundScheduler
 
-def check_events(measurement, value):
-	events = Event.get_events(measurement=measurement, enabled=True)
+class EventManager:
+	_scheduler = BackgroundScheduler()
+	_events = []
 
-	for event in events:
-		last_triggered = event["last_triggered"]
-		hours_off = 0
-		if last_triggered:
-			elapsed = datetime.now(timezone.utc) - last_triggered
-			hours_off = elapsed.total_seconds() / 3600
-
-		#post_fact(str(event["_id"]), {"measurement": measurement, "value": value, "hours_off": hours_off})
-
-def load_rules(event_id=None):
-	try:
-		if event_id:
-			event = Event.get_events(id=event_id)
-			if event and event["is_enabled"]:
-				events = [event]
-			else:
-				logger.error(f"Cannot load rules for this event with id {event_id}, it is either not found or not enabled.")
-				return
-		else:
-			events = Event.get_events(enabled=True)
+	@classmethod
+	def update_event_list(cls, event_id=None):
+		events = Event.get_events(id=event_id, enabled=True)
 
 		for event in events:
+			event["_id"] = str(event["_id"])
+			for action_id in event["actions"]:
+				action_id = str(action_id)
+			cls._events.append(event)
+
+			if event["scheduled_time"]:
+				cls._schedule_event(event)
+			if len(event["conditions"]):
+				cls._load_rules(event)
+
+	@classmethod
+	def _schedule_event(cls, event):
+		hour, minute = map(int, event["scheduled_time"].split(":"))
+		def trigger_event():
+			cls._trigger_event(event)
+
+		cls._scheduler.add_job(trigger_event, 'cron', hour=hour, minute=minute, id=event["_id"])
+
+	@classmethod
+	def check_events(cls, measurement, value):
+		for event in cls._events:
+			if len(event["conditions"]):
+				cls._post_fact(event["_id"], {"measurement": measurement, "value": value})
+
+	@classmethod
+	def _load_rules(cls, event):
+		try:
 			logger.info(f"Initializing ruleset for event ID: {event}")
-			with ruleset("test"):
+			with ruleset(event["_id"]):
 				condition = None
 				for cond in event["conditions"]:
-					logger.info(cond)
-					if cond["type"] == "less_than":
-						sub_condition = m.value < cond["value"]
-					elif cond["type"] == "greater_than":
-						sub_condition = m.value > cond["value"]
-					elif cond["type"] == "time_elapsed":
-						sub_condition = m.hours_off > cond["value"]
+					if cond["measurement"] == m.measurement:
+						if cond["type"] == "less_than":
+							sub_condition = m.value < cond["value"]
+						elif cond["type"] == "greater_than":
+							sub_condition = m.value > cond["value"]
 
-					if condition is None:
-						condition = sub_condition
-					else:
-						condition = condition & sub_condition
+					condition = condition & sub_condition if condition else sub_condition
 
 				logic = all if event["logic"] == "AND" else any
 				condition = logic([condition])
 
 				@when_all(condition)
 				def trigger_event(c):
-					print(f"Event triggered")
-					for action_id in event["actions"]:
-						ActionManager.trigger_action(action_id)
+					cls._trigger_event(event, c.m.value)
 
-					now = datetime.now(timezone.utc)
-					Event.update(event_id, {"last_triggered": now})
-					Notification.create(notification_type="event", entity_id=event["_id"], value=c.m.value, timestamp=now)
+		except Exception as e:
+			logger.error(f"Error loading rules: {e}")
 
-	except Exception as e:
-		logger.error(f"Error loading rules: {e}")
+	@classmethod
+	def _post_fact(ruleset_name, fact):
+		try:
+			logger.info(f"Posting fact to ruleset '{ruleset_name}': {fact}")
+			post("test", fact)
+		except Exception as e:
+			logger.error(f"Error posting fact to ruleset '{ruleset_name}': {e}")
 
-def post_fact(ruleset_name, fact):
-	try:
-		logger.info(f"Posting fact to ruleset '{ruleset_name}': {fact}")
-		post("test", fact)
-	except Exception as e:
-		logger.error(f"Error posting fact to ruleset '{ruleset_name}': {e}")
+	@staticmethod
+	def _trigger_event(event, value):
+		for action_id in event["actions"]:
+			ActionManager.trigger_action(action_id)
+
+		now = datetime.now(timezone.utc)
+		Event.update(event["_id"], {"last_triggered": now})
+		Notification.create(notification_type="event", entity_id=event["_id"], value=value, timestamp=now)
+
+	@classmethod
+	def delete_event():
+		pass

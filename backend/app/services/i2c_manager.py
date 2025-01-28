@@ -9,7 +9,7 @@ import adafruit_bmp280
 import adafruit_scd4x
 from adafruit_seesaw.seesaw import Seesaw
 from .sensor_registry import SensorRegistry
-from .event_manager import check_events
+from .event_manager import EventManager
 from app.models import Reading
 
 class I2CManager:
@@ -106,7 +106,7 @@ class I2CManager:
 
 						try:
 							for key, value in self.last_readings.items():
-								check_events(key, value)
+								EventManager.check_events(key, value)
 						except Exception as e:
 							logging.error(f"Error checking for event instances: {e}")
 				except Exception as e:

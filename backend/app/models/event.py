@@ -3,10 +3,10 @@ from flask import current_app
 
 class Event:
 	@staticmethod
-	def create(name, sensor_id, measurement, conditions, logic, actions, is_enabled):
+	def create(name, conditions, logic, actions, is_enabled, scheduled_time):
 		for condition in conditions:
 			condition["value"] = int(condition["value"])
-		result = current_app.config['DB']["event"].insert_one({"name": name, "sensor_id": ObjectId(sensor_id), "measurement": measurement, "conditions": conditions, "logic": logic, "is_enabled": is_enabled, "actions": actions, "last_triggered": None})
+		result = current_app.config['DB']["event"].insert_one({"name": name, "conditions": conditions, "logic": logic, "scheduled_time": scheduled_time, "is_enabled": is_enabled, "actions": actions, "last_triggered": None})
 		return result.inserted_id
 
 	@staticmethod

@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 import logging
 from app.models import Event
 from app.models import Notification
-from app.services.event_manager import load_rules
+from app.services import EventManager
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -27,7 +27,7 @@ def create_event():
 	data = request.json
 	try:
 		event_id = Event.create(name=data["name"], sensor_id=data["sensor_id"], measurement=data["measurement"], conditions=data["conditions"], logic=data["logic"], actions=data["actions"], is_enabled=data["is_enabled"])
-		load_rules(event_id)
+		EventManager.update_event_list(event_id)
 		return {"message": "Event created"}, 201
 	except Exception as e:
 		logger.error(f"Error creating event: {e}")
@@ -40,6 +40,7 @@ def update_event(event_id):
 		message = Event.update(event_id, data)
 		if not message["success"]:
 			return {"message": message}, 404
+		EventManager.update_event_list(event_id)
 		return {"message": message}, 200
 	except Exception as e:
 		logger.error(f"Error updating event: {e}")
