@@ -15,7 +15,6 @@ def get_events():
 		events = list(Event.get_events())
 		for event in events:
 			event["_id"] = str(event["_id"])
-			event["sensor_id"] = str(event["sensor_id"])
 
 		return jsonify(events)
 	except Exception as e:
@@ -26,7 +25,7 @@ def get_events():
 def create_event():
 	data = request.json
 	try:
-		event_id = Event.create(name=data["name"], sensor_id=data["sensor_id"], measurement=data["measurement"], conditions=data["conditions"], logic=data["logic"], actions=data["actions"], is_enabled=data["is_enabled"])
+		event_id = Event.create(name=data["name"], conditions=data["conditions"], logic=data["logic"], actions=data["actions"], scheduled_time=data["scheduled_time"], is_enabled=data["is_enabled"])
 		EventManager.update_event_list(event_id)
 		return {"message": "Event created"}, 201
 	except Exception as e:

@@ -26,11 +26,9 @@ class Event:
 		return result.deleted_count
 
 	@staticmethod
-	def get_events(id=None, measurement=None, enabled=None):
+	def get_events(id=None, enabled=None):
 		query = {}
 
-		if measurement:
-			query["measurement"] = measurement
 		if enabled:
 			query["is_enabled"] = enabled
 		if id:
