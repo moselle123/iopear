@@ -74,7 +74,6 @@ class EventManager:
 						result = result and sub_condition
 					elif event["logic"] == "OR":
 						result = result or sub_condition
-				logger.info(result)
 
 			if result:
 				cls._trigger_event(event)
@@ -98,7 +97,6 @@ class EventManager:
 			for action_id in event["actions"]:
 				ActionManager.trigger_action(action_id)
 
-			now = now.isoformat()
 			Event.update(event["_id"], {"last_triggered": now})
 			event["last_triggered"] = now
 			Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
