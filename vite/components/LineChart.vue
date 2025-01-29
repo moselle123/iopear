@@ -23,6 +23,12 @@ export default {
 		measurement: {
 			type: String,
 		},
+		thresholdMin: {
+			type: Number,
+		},
+		thresholdMax: {
+			type: Number,
+		},
 	},
 	data() {
 		return {
@@ -116,21 +122,41 @@ export default {
 				type: 'line',
 				data: {
 					labels: steps,
-					datasets: [{
-						label: this.title,
-						data: values,
-						borderColor: this.color,
-						borderWidth: 1
-					}],
+					datasets: [
+						{
+							label: this.title,
+							data: values,
+							borderColor: this.color,
+							borderWidth: 1
+						},
+						{
+							label: "Threshold Min",
+							data: steps.map((step) => ({ x: step, y: this.thresholdMin })),
+							borderWidth: 1,
+							pointRadius: 0,
+							fill: false,
+						},
+						{
+							label: "Threshold Max",
+							data: steps.map((step) => ({ x: step, y: this.thresholdMax })),
+							borderWidth: 1,
+							fill: "-1",
+							pointRadius: 0,
+							backgroundColor: "rgba(0, 255, 0, 0.1)",
+						},
+					],
 				},
 				options: {
 					responsive: true,
 					plugins: {
 						legend: { display: false},
+						filler: { propagate: false } ,
 					},
 					scales: {
 						y: {
 							beginAtZero: false,
+							suggestedMin: Math.min(...values.map(v => v.y)) - 5,
+							suggestedMax: Math.max(...values.map(v => v.y)) + 5,
 							title: { display: true, text: this.title + ' ( ' + this.unit + ' )'},
 						},
 						x: {

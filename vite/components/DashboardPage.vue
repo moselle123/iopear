@@ -5,7 +5,7 @@
 		<el-row class="grid" justify="space-between">
 			<template v-for="(sensor, key) in sensors" :key="key">
 				<el-col v-if="sensor.enabled" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-					<line-chart :sensorName="sensor.name" :dateRange="[startDate, endDate]" step="minute" :measurement="key"></line-chart>
+					<line-chart :sensorName="sensor.name" :dateRange="[startDate, endDate]" step="minute" :measurement="key" />
 				</el-col>
 			</template>
 		</el-row>

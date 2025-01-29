@@ -16,7 +16,7 @@
 								Filter Data
 							</el-button>
 						</el-row>
-						<line-chart v-if="activeTab === key" :sensorName="sensor.name" :dateRange="dateRange" :step="step" :measurement="key"></line-chart>
+						<line-chart v-if="activeTab === key" :sensorName="sensor.name" :dateRange="dateRange" :step="step" :measurement="key" :thresholdMin="sensor.thresholds[key][0]" :thresholdMax="sensor.thresholds[key][1]" ></line-chart>
 					</el-col>
 				</el-row>
 			</el-tab-pane>

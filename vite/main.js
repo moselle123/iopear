@@ -7,9 +7,9 @@ import axios from 'axios';
 window.axios = axios;
 
 
-import { Chart as ChartJS, Title, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, TimeScale, CategoryScale } from 'chart.js';
+import { Chart as ChartJS, Title, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, TimeScale, CategoryScale, Filler } from 'chart.js';
 import 'chartjs-adapter-moment';
-ChartJS.register(Title, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, TimeScale, CategoryScale);
+ChartJS.register(Title, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, TimeScale, CategoryScale, Filler);
 window.Chart = ChartJS;
 
 import moment from 'moment';
