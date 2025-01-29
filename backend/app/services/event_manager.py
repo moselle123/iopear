@@ -46,7 +46,6 @@ class EventManager:
 	@classmethod
 	def check_events(cls, readings):
 		try:
-			logger.info("checking events")
 			cls._latest_readings = readings
 			for event in cls._events:
 				if not event["scheduled_time"]:
@@ -64,10 +63,8 @@ class EventManager:
 			for condition in event["conditions"]:
 				sub_condition = False
 				if condition["type"] == "greater_than":
-					logger.info(f"condition type: {condition['type']}, condition value {condition['value']}, readings value: {readings[condition['measurement']]}")
 					sub_condition = condition["value"] < readings[condition["measurement"]]
 				elif condition["type"] == "less_than":
-					logger.info(f"condition type: {condition['type']}, condition value {condition['value']}, readings value: {readings[condition['measurement']]}")
 					sub_condition = condition["value"] > readings[condition["measurement"]]
 
 				if not result:
