@@ -30,7 +30,7 @@ export const useActionStore = defineStore('action', {
 			.then(() => this.getActions());
 		},
 		updateAction(action) {
-			return axios.put(host + '/update_action/' + action._id, {actuator_id: action.actuator_id, actuator_state: action.actuator_state, duration: action?.duration ? Number(action.threshold) : null})
+			return axios.put(host + '/update_action/' + action._id, {actuator_id: action.actuator_id, actuator_state: action.actuator_state})
 			.then(() => this.getActions());
 		},
 		deleteAction(action) {

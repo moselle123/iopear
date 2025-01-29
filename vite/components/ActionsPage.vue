@@ -1,5 +1,6 @@
 <template>
 	<el-container direction="vertical" class="configure-actions">
+		<el-text class="title">Actions</el-text>
 		<el-text>Create an action to control actuators such as a grow light. Add an action to an event to trigger your actions.</el-text>
 		<el-row class="page-header">
 			<el-alert v-if="newActions.length" type="warning" title="Please save changes before moving on." />
@@ -13,14 +14,23 @@
 			<el-collapse accordion>
 				<el-collapse-item v-for="(action, index) in displayedActions" :key="index" :title="action._id ? action.name : 'New Action'" :name="index">
 					<el-form label-position="top">
-						<el-form-item label="Actuator">
-							<el-select v-model="action.actuator_id">
-								<el-option v-for="actuator in actuators" :key="actuator" :label="actuator.name" :value="actuator._id" />
-							</el-select>
-						</el-form-item>
-						<el-form-item label="Actuator State">
-							<el-switch v-model="action.actuator_state" active-text="On" inactive-text="Off"/>
-						</el-form-item>
+						<el-row class="grid">
+							<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+								<el-form-item label="Name">
+									<el-input v-model="action.name" placeholder="Describe this action" />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+								<el-form-item label="Actuator">
+									<el-select v-model="action.actuator_id">
+										<el-option v-for="actuator in actuators" :key="actuator" :label="actuator.name" :value="actuator._id" />
+									</el-select>
+								</el-form-item>
+								<el-form-item label="Actuator State">
+									<el-switch v-model="action.actuator_state" active-text="On" inactive-text="Off"/>
+								</el-form-item>
+							</el-col>
+						</el-row>
 					</el-form>
 					<el-divider />
 					<el-row justify="end">
@@ -63,16 +73,15 @@ export default {
 	methods: {
 		addAction() {
 			this.newActions.push({
+				name: null,
 				actuator_id: null,
 				actuator_state: true,
-				duration: null,
 			});
 		},
 		saveChanges(action, index) {
 			action?._id ? this.updateAction(action) : this.createAction(action, index);
 		},
 		createAction(action, index) {
-			action.name =  this.generateName(action);
 			this.$stores.actionStore.createAction(action)
 			.then(() => this.newActions.splice(index, 1));
 		},
@@ -85,11 +94,6 @@ export default {
 		triggerAction(action_id) {
 			this.$stores.actionStore.triggerAction(action_id);
 		},
-		generateName(action) {
-			let actuatorName = this.actuators.find(a => a._id === action.actuator_id).name;
-			let state = action.actuator_state ? 'On' : 'Off';
-			return actuatorName + ' ' + state;
-		}
 	},
 };
 </script>
