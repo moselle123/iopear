@@ -3,16 +3,13 @@ from flask import current_app
 
 class Action:
 	@staticmethod
-	def create(name, actuator_id, actuator_state, duration=None):
+	def create(name, actuator_id, actuator_state):
 		action_data = {
 			"name": name,
 			"actuator_id": ObjectId(actuator_id),
 			"actuator_state": actuator_state,
 			"last_triggered": None,
 		}
-
-		if duration:
-			action_data["duration"] = duration
 
 		result = current_app.config['DB']["action"].insert_one(action_data)
 		return result.inserted_id

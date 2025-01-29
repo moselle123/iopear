@@ -21,9 +21,6 @@
 						<el-form-item label="Actuator State">
 							<el-switch v-model="action.actuator_state" active-text="On" inactive-text="Off"/>
 						</el-form-item>
-						<!-- <el-form-item label="Duration">
-							<el-input v-model="action.duration" type="number" inputmode="tel" />
-						</el-form-item> -->
 					</el-form>
 					<el-divider />
 					<el-row justify="end">
