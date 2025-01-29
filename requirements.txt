@@ -28,5 +28,4 @@ typing_extensions==4.12.2
 Werkzeug==3.0.4
 zipp==3.20.2
 flask_cors
-durable_rules
 apscheduler
