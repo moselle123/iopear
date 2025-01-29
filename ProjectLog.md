@@ -1,7 +1,6 @@
 # Project Log
 
 ## 26 Sept - 13th October
-
 In this time I have:
 - Began research into smart systems designed to monitor plants.
 - Researched technologies to create my own smart plant system.
@@ -77,3 +76,7 @@ This week:
 - User can trigger actions from the ui
 - After meeting with Yi I am going to restructure the way I have implemented my event triggers using a rules engine for more sophisticated logic.
 - Started researching rules engine and building out new event system.
+
+## 27 - 1st February
+- Discarded idea of using event engine and built out multiple conditions and scheduled events. (Needs implementing within front end).
+- Clean up front end and focus on improving the ux.
