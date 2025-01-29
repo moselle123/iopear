@@ -33,7 +33,7 @@ class ActionManager():
 
 			now =  datetime.now(timezone.utc)
 			Action.update(action_id, {"last_triggered": now})
-			Notification.create("action", action_id, action["actuator_state"], now)
+			Notification.create("action", action_id, now)
 
 		except Exception as e:
 			logging.error(f"Error triggering action: {e}")

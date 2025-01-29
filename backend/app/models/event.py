@@ -5,7 +5,7 @@ class Event:
 	@staticmethod
 	def create(name, conditions, logic, actions, is_enabled, scheduled_time):
 		for condition in conditions:
-			condition["value"] = int(condition["value"])
+			condition["value"] = float(condition["value"])
 		result = current_app.config['DB']["event"].insert_one({"name": name, "conditions": conditions, "logic": logic, "scheduled_time": scheduled_time, "is_enabled": is_enabled, "actions": actions, "last_triggered": None})
 		return result.inserted_id
 
@@ -35,4 +35,4 @@ class Event:
 			query["_id"] = id
 			return current_app.config['DB']["event"].find_one(query)
 
-		return current_app.config['DB']["event"].find(query)
+		return list(current_app.config['DB']["event"].find(query))

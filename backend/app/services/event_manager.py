@@ -1,5 +1,4 @@
-from durable.lang import *
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from app.models import Event
 from app.models import Notification
 from .action_manager import ActionManager
@@ -11,78 +10,91 @@ from apscheduler.schedulers.background import BackgroundScheduler
 class EventManager:
 	_scheduler = BackgroundScheduler()
 	_events = []
+	_rulesets = []
+	_latest_readings = None
 
 	@classmethod
 	def update_event_list(cls, event_id=None):
 		events = Event.get_events(id=event_id, enabled=True)
+		if event_id:
+			events = [events]
 
 		for event in events:
 			event["_id"] = str(event["_id"])
-			for action_id in event["actions"]:
-				action_id = str(action_id)
 			cls._events.append(event)
 
 			if event["scheduled_time"]:
 				cls._schedule_event(event)
-			if len(event["conditions"]):
-				cls._load_rules(event)
 
 	@classmethod
 	def _schedule_event(cls, event):
 		hour, minute = map(int, event["scheduled_time"].split(":"))
 		def trigger_event():
-			cls._trigger_event(event)
+			if len(event["conditions"]):
+				cls._check_rules(event, cls._latest_readings, True)
+			else:
+				cls._trigger_event(event)
 
 		cls._scheduler.add_job(trigger_event, 'cron', hour=hour, minute=minute, id=event["_id"])
 
 	@classmethod
-	def check_events(cls, measurement, value):
+	def check_events(cls, readings):
+		logger.info("checking events")
+		cls._latest_readings = readings
 		for event in cls._events:
-			if len(event["conditions"]):
-				cls._post_fact(event["_id"], {"measurement": measurement, "value": value})
-
+			if not event["scheduled_time"]:
+				cls._check_rules(event, readings)
 	@classmethod
-	def _load_rules(cls, event):
-		try:
-			logger.info(f"Initializing ruleset for event ID: {event}")
-			with ruleset(event["_id"]):
-				condition = None
-				for cond in event["conditions"]:
-					if cond["measurement"] == m.measurement:
-						if cond["type"] == "less_than":
-							sub_condition = m.value < cond["value"]
-						elif cond["type"] == "greater_than":
-							sub_condition = m.value > cond["value"]
+	def _check_rules(cls, event, readings, is_scheduled_time=False):
+		logger.info("checking rules")
+		if event["scheduled_time"] and event["logic"] == "AND" and not is_scheduled_time:
+    			return
+		logger.info("checking rules got past schedule logic")
+		result = None
+		for condition in event["conditions"]:
+			subcondition = False
+			if condition["type"] == "greater_than":
+				logger.info(f"condition type: {condition['type']}, condition value {condition['value']}, readings value: {readings[condition['measurement']]}") 
+				sub_condition = condition["value"] < readings[condition["measurement"]]
+			elif condition["type"] == "less_than":
+				logger.info(f"condition type: {condition['type']}, condition value {condition['value']}, readings value: {readings[condition['measurement']]}")
+				sub_condition = condition["value"] > readings[condition["measurement"]]
 
-					condition = condition & sub_condition if condition else sub_condition
+			if not result:
+				result = sub_condition
+			else:
+				if event["logic"] == "AND":
+					result = result and sub_condition
+				elif event["logic"] == "OR":
+					result = result or sub_condition
+			logger.info(result)
 
-				logic = all if event["logic"] == "AND" else any
-				condition = logic([condition])
-
-				@when_all(condition)
-				def trigger_event(c):
-					cls._trigger_event(event, c.m.value)
-
-		except Exception as e:
-			logger.error(f"Error loading rules: {e}")
-
-	@classmethod
-	def _post_fact(ruleset_name, fact):
-		try:
-			logger.info(f"Posting fact to ruleset '{ruleset_name}': {fact}")
-			post("test", fact)
-		except Exception as e:
-			logger.error(f"Error posting fact to ruleset '{ruleset_name}': {e}")
+		logger.info(f"final result {result}")
+		if result:
+			cls._trigger_event(event)
 
 	@staticmethod
-	def _trigger_event(event, value):
+	def _trigger_event(event):
+		now = datetime.now(timezone.utc)
+		last_triggered = event["last_triggered"]
+		if last_triggered:
+			if isinstance(last_triggered, str):
+				last_triggered = datetime.fromisoformat(last_triggered)
+			if last_triggered.tzinfo is None:
+				last_triggered = last_triggered.replace(tzinfo=timezone.utc)
+			if now - last_triggered < timedelta(hours=1):
+				return
+
+		logger.info(f"event triggered: {event['_id']}")
 		for action_id in event["actions"]:
 			ActionManager.trigger_action(action_id)
 
-		now = datetime.now(timezone.utc)
+		now = now.isoformat()
 		Event.update(event["_id"], {"last_triggered": now})
-		Notification.create(notification_type="event", entity_id=event["_id"], value=value, timestamp=now)
+		event["last_triggered"] = now
+		Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
 
 	@classmethod
-	def delete_event():
-		pass
+	def delete_event(cls, event_id):
+		cls._scheduler.remove_job(event_id)
+		cls._events = [e for e in cls._events if e["_id"] != event_id]

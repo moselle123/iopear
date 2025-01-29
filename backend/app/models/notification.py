@@ -3,8 +3,8 @@ from flask import current_app
 
 class Notification:
 	@staticmethod
-	def create(notification_type, entity_id, value, timestamp):
-		result = current_app.config['DB']["notification"].insert_one({"notification_type": notification_type, "entity_id": ObjectId(entity_id), "value": value, "timestamp": timestamp})
+	def create(notification_type, entity_id, timestamp):
+		result = current_app.config['DB']["notification"].insert_one({"notification_type": notification_type, "entity_id": ObjectId(entity_id), "timestamp": timestamp})
 		return result.inserted_id
 
 	@staticmethod

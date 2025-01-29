@@ -105,8 +105,7 @@ class I2CManager:
 						last_db_write = now
 
 						try:
-							for key, value in self.last_readings.items():
-								EventManager.check_events(key, value)
+							EventManager.check_events(self.last_readings)
 						except Exception as e:
 							logging.error(f"Error checking for event instances: {e}")
 				except Exception as e:
