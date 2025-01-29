@@ -31,6 +31,8 @@ class I2CManager:
 			print(f"Error initialising SHT31: {e}")
 		try:
 			adafruit_tsl = adafruit_tsl2561.TSL2561(self.i2c)
+			adafruit_tsl.gain = 16
+			adafruit_tsl.integration_time = 402
 			self.tsl = SensorRegistry.get_sensor("TSL2561")
 			SensorRegistry.attach_adafruit_instance("TSL2561", adafruit_tsl)
 		except OSError as e:
@@ -149,7 +151,26 @@ class I2CManager:
 
 	def get_lux_(self):
 		try:
-			return self.tsl.adafruit_instance.lux
+			broadband = self.tsl.adafruit_instance.broadband
+			infrared = self.tsl.adafruit_instance.infrared
+
+			if broadband == 0:
+				return 0
+
+			ratio = infrared / broadband
+
+			if ratio <= 0.50:
+				lux_corrected = (0.0304 * broadband) - (0.062 * broadband * (ratio ** 1.4))
+			elif ratio <= 0.61:
+				lux_corrected = (0.0224 * broadband) - (0.031 * infrared)
+			elif ratio <= 0.80:
+				lux_corrected = (0.0128 * broadband) - (0.0153 * infrared)
+			elif ratio <= 1.30:
+				lux_corrected = (0.00146 * broadband) - (0.00112 * infrared)
+			else:
+				lux_corrected = 0
+
+			return lux_corrected
 		except OSError as e:
 			print(f"Error reading lux: {e}")
 			return None
