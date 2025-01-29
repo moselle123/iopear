@@ -15,86 +15,105 @@ class EventManager:
 
 	@classmethod
 	def update_event_list(cls, event_id=None):
-		events = Event.get_events(id=event_id, enabled=True)
-		if event_id:
-			events = [events]
+		try:
+			events = Event.get_events(id=event_id, enabled=True)
+			if event_id:
+				events = [events]
 
-		for event in events:
-			event["_id"] = str(event["_id"])
-			cls._events.append(event)
+			for event in events:
+				event["_id"] = str(event["_id"])
+				cls._events.append(event)
 
-			if event["scheduled_time"]:
-				cls._schedule_event(event)
+				if event["scheduled_time"]:
+					cls._schedule_event(event)
+		except Exception as e:
+			logger.error(f"Error updating event list in event manager: {e}")
 
 	@classmethod
 	def _schedule_event(cls, event):
-		hour, minute = map(int, event["scheduled_time"].split(":"))
-		def trigger_event():
-			if len(event["conditions"]):
-				cls._check_rules(event, cls._latest_readings, True)
-			else:
-				cls._trigger_event(event)
+		try:
+			hour, minute = map(int, event["scheduled_time"].split(":"))
+			def trigger_event():
+				if len(event["conditions"]):
+					cls._check_rules(event, cls._latest_readings, True)
+				else:
+					cls._trigger_event(event)
 
-		cls._scheduler.add_job(trigger_event, 'cron', hour=hour, minute=minute, id=event["_id"])
+			cls._scheduler.add_job(trigger_event, 'cron', hour=hour, minute=minute, id=event["_id"])
+		except Exception as e:
+			logger.error(f"Error scheduling event: {e}")
 
 	@classmethod
 	def check_events(cls, readings):
-		logger.info("checking events")
-		cls._latest_readings = readings
-		for event in cls._events:
-			if not event["scheduled_time"]:
-				cls._check_rules(event, readings)
+		try:
+			logger.info("checking events")
+			cls._latest_readings = readings
+			for event in cls._events:
+				if not event["scheduled_time"]:
+					cls._check_rules(event, readings)
+		except Exception as e:
+			logger.error(f"Error checking events against latest readings: {e}")
+
 	@classmethod
 	def _check_rules(cls, event, readings, is_scheduled_time=False):
-		logger.info("checking rules")
-		if event["scheduled_time"] and event["logic"] == "AND" and not is_scheduled_time:
-    			return
-		logger.info("checking rules got past schedule logic")
-		result = None
-		for condition in event["conditions"]:
-			subcondition = False
-			if condition["type"] == "greater_than":
-				logger.info(f"condition type: {condition['type']}, condition value {condition['value']}, readings value: {readings[condition['measurement']]}") 
-				sub_condition = condition["value"] < readings[condition["measurement"]]
-			elif condition["type"] == "less_than":
-				logger.info(f"condition type: {condition['type']}, condition value {condition['value']}, readings value: {readings[condition['measurement']]}")
-				sub_condition = condition["value"] > readings[condition["measurement"]]
+		try:
+			if event["scheduled_time"] and event["logic"] == "AND" and not is_scheduled_time:
+				return
 
-			if not result:
-				result = sub_condition
-			else:
-				if event["logic"] == "AND":
-					result = result and sub_condition
-				elif event["logic"] == "OR":
-					result = result or sub_condition
-			logger.info(result)
+			result = None
+			for condition in event["conditions"]:
+				sub_condition = False
+				if condition["type"] == "greater_than":
+					logger.info(f"condition type: {condition['type']}, condition value {condition['value']}, readings value: {readings[condition['measurement']]}")
+					sub_condition = condition["value"] < readings[condition["measurement"]]
+				elif condition["type"] == "less_than":
+					logger.info(f"condition type: {condition['type']}, condition value {condition['value']}, readings value: {readings[condition['measurement']]}")
+					sub_condition = condition["value"] > readings[condition["measurement"]]
 
-		logger.info(f"final result {result}")
-		if result:
-			cls._trigger_event(event)
+				if not result:
+					result = sub_condition
+				else:
+					if event["logic"] == "AND":
+						result = result and sub_condition
+					elif event["logic"] == "OR":
+						result = result or sub_condition
+				logger.info(result)
+
+			if result:
+				cls._trigger_event(event)
+
+		except Exception as e:
+			logger.error(f"Error checking event rules: {e}")
 
 	@staticmethod
 	def _trigger_event(event):
-		now = datetime.now(timezone.utc)
-		last_triggered = event["last_triggered"]
-		if last_triggered:
-			if isinstance(last_triggered, str):
-				last_triggered = datetime.fromisoformat(last_triggered)
-			if last_triggered.tzinfo is None:
-				last_triggered = last_triggered.replace(tzinfo=timezone.utc)
-			if now - last_triggered < timedelta(hours=1):
-				return
+		try:
+			now = datetime.now(timezone.utc)
+			last_triggered = event["last_triggered"]
+			if last_triggered:
+				if isinstance(last_triggered, str):
+					last_triggered = datetime.fromisoformat(last_triggered)
+				if last_triggered.tzinfo is None:
+					last_triggered = last_triggered.replace(tzinfo=timezone.utc)
+				if now - last_triggered < timedelta(hours=1):
+					return
 
-		logger.info(f"event triggered: {event['_id']}")
-		for action_id in event["actions"]:
-			ActionManager.trigger_action(action_id)
+			for action_id in event["actions"]:
+				ActionManager.trigger_action(action_id)
 
-		now = now.isoformat()
-		Event.update(event["_id"], {"last_triggered": now})
-		event["last_triggered"] = now
-		Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
+			now = now.isoformat()
+			Event.update(event["_id"], {"last_triggered": now})
+			event["last_triggered"] = now
+			Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
+
+			logger.info(f"event triggered: {event['_id']}")
+		except Exception as e:
+			logger.error(f"Error triggering event: {e}")
 
 	@classmethod
 	def delete_event(cls, event_id):
-		cls._scheduler.remove_job(event_id)
-		cls._events = [e for e in cls._events if e["_id"] != event_id]
+		try:
+			cls._scheduler.remove_job(event_id)
+			cls._events = [e for e in cls._events if e["_id"] != event_id]
+		except Exception as e:
+			logger.error(f"Error deleting event from event manager: {e}")
