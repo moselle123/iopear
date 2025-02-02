@@ -42,7 +42,7 @@ def get_readings_by_date_range(sensor_name):
 			start_date = datetime.fromisoformat(start_date)
 			end_date = datetime.fromisoformat(end_date)
 		except ValueError:
-			return jsonify({"error": "Invalid date format. Use ISO 8601 format"}), 400
+			return jsonify({"error": "Invalid date format. Use ISO format"}), 400
 
 		sensor = SensorRegistry.get_sensor(sensor_name)
 		if not sensor:

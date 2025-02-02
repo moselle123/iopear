@@ -31,7 +31,7 @@ def get_notifications():
 
 			return jsonify(notifications)
 		except ValueError:
-			return jsonify({"error": "Invalid date format. Use ISO 8601 format"}), 400
+			return jsonify({"error": "Invalid date format. Use ISO format"}), 400
 
 	except Exception as e:
 		logger.error(f"Error getting notifications: {e}")
