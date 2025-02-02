@@ -77,6 +77,9 @@ This week:
 - After meeting with Yi I am going to restructure the way I have implemented my event triggers using a rules engine for more sophisticated logic.
 - Started researching rules engine and building out new event system.
 
-## 27 - 1st February
+## 27 - 2 February
 - Discarded idea of using event engine and built out multiple conditions and scheduled events. (Needs implementing within front end).
 - Clean up front end and focus on improving the ux.
+- Start planning websocket integration and actuator state management
+
+## 3 - 9 February
