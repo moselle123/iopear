@@ -1,6 +1,7 @@
 <template>
+	<el-text class="title">Sensors</el-text>
 	<el-text style="margin-bottom: 1em;">Alter thresholds below by dragging the slider to the desired range and click save changes to confirm the new settings.</el-text>
-	<el-row class="configure-sensors grid" direction="vertical">
+	<el-row class="sensors grid" direction="vertical">
 		<el-col v-for="sensor in sensors" :key="sensor" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
 			<el-card>
 				<template #header>
@@ -11,6 +12,8 @@
 						<el-tag v-if="sensor.name === 'SHT31'" type="danger">Temperature</el-tag>
 						<el-tag v-if="sensor.name === 'SHT31'">Humidity</el-tag>
 						<el-tag v-if="sensor.name === 'TSL2561'" type="warning">Light Intensity</el-tag>
+						<el-tag v-if="sensor.name === 'SCD40'" type="info">CO2</el-tag>
+						<el-tag v-if="sensor.name === 'BMP280'" type="info">Barometric Pressure</el-tag>
 					</el-row>
 				</template>
 				<el-form label-position="left" label-width="150px">
@@ -38,8 +41,13 @@
 					<el-form-item v-if="sensor.name === 'BMP280'" label="Barometric Pressure">
 						<el-slider v-model="altered.BMP280.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
 					</el-form-item>
-					<el-button @click="updateSensor(sensor.name)">Save Changes</el-button>
 				</el-form>
+				<el-row justify="end">
+					<el-button @click="updateSensor(sensor.name)" type="primary">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+						Save Changes
+					</el-button>
+				</el-row>
 			</el-card>
 		</el-col>
 	</el-row>
@@ -102,7 +110,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.configure-sensors {
-
+.sensors {
+	.el-form {
+		margin-bottom: 3em;
+	}
 }
 </style>

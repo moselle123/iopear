@@ -1,6 +1,7 @@
 <template>
 	<el-container direction="vertical" class="configure-events">
-		<el-text>Create an event to register when a sensor goes above or below a set value.</el-text>
+		<el-text class="title">Events</el-text>
+		<el-text>Create an event to register when a sensor goes above or below a set value or trigger at a set time of day.</el-text>
 		<el-row class="page-header">
 			<el-alert v-if="newEvents.length" type="warning" title="Please save changes before moving on." />
 			<el-button type="primary" @click="addEvent">
