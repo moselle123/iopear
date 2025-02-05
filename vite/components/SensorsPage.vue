@@ -7,13 +7,13 @@
 				<template #header>
 					<el-row>
 						<el-text size="large">{{ sensor.name }}</el-text>
-						<el-tag v-if="sensor.name === 'SS'">Soil Moisture</el-tag>
-						<el-tag v-if="sensor.name === 'SS'" type="danger">Soil Temperature</el-tag>
-						<el-tag v-if="sensor.name === 'SHT31'" type="danger">Temperature</el-tag>
-						<el-tag v-if="sensor.name === 'SHT31'">Humidity</el-tag>
-						<el-tag v-if="sensor.name === 'TSL2561'" type="warning">Light Intensity</el-tag>
-						<el-tag v-if="sensor.name === 'SCD40'" type="info">CO2</el-tag>
-						<el-tag v-if="sensor.name === 'BMP280'" type="info">Barometric Pressure</el-tag>
+						<el-tag v-if="sensor.name === 'SS'" effect="plain" class="soil-moisture">Soil Moisture</el-tag>
+						<el-tag v-if="sensor.name === 'SS'" effect="plain" class="soil-temperature">Soil Temperature</el-tag>
+						<el-tag v-if="sensor.name === 'SHT31'" effect="plain" class="temperature">Temperature</el-tag>
+						<el-tag v-if="sensor.name === 'SHT31'" effect="plain" class="humidity">Humidity</el-tag>
+						<el-tag v-if="sensor.name === 'TSL2561'" effect="plain" class="light-intensity">Light Intensity</el-tag>
+						<el-tag v-if="sensor.name === 'SCD40'" effect="plain" class="co2">CO2</el-tag>
+						<el-tag v-if="sensor.name === 'BMP280'" effect="plain" class="barometric-pressure">Barometric Pressure</el-tag>
 					</el-row>
 				</template>
 				<el-form label-position="left" label-width="150px">

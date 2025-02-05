@@ -2,6 +2,16 @@
 
 $regularFontWeight: 400;
 
+:root {
+	--soil-moisture: #2053f9;
+	--soil-temperature: #90441b;
+	--humidity: #e669ff;
+	--temperature: #ff0000;
+	--light-intensity: #ff8c2e;
+	--barometric-pressure: #8dfa6c;
+	--co2: #355054;
+}
+
 html, body, #app {
 	height: 100vh;
 	width: 100%;
@@ -129,6 +139,37 @@ input[type=range]::-webkit-slider-thumb {
 					margin: 0;
 					fill: var(--el-color-danger);
 				}
+			}
+		}
+
+		.el-tag {
+			&.soil-moisture {
+				color: var(--soil-moisture);
+				border-color: var(--soil-moisture);
+			}
+			&.soil-temperature {
+				color: var(--soil-temperature);
+				border-color: var(--soil-temperature);
+			}
+			&.humidity {
+				color: var(--humidity);
+				border-color: var(--humidity);
+			}
+			&.temperature {
+				color: var(--temperature);
+				border-color: var(--temperature);
+			}
+			&.light-intensity {
+				color: var(--light-intensity);
+				border-color: var(--light-intensity);
+			}
+			&.barometric-pressure {
+				color: var(--barometric-pressur);
+				border-color: var(--barometric-pressur);
+			}
+			&.co2 {
+				color: var(--co2);
+				border-color: var(--co2);
 			}
 		}
 	}
