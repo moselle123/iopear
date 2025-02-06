@@ -19,7 +19,7 @@
 			<el-timeline>
 				<el-timeline-item v-for="notification in notifications" :key="notification" :timestamp="notification.timestamp" >
 					<el-text>{{ entities[notification.entity_id].name }}</el-text>
-					<el-tag :type="notification.notification_type === 'event' ? 'danger' : 'info'">{{ notification.notification_type }}</el-tag>
+					<el-tag type="info">{{ notification.notification_type }}</el-tag>
 				</el-timeline-item>
 			</el-timeline>
 		</el-card>
@@ -48,10 +48,6 @@ export default {
 			this.dateRange = [this.filteredRange[0], this.filteredRange[1]];
 			let duration = moment(this.dateRange[1]).diff(moment(this.dateRange[0]), 'minutes');
 
-			if (duration <= 43200) {
-				this.invalidDate = true;
-				return;
-			}
 
 			this.getNotifications();
 		},
@@ -87,6 +83,8 @@ export default {
 
 		.el-tag {
 			margin: 1em 0;
+
+			text-transform: capitalize;
 		}
 	}
 }
