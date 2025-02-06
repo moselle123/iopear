@@ -38,12 +38,12 @@ input[type=range]::-webkit-slider-thumb {
 
 		border-bottom: 1px solid var(--el-bg-color);
 
-		cursor: pointer;
-
 		svg {
 			height: 1.5em;
 
 			fill: var(--el-color-primary);
+
+			cursor: pointer;
 		}
 	}
 
@@ -188,30 +188,21 @@ input[type=range]::-webkit-slider-thumb {
 
 		z-index: 1000;
 
-		&.hide-nav {
-			display: none;
+		animation: "slide-fade";
+
+		svg {
+			height: 1.3em;
+
+			fill: var(--el-color-primary);
+			cursor: pointer;
 		}
 
 		.aside-header {
 			padding: 1em;
-
-			svg {
-				height: 1.3em;
-
-				fill: var(--el-color-primary);
-			}
 		}
 
 		.el-menu {
 			border: none;
-
-			.el-menu-item {
-				svg {
-					height: 1.3em;
-
-					fill: var(--el-color-primary);
-				}
-			}
 		}
 	}
 
