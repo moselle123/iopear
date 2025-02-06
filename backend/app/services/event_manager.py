@@ -63,9 +63,9 @@ class EventManager:
 			for condition in event["conditions"]:
 				sub_condition = False
 				if condition["type"] == "greater_than":
-					sub_condition = condition["value"] < readings[condition["measurement"]]
+					sub_condition = float(condition["value"]) < float(readings[condition["measurement"]])
 				elif condition["type"] == "less_than":
-					sub_condition = condition["value"] > readings[condition["measurement"]]
+					sub_condition = float(condition["value"]) > float(readings[condition["measurement"]])
 
 				if not result:
 					result = sub_condition

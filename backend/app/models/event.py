@@ -32,7 +32,7 @@ class Event:
 		if enabled:
 			query["is_enabled"] = enabled
 		if id:
-			query["_id"] = id
+			query["_id"] = ObjectId(id)
 			return current_app.config['DB']["event"].find_one(query)
 
 		return list(current_app.config['DB']["event"].find(query))
