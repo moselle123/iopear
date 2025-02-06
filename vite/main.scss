@@ -1,17 +1,5 @@
 @import "./theme.scss";
 
-$regularFontWeight: 400;
-
-:root {
-	--soil-moisture: #2053f9;
-	--soil-temperature: #90441b;
-	--humidity: #e669ff;
-	--temperature: #ff0000;
-	--light-intensity: #ff8c2e;
-	--barometric-pressure: #8dfa6c;
-	--co2: #355054;
-}
-
 html, body, #app {
 	height: 100vh;
 	width: 100%;
@@ -37,9 +25,27 @@ input[type=range]::-webkit-slider-thumb {
 	font-weight: $regularFontWeight;
 	font-size: 14px;
 
-	background: #ffffff;
+	background: var(--el-fill-color);
 
 	overflow-y: scroll;
+
+	.el-header {
+		display: flex;
+		align-items: center;
+		gap: 1em;
+
+		padding: 1em;
+
+		border-bottom: 1px solid var(--el-bg-color);
+
+		cursor: pointer;
+
+		svg {
+			height: 1.5em;
+
+			fill: var(--el-color-primary);
+		}
+	}
 
 	.spinner {
 		height: 1em;
@@ -70,17 +76,12 @@ input[type=range]::-webkit-slider-thumb {
 
 			height: 32px;
 		}
-
-		.el-menu-item {
-			svg {
-				fill: var(--el-color-primary) !important;
-			}
-		}
 	}
 
 	.el-main {
 		display: flex;
-		flex-direction: column;
+
+		padding: 1em;
 
 		.grid {
 			.el-col {
@@ -127,6 +128,7 @@ input[type=range]::-webkit-slider-thumb {
 					border-bottom-right-radius: 0;
 				}
 			}
+
 			.el-button {
 				width: 3em !important;
 				margin: 0;
@@ -175,6 +177,44 @@ input[type=range]::-webkit-slider-thumb {
 	}
 
 	// element plus overrides
+	.el-aside {
+		position: absolute;
+		flex: 1;
+
+		height: 100%;
+
+		background-color: var(--el-fill-color);
+		border-right: 1px solid var(--el-bg-color);
+
+		z-index: 1000;
+
+		&.hide-nav {
+			display: none;
+		}
+
+		.aside-header {
+			padding: 1em;
+
+			svg {
+				height: 1.3em;
+
+				fill: var(--el-color-primary);
+			}
+		}
+
+		.el-menu {
+			border: none;
+
+			.el-menu-item {
+				svg {
+					height: 1.3em;
+
+					fill: var(--el-color-primary);
+				}
+			}
+		}
+	}
+
 	.el-row {
 		width: 100%;
 	}
@@ -212,14 +252,14 @@ input[type=range]::-webkit-slider-thumb {
 
 	.el-step {
 		.el-step__head {
-			color: #fff;
+			color: var(--el-fill-color);
 			border: none;
 
 			.el-step__icon {
 				background: 30080007b;
-
 			}
 		}
+
 		.el-step__main {
 			.el-step__title {
 				font-weight: $regularFontWeight;
@@ -319,4 +359,3 @@ input[type=range]::-webkit-slider-thumb {
 		}
 	}
 }
-

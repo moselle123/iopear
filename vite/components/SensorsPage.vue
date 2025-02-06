@@ -1,56 +1,58 @@
 <template>
-	<el-text class="title">Sensors</el-text>
-	<el-text style="margin-bottom: 1em;">Alter thresholds below by dragging the slider to the desired range and click save changes to confirm the new settings.</el-text>
-	<el-row class="sensors grid" direction="vertical">
-		<el-col v-for="sensor in sensors" :key="sensor" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-			<el-card>
-				<template #header>
-					<el-row>
-						<el-text size="large">{{ sensor.name }}</el-text>
-						<el-tag v-if="sensor.name === 'SS'" effect="plain" class="soil-moisture">Soil Moisture</el-tag>
-						<el-tag v-if="sensor.name === 'SS'" effect="plain" class="soil-temperature">Soil Temperature</el-tag>
-						<el-tag v-if="sensor.name === 'SHT31'" effect="plain" class="temperature">Temperature</el-tag>
-						<el-tag v-if="sensor.name === 'SHT31'" effect="plain" class="humidity">Humidity</el-tag>
-						<el-tag v-if="sensor.name === 'TSL2561'" effect="plain" class="light-intensity">Light Intensity</el-tag>
-						<el-tag v-if="sensor.name === 'SCD40'" effect="plain" class="co2">CO2</el-tag>
-						<el-tag v-if="sensor.name === 'BMP280'" effect="plain" class="barometric-pressure">Barometric Pressure</el-tag>
+	<el-container direction="vertical" class="sensors">
+		<el-text class="title">Sensors</el-text>
+		<el-text style="margin-bottom: 1em;">Alter thresholds below by dragging the slider to the desired range and click save changes to confirm the new settings.</el-text>
+		<el-row class="grid" direction="vertical">
+			<el-col v-for="sensor in sensors" :key="sensor" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+				<el-card>
+					<template #header>
+						<el-row>
+							<el-text size="large">{{ sensor.name }}</el-text>
+							<el-tag v-if="sensor.name === 'SS'" effect="plain" class="soil-moisture">Soil Moisture</el-tag>
+							<el-tag v-if="sensor.name === 'SS'" effect="plain" class="soil-temperature">Soil Temperature</el-tag>
+							<el-tag v-if="sensor.name === 'SHT31'" effect="plain" class="temperature">Temperature</el-tag>
+							<el-tag v-if="sensor.name === 'SHT31'" effect="plain" class="humidity">Humidity</el-tag>
+							<el-tag v-if="sensor.name === 'TSL2561'" effect="plain" class="light-intensity">Light Intensity</el-tag>
+							<el-tag v-if="sensor.name === 'SCD40'" effect="plain" class="co2">CO2</el-tag>
+							<el-tag v-if="sensor.name === 'BMP280'" effect="plain" class="barometric-pressure">Barometric Pressure</el-tag>
+						</el-row>
+					</template>
+					<el-form label-position="left" label-width="150px">
+						<el-form-item :label="'Enable ' + sensor.name">
+							<el-switch v-model="sensor.enabled" />
+						</el-form-item>
+						<el-form-item v-if="sensor.name === 'SS'"  label="Soil Moisture">
+							<el-slider v-model="altered.SS.thresholds.soil_moisture" range show-stops show-tooltip :min="0" :max="100" :marks="marks.soil_moisture" :step="5" />
+						</el-form-item>
+						<el-form-item v-if="sensor.name === 'SS'" label="Soil Temperature">
+							<el-slider  v-model="altered.SS.thresholds.soil_temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.soil_temperature" />
+						</el-form-item>
+						<el-form-item v-if="sensor.name === 'SHT31'" label="Temperature">
+							<el-slider  v-model="altered.SHT31.thresholds.temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.temperature" />
+						</el-form-item>
+						<el-form-item v-if="sensor.name === 'SHT31'" label="Humidity">
+							<el-slider  v-model="altered.SHT31.thresholds.humidity" range show-stops show-tooltip :min="0" :max="100" :marks="marks.humidity" :step="5" />
+						</el-form-item>
+						<el-form-item v-if="sensor.name === 'TSL2561'" label="Light Intensity">
+							<el-slider v-model="altered.TSL2561.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
+						</el-form-item>
+						<el-form-item v-if="sensor.name === 'SCD40'" label="CO2">
+							<el-slider v-model="altered.SCD40.thresholds.co2" range show-stops show-tooltip :min="100" :max="1500" :marks="marks.co2" :step="100" />
+						</el-form-item>
+						<el-form-item v-if="sensor.name === 'BMP280'" label="Barometric Pressure">
+							<el-slider v-model="altered.BMP280.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
+						</el-form-item>
+					</el-form>
+					<el-row justify="end">
+						<el-button @click="updateSensor(sensor.name)" type="primary">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+							Save Changes
+						</el-button>
 					</el-row>
-				</template>
-				<el-form label-position="left" label-width="150px">
-					<el-form-item :label="'Enable ' + sensor.name">
-						<el-switch v-model="sensor.enabled" />
-					</el-form-item>
-					<el-form-item v-if="sensor.name === 'SS'"  label="Soil Moisture">
-						<el-slider v-model="altered.SS.thresholds.soil_moisture" range show-stops show-tooltip :min="0" :max="100" :marks="marks.soil_moisture" :step="5" />
-					</el-form-item>
-					<el-form-item v-if="sensor.name === 'SS'" label="Soil Temperature">
-						<el-slider  v-model="altered.SS.thresholds.soil_temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.soil_temperature" />
-					</el-form-item>
-					<el-form-item v-if="sensor.name === 'SHT31'" label="Temperature">
-						<el-slider  v-model="altered.SHT31.thresholds.temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.temperature" />
-					</el-form-item>
-					<el-form-item v-if="sensor.name === 'SHT31'" label="Humidity">
-						<el-slider  v-model="altered.SHT31.thresholds.humidity" range show-stops show-tooltip :min="0" :max="100" :marks="marks.humidity" :step="5" />
-					</el-form-item>
-					<el-form-item v-if="sensor.name === 'TSL2561'" label="Light Intensity">
-						<el-slider v-model="altered.TSL2561.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
-					</el-form-item>
-					<el-form-item v-if="sensor.name === 'SCD40'" label="CO2">
-						<el-slider v-model="altered.SCD40.thresholds.co2" range show-stops show-tooltip :min="100" :max="1500" :marks="marks.co2" :step="100" />
-					</el-form-item>
-					<el-form-item v-if="sensor.name === 'BMP280'" label="Barometric Pressure">
-						<el-slider v-model="altered.BMP280.thresholds.barometric_pressure" range show-stops show-tooltip :min="900" :max="1100" :marks="marks.barometric_pressure" :step="10" />
-					</el-form-item>
-				</el-form>
-				<el-row justify="end">
-					<el-button @click="updateSensor(sensor.name)" type="primary">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-						Save Changes
-					</el-button>
-				</el-row>
-			</el-card>
-		</el-col>
-	</el-row>
+				</el-card>
+			</el-col>
+		</el-row>
+	</el-container>
 </template>
 <script>
 export default {

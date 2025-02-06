@@ -82,21 +82,21 @@ export default {
 		color() {
 			switch (this.measurement) {
 				case 'temperature':
-					return '#c72222';
+					return '#ff0000';
 				case 'humidity':
-					return '#2a0b8f';
+					return '#e669ff';
 				case 'soil_moisture':
-					return '#49afd1';
+					return '#2053f9';
 				case 'soil_temperature':
-					return '#c72222';
+					return '#90441b';
 				case 'light_intensity':
-					return '#fcc26a';
+					return '#ff8c2e';
 				case 'barometric_pressure':
-					return '#fcc26a';
+					return '#8dfa6c';
 				case 'co2':
-					return '#fcc26a';
+					return '#355054';
 				default:
-					return '#000';
+					return  '#000';
 			};
 		},
 	},

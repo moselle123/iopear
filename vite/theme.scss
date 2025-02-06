@@ -1,6 +1,7 @@
 $primary: #236f23;
 $bg: #ffffff;
 $accent: #e9bb72;
+$regularFontWeight: 400;
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
 	$colors: (
@@ -53,3 +54,13 @@ $accent: #e9bb72;
 @use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
 
 @use "element-plus/theme-chalk/src/index.scss" as *;
+
+:root {
+	--soil-moisture: #2053f9;
+	--soil-temperature: #90441b;
+	--humidity: #e669ff;
+	--temperature: #ff0000;
+	--light-intensity: #ff8c2e;
+	--barometric-pressure: #8dfa6c;
+	--co2: #355054;
+}

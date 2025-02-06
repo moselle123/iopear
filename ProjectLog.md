@@ -83,3 +83,4 @@ This week:
 - Start planning websocket integration and actuator state management
 
 ## 3 - 9 February
+- Make nav responsive
