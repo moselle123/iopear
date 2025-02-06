@@ -21,22 +21,17 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
-								<el-form-item label="Measurement">
-									<el-select v-model="event.measurement" placeholder="Select a measurement to monitor">
-										<el-option v-for="(label, measurement) in labels.measurements" :key="label" :label="label" :value="measurement" />
-									</el-select>
-								</el-form-item>
-							</el-col>
-							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
 								<el-form-item label="Conditions" class="complex-form-item">
 									<el-text v-if=" ! Object.keys(event.conditions).length" class="no-content">Assign a condition which will be used to determine if this event is triggered.</el-text>
 									<template v-else>
-										<el-input v-for="(condition, index) in event.conditions" :key="condition" v-model="condition.value" placeholder="Condition value" type="number" inputmode="tel" >
+										<el-input v-for="(condition, index) in event.conditions" :key="condition" v-model="condition.value" placeholder="Value" type="number" inputmode="tel" >
 											<template #prepend>
-												<el-select v-model="condition.type" placeholder="Select Condition Type" style="width: 200px">
+												<el-select v-model="condition.measurement" placeholder="Measurement" style="width: 50%">
+													<el-option v-for="(label, measurement) in labels.measurements" :key="label" :label="label" :value="measurement" />
+												</el-select>
+												<el-select v-model="condition.type" placeholder="Condition" style="width: 50%">
 													<el-option label="Greater Than" value="greater_than" />
 													<el-option label="Less Than" value="less_than" />
-													<el-option label="Time Elapsed (hours)" value="time_elapsed" />
 												</el-select>
 											</template>
 											<template #append>
@@ -97,6 +92,19 @@ export default {
 		return {
 			events: [],
 			newEvents: [],
+			labels: {
+				measurements: {
+					soil_moisture: 'Soil Moisture',
+					soil_temperature: 'Soil Temperature',
+					humidity: 'Humidity',
+					temperature: 'Temperature',
+					light_intensity: 'Light Intensity',
+					barometric_pressure: 'Barometric Pressure',
+					co2: 'CO2',
+				},
+				greater_than: 'Greater Than',
+				less_than: 'Less Than',
+			},
 		};
 	},
 	computed: {
@@ -109,30 +117,15 @@ export default {
 		displayedEvents() {
 			return this.events.concat(this.newEvents);
 		},
-		labels() {
-			return {
-				measurements: {
-					soil_moisture: 'Soil Moisture',
-					soil_temperature: 'Soil Temperature',
-					humidity: 'Humidity',
-					temperature: 'Temperature',
-					light_intensity: 'Light Intensity',
-					barometric_pressure: 'Barometric Pressure',
-					co2: 'CO2',
-				},
-				greater_than: 'Greater Than',
-				less_than: 'Less Than',
-			};
-		},
 	},
 	methods: {
 		addEvent() {
 			this.newEvents.push({
 				name: null,
 				is_enabled: true,
-				measurement: null,
+				scheduled_time: null,
 				conditions: [
-					{ type: null, value: null }
+					{ type: null, measurement: null, value: null }
 				],
 				actions: [null],
 				logic: 'AND',
@@ -142,7 +135,6 @@ export default {
 			event?._id ? this.updateEvent(event) : this.createEvent(event, index);
 		},
 		createEvent(event, index) {
-			event.sensor_id = this.sensors[event.measurement]._id;
 			this.$stores.eventStore.createEvent(event)
 			.then(() => {
 				this.events = this.$stores.eventStore.eventsArr.slice();

@@ -112,6 +112,22 @@ input[type=range]::-webkit-slider-thumb {
 				flex-direction: column;
 				gap: 1em !important;
 
+				.el-input-group__prepend {
+					padding: 0;
+					width: 80%;
+
+					.el-select {
+						margin: 0;
+						width: 50%;
+
+						&:last-child {
+							.el-select__wrapper {
+								border-radius: 0;
+							}
+						}
+					}
+				}
+
 				.el-button {
 					margin-left: auto;
 				}
