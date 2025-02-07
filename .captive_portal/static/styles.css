@@ -1,0 +1,69 @@
+:root {
+        --primary: #236f23;
+        --bg: #ffffff;
+        --secondary: #e9bb72
+}
+
+@font-face {
+	font-family: Inter;
+	src: url(/Inter-VariableFont.ttf);
+}
+
+body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        padding: 1em;
+
+        font-family: Inter;
+        color: var(--primary);
+        font-size: 14px;
+}
+
+h1, h3 {
+        text-align: center;
+        font-weight: 400;
+}
+
+form {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        max-width: 600px;
+        width: 90%;
+        margin: 2em auto 0;
+}
+
+input {
+        height: 32px;
+        padding: 1px 11px;
+
+        border-radius: 2px;
+        border: 1px solid var(--secondary);
+
+        color: var(--primary);
+}
+
+input:focus {
+        border-color: var(--primary);
+}
+
+button {
+        width: 8em;
+        margin-left: auto;
+        padding: 8px 15px;
+
+        background-color: var(--primary);
+        border-radius: 4px;
+        border: none;
+
+        color: var(--bg);
+
+        cursor: pointer;
+}
+
+button:hover {
+        opacity: 0.8;
+}
