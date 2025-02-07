@@ -1,5 +1,5 @@
 <template>
-	<el-container direction="vertical" class="configure-events">
+	<el-container direction="vertical" class="events">
 		<el-text class="title">Events</el-text>
 		<el-text>Create an event to register when a sensor goes above or below a set value or trigger at a set time of day.</el-text>
 		<el-row class="page-header">

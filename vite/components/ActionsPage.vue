@@ -1,5 +1,5 @@
 <template>
-	<el-container direction="vertical" class="configure-actions">
+	<el-container direction="vertical" class="actions">
 		<el-text class="title">Actions</el-text>
 		<el-text>Create an action to control actuators such as a grow light. Add an action to an event to trigger your actions.</el-text>
 		<el-row class="page-header">
