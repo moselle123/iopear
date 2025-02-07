@@ -84,3 +84,4 @@ This week:
 
 ## 3 - 9 February
 - Make nav responsive
+- Create a captive portal and startup script (untested)
