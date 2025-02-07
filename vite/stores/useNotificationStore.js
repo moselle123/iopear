@@ -14,5 +14,5 @@ export const useNotificationStore = defineStore('notification', {
 			return axios.get(host + '/get_notifications', { params: { start_date: startDate, end_date: endDate } })
 			.then(({data}) => data);
 		},
-        }
+        },
 });
