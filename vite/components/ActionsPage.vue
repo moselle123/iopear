@@ -97,3 +97,11 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+.actions {
+	.el-card__body {
+		padding: 0 !important;
+	}
+}
+</style>
