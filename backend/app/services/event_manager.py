@@ -19,6 +19,7 @@ class EventManager:
 			events = Event.get_events(id=event_id, enabled=True)
 			if event_id:
 				events = [events]
+				cls._scheduler.remove_job(event_id)
 
 			for event in events:
 				event["_id"] = str(event["_id"])
@@ -28,6 +29,11 @@ class EventManager:
 					cls._schedule_event(event)
 		except Exception as e:
 			logger.error(f"Error updating event list in event manager: {e}")
+
+	@classmethod
+	def start_scheduler(cls):
+		cls._scheduler.start()
+		logger.info("Event scheduler has been started.")
 
 	@classmethod
 	def _schedule_event(cls, event):
@@ -40,6 +46,7 @@ class EventManager:
 					cls._trigger_event(event)
 
 			cls._scheduler.add_job(trigger_event, 'cron', hour=hour, minute=minute, id=event["_id"])
+
 		except Exception as e:
 			logger.error(f"Error scheduling event: {e}")
 
