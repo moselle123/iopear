@@ -310,7 +310,6 @@ input[type=range]::-webkit-slider-thumb {
 	}
 
 	.el-collapse {
-		margin: 0 0.5em;
 		.el-collapse-item {
 			&:last-child {
 				.el-collapse-item__header {
@@ -323,6 +322,8 @@ input[type=range]::-webkit-slider-thumb {
 			.el-collapse-item__header {
 				display: flex;
 
+				padding: 0 1em;
+
 				border-bottom: 1px solid var(--el-bg-color);
 
 				font-family: Inter;
@@ -330,7 +331,7 @@ input[type=range]::-webkit-slider-thumb {
 			}
 
 			.el-collapse-item__content {
-				margin-top: 1em;
+				padding: 1em;
 			}
 		}
 	}

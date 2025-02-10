@@ -30,7 +30,7 @@ export const useEventStore = defineStore('event', {
 			.then(() => this.getEvents());
 		},
 		updateEvent(event) {
-			return axios.put(host + '/update_event/' + event._id, {"name": event.name, "measurement": event.measurement, "conditions": event.conditions, "logic": event.logic})
+			return axios.put(host + '/update_event/' + event._id, {"name": event.name, "measurement": event.measurement, "conditions": event.conditions, "scheduled_time": event.scheduled_time, "actions": event.actions, "logic": event.logic})
 			.then(() => this.getEvents());
 		},
 		deleteEvent(event) {
