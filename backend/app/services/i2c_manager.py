@@ -158,8 +158,8 @@ class I2CManager:
 	def get_lux_(self):
 		if self.TSL2561 and self.TSL2561.adafruit_instance:
 			try:
-				broadband = self.tsl.adafruit_instance.broadband
-				infrared = self.tsl.adafruit_instance.infrared
+				broadband = self.TSL2561.adafruit_instance.broadband
+				infrared = self.TSL2561.adafruit_instance.infrared
 				return max(0, (0.0304 * broadband) - (0.062 * broadband * (infrared / broadband) ** 1.4)) if broadband > 0 else 0
 			except OSError as e:
 				print(f"Error reading light intensity: {e}")
@@ -169,8 +169,8 @@ class I2CManager:
 	def get_co2_(self):
 		if self.SCD40 and self.SCD40.adafruit_instance:
 			try:
-				print(f"Sensor serial number: {self.scd.adafruit_instance.serial_number}")
-				self.scd.adafruit_instance.start_periodic_measurement()
+				print(f"Sensor serial number: {self.SCD40.adafruit_instance.serial_number}")
+				self.SCD40.adafruit_instance.start_periodic_measurement()
 				timeout = time.time() + 2
 				while not self.SCD40_instance.data_ready:
 					if time.time() > timeout:
@@ -185,7 +185,7 @@ class I2CManager:
 	def get_barometric_pressure_(self):
 		if self.BMP280 and self.BMP280.adafruit_instance:
 			try:
-				return self.bmp.adafruit_instance.pressure
+				return self.BMP280.adafruit_instance.pressure
 			except OSError as e:
 				print(f"Error reading barometric pressure: {e}")
 				return None
