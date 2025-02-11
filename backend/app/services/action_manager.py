@@ -4,7 +4,6 @@ import logging
 from app.models import Action
 from app.models import Notification
 from app.models import Actuator
-from flask import current_app
 
 class ActionManager():
 	_actions = {}

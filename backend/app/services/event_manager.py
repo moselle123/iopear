@@ -6,7 +6,6 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import current_app
 
 
 class EventManager:
