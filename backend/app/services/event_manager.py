@@ -6,12 +6,15 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 from apscheduler.schedulers.background import BackgroundScheduler
+from flask import current_app
+
 
 class EventManager:
 	_scheduler = BackgroundScheduler()
 	_events = []
 	_rulesets = []
 	_latest_readings = None
+	app = current_app._get_current_object()
 
 	@classmethod
 	def update_event_list(cls, event_id=None):
@@ -88,8 +91,8 @@ class EventManager:
 		except Exception as e:
 			logger.error(f"Error checking event rules: {e}")
 
-	@staticmethod
-	def _trigger_event(event):
+	@classmethod
+	def _trigger_event(cls, event):
 		try:
 			now = datetime.now(timezone.utc)
 			last_triggered = event["last_triggered"]
@@ -104,10 +107,11 @@ class EventManager:
 			for action_id in event["actions"]:
 				ActionManager.trigger_action(action_id)
 
-			Event.update(event["_id"], {"last_triggered": now})
-			event["last_triggered"] = now
-			Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
+			with cls.app.app_context():
+				Event.update(event["_id"], {"last_triggered": now})
+				Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
 
+			event["last_triggered"] = now
 			logger.info(f"event triggered: {event['_id']}")
 		except Exception as e:
 			logger.error(f"Error triggering event: {e}")

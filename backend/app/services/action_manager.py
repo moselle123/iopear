@@ -9,6 +9,7 @@ from flask import current_app
 class ActionManager():
 	_actions = {}
 	_actuators = {}
+	app = current_app._get_current_object()
 
 	@classmethod
 	def initialise(cls):
@@ -17,8 +18,7 @@ class ActionManager():
 
 	@classmethod
 	def trigger_action(cls, action_id):
-		app = current_app._get_current_object()
-		with app.app_context():
+		with cls.app.app_context():
 			action = cls._actions[action_id]
 			if not action:
 				logging.error(f"Action with ID {action_id} not found.")
