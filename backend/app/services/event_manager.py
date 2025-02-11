@@ -91,7 +91,7 @@ class EventManager:
 			logger.error(f"Error checking event rules: {e}")
 
 	@staticmethod
-	def _trigger_event(cls, event):
+	def _trigger_event(event):
 		try:
 			now = datetime.now(timezone.utc)
 			last_triggered = event["last_triggered"]
