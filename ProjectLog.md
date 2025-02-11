@@ -85,3 +85,9 @@ This week:
 ## 3 - 9 February
 - Make nav responsive
 - Create a captive portal and startup script (untested)
+- Frontend updated to handle new event conditions
+- User can schedule events from the frontend
+
+## 10 - 16 February
+- Extensively test system in preparation for my upcoming interview
+- Refine UI
