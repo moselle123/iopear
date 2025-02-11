@@ -14,7 +14,6 @@ class EventManager:
 	_events = []
 	_rulesets = []
 	_latest_readings = None
-	app = current_app._get_current_object()
 
 	@classmethod
 	def update_event_list(cls, event_id=None):
@@ -91,7 +90,7 @@ class EventManager:
 		except Exception as e:
 			logger.error(f"Error checking event rules: {e}")
 
-	@classmethod
+	@staticmethod
 	def _trigger_event(cls, event):
 		try:
 			now = datetime.now(timezone.utc)
@@ -107,7 +106,8 @@ class EventManager:
 			for action_id in event["actions"]:
 				ActionManager.trigger_action(action_id)
 
-			with cls.app.app_context():
+			app = current_app._get_current_object()
+			with app.app_context():
 				Event.update(event["_id"], {"last_triggered": now})
 				Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
 

@@ -9,7 +9,6 @@ from flask import current_app
 class ActionManager():
 	_actions = {}
 	_actuators = {}
-	app = current_app._get_current_object()
 
 	@classmethod
 	def initialise(cls):
@@ -18,28 +17,29 @@ class ActionManager():
 
 	@classmethod
 	def trigger_action(cls, action_id):
-		with cls.app.app_context():
-			action = cls._actions[action_id]
-			if not action:
-				logging.error(f"Action with ID {action_id} not found.")
-				return
+		action = cls._actions[action_id]
+		if not action:
+			logging.error(f"Action with ID {action_id} not found.")
+			return
 
-			actuator = cls._actuators.get(action["actuator_id"])
-			if not actuator:
-				logging.error(f"Actuator with ID {action['actuator_id']} not found.")
-				return
+		actuator = cls._actuators.get(action["actuator_id"])
+		if not actuator:
+			logging.error(f"Actuator with ID {action['actuator_id']} not found.")
+			return
 
-			state = GPIO.HIGH if action["actuator_state"] else GPIO.LOW
+		state = GPIO.HIGH if action["actuator_state"] else GPIO.LOW
 
-			try:
-				GPIO.output(actuator["pin"], state)
+		try:
+			GPIO.output(actuator["pin"], state)
 
-				now =  datetime.now(timezone.utc)
+			now =  datetime.now(timezone.utc)
+			app = current_app._get_current_object()
+			with app.app_context():
 				Action.update(action_id, {"last_triggered": now})
 				Notification.create("action", action_id, now)
 
-			except Exception as e:
-				logging.error(f"Error triggering action: {e}")
+		except Exception as e:
+			logging.error(f"Error triggering action: {e}")
 
 	@classmethod
 	def update_action_list(cls):
