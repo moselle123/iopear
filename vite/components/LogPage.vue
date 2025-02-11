@@ -19,7 +19,7 @@
 			<el-timeline>
 				<el-timeline-item v-for="notification in notifications" :key="notification" :timestamp="notification.timestamp" >
 					<el-text>{{ entities[notification.entity_id].name }}</el-text>
-					<el-tag type="info">{{ notification.notification_type }}</el-tag>
+					<el-tag effect="plain" :class="notification.notification_type === 'event' ? 'event' : 'action'">{{ notification.notification_type }}</el-tag>
 				</el-timeline-item>
 			</el-timeline>
 		</el-card>

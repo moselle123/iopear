@@ -182,12 +182,20 @@ input[type=range]::-webkit-slider-thumb {
 				border-color: var(--light-intensity);
 			}
 			&.barometric-pressure {
-				color: var(--barometric-pressur);
-				border-color: var(--barometric-pressur);
+				color: var(--barometric-pressure);
+				border-color: var(--barometric-pressure);
 			}
 			&.co2 {
 				color: var(--co2);
 				border-color: var(--co2);
+			}
+			&.action {
+				color: var(--action);
+				border-color: var(--action);
+			}
+			&.event {
+				color: var(--event);
+				border-color: var(--event);
 			}
 		}
 	}
