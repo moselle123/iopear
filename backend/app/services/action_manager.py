@@ -9,11 +9,13 @@ from flask import current_app
 class ActionManager():
 	_actions = {}
 	_actuators = {}
+	app = None
 
 	@classmethod
-	def initialise(cls):
+	def initialise(cls, app):
 		cls.update_action_list()
 		cls.update_actuator_list()
+		cls.app = app
 
 	@classmethod
 	def trigger_action(cls, action_id):
@@ -33,8 +35,7 @@ class ActionManager():
 			GPIO.output(actuator["pin"], state)
 
 			now =  datetime.now(timezone.utc)
-			app = current_app._get_current_object()
-			with app.app_context():
+			with cls.app.app_context():
 				Action.update(action_id, {"last_triggered": now})
 				Notification.create("action", action_id, now)
 

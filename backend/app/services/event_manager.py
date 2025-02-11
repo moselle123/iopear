@@ -10,10 +10,19 @@ from flask import current_app
 
 
 class EventManager:
-	_scheduler = BackgroundScheduler()
+	_scheduler = None
 	_events = []
 	_rulesets = []
 	_latest_readings = None
+	_app = None
+
+	@classmethod
+	def initialise(cls, app):
+		cls._app = app
+		cls._scheduler = BackgroundScheduler()
+		cls.update_event_list()
+		cls._scheduler.start()
+		logger.info("Event scheduler has been started.")
 
 	@classmethod
 	def update_event_list(cls, event_id=None):
@@ -30,11 +39,6 @@ class EventManager:
 					cls._schedule_event(event)
 		except Exception as e:
 			logger.error(f"Error updating event list in event manager: {e}")
-
-	@classmethod
-	def start_scheduler(cls):
-		cls._scheduler.start()
-		logger.info("Event scheduler has been started.")
 
 	@classmethod
 	def _schedule_event(cls, event):
@@ -92,8 +96,8 @@ class EventManager:
 		except Exception as e:
 			logger.error(f"Error checking event rules: {e}")
 
-	@staticmethod
-	def _trigger_event(event):
+	@classmethod
+	def _trigger_event(cls, event):
 		try:
 			now = datetime.now(timezone.utc)
 			last_triggered = event["last_triggered"]
@@ -108,8 +112,7 @@ class EventManager:
 			for action_id in event["actions"]:
 				ActionManager.trigger_action(action_id)
 
-			app = current_app._get_current_object()
-			with app.app_context():
+			with cls.app.app_context():
 				Event.update(event["_id"], {"last_triggered": now})
 				Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
 
