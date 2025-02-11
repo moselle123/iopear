@@ -112,7 +112,7 @@ class EventManager:
 			for action_id in event["actions"]:
 				ActionManager.trigger_action(action_id)
 
-			with cls.app.app_context():
+			with cls._app.app_context():
 				Event.update(event["_id"], {"last_triggered": now})
 				Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
 
