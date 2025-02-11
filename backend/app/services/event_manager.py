@@ -21,7 +21,6 @@ class EventManager:
 			events = Event.get_events(id=event_id, enabled=True)
 			if event_id:
 				events = [events]
-				cls._scheduler.remove_job(event_id)
 
 			for event in events:
 				event["_id"] = str(event["_id"])
@@ -40,6 +39,9 @@ class EventManager:
 	@classmethod
 	def _schedule_event(cls, event):
 		try:
+			if cls._scheduler.get_job(event["_id"]):
+				cls._scheduler.remove_job(event["_id"])
+
 			hour, minute = map(int, event["scheduled_time"].split(":"))
 			def trigger_event():
 				if len(event["conditions"]):
