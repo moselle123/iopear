@@ -176,15 +176,20 @@ class I2CManager:
 			return None
 
 	def get_co2_(self):
-		try:
-			print(f"Sensor serial number: {self.scd.adafruit_instance.serial_number}")
-			self.scd.adafruit_instance.start_periodic_measurement()
-			while True:
-				if self.scd.adafruit_instance.data_ready:
-					return self.scd.adafruit_instance.CO2
-		except OSError as e:
-			print(f"Error reading lux: {e}")
-			return None
+		if self.SCD40 and self.SCD40.adafruit_instance:
+			try:
+				print(f"Sensor serial number: {self.scd.adafruit_instance.serial_number}")
+				self.scd.adafruit_instance.start_periodic_measurement()
+				timeout = time.time() + 2
+				while not self.SCD40_instance.data_ready:
+					if time.time() > timeout:
+						print("CO2 sensor data not ready in time")
+						return None
+					time.sleep(0.1)
+			except OSError as e:
+				print(f"Error reading lux: {e}")
+				return None
+		return None
 
 	def get_barometric_pressure_(self):
 		try:
