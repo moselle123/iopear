@@ -30,13 +30,12 @@ import { createRouter, createWebHistory } from 'vue-router';
 import WelcomePage from './components/WelcomePage.vue';
 import DashboardPage from './components/DashboardPage.vue';
 import DataPage from './components/DataPage.vue';
-import LogPage from './components/LogPage.vue';
-import SettingsPage from './components/SettingsPage.vue';
 import SensorsPage from './components/SensorsPage.vue';
 import EventsPage from './components/EventsPage.vue';
 import ActionsPage from './components/ActionsPage.vue';
 
 import LineChart from './components/LineChart.vue';
+import NotificationsPopup from './components/NotificationsPopup.vue';
 
 const routes = [
 	{
@@ -69,18 +68,6 @@ const routes = [
 		component: DataPage,
 		props: true,
 	},
-	{
-		path: '/log',
-		name: 'Log',
-		component: LogPage,
-		props: true,
-	},
-	{
-		path: '/settings',
-		name: 'Settings',
-		component: SettingsPage,
-		props: true,
-	},
 ];
 
 const router = createRouter({
@@ -92,6 +79,7 @@ const app = createApp(App);
 const pinia = createPinia();
 app.component('WelcomePage', WelcomePage);
 app.component('LineChart', LineChart);
+app.component('NotificationsPopup', NotificationsPopup);
 app.use(createPinia());
 app.use(storesPlugin);
 app.use(router);

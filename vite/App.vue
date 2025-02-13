@@ -1,5 +1,5 @@
 <template>
-	<el-container>
+	<el-container class="app-wrapper">
 		<Transition name="slide-fade">
 			<el-aside v-if="!hideNav">
 				<el-row class="aside-header" justify="space-between">
@@ -38,12 +38,6 @@
 								Data
 							</el-text>
 						</el-menu-item>
-						<el-menu-item index="/log" route="/log" @click="closeNav">
-							<el-text>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 0c-17.7 0-32 14.3-32 32l0 19.2C119 66 64 130.6 64 208l0 18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416l384 0c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8l0-18.8c0-77.4-55-142-128-156.8L256 32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3l-64 0-64 0c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"/></svg>
-								Log
-							</el-text>
-						</el-menu-item>
 					</template>
 				</el-menu>
 			</el-aside>
@@ -52,8 +46,10 @@
 			<el-header>
 				<svg @click="toggleNav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
 				<el-text class="title">🌵 ioPear</el-text>
+				<svg class="notification-bell" @click="toggleNotifications" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 0c-17.7 0-32 14.3-32 32l0 19.2C119 66 64 130.6 64 208l0 25.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416l400 0c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4l0-25.4c0-77.4-55-142-128-156.8L256 32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112l0 25.4c0 47.9 13.9 94.6 39.7 134.6L72.3 368C98.1 328 112 281.3 112 233.4l0-25.4c0-61.9 50.1-112 112-112zm64 352l-64 0-64 0c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/></svg>
+				<notifications-popup v-if="isNotificationsVisible" />
 			</el-header>
-			<el-main @click="closeNav">
+			<el-main @click="hidePopups">
 				<el-text v-if="loading" class="loading" size="large">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="spinner"><path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/></svg>
 					Loading Data
@@ -72,6 +68,7 @@ export default {
 			loading: true,
 			isCollapsed: true,
 			hideNav: true,
+			isNotificationsVisible: false,
 		};
 	},
 	computed: {
@@ -87,6 +84,7 @@ export default {
 				this.$stores.eventStore.getEvents(),
 				this.$stores.actionStore.getActions(),
 				this.$stores.actuatorStore.getActuators(),
+				this.$stores.notificationStore.getNotifications(),
 			])
 			.then((outcomes) => {
 				if (outcomes.some(o => o.status === 'rejected')) {
@@ -97,31 +95,52 @@ export default {
 				}
 			});
 		},
+		hidePopups() {
+			this.closeNav();
+			this.hideNotifications();
+		},
 		toggleNav() {
 			this.hideNav = !this.hideNav;
+			this.isNotificationsVisible = false;
 		},
 		closeNav() {
 			this.hideNav = true;
 		},
+		toggleNotifications() {
+			this.isNotificationsVisible = ! this.isNotificationsVisible;
+		},
+		hideNotifications() {
+			this.isNotificationsVisible = false;
+		},
 	},
 	mounted() {
-		this.getData();
+		this.getData()
+		.then(() => this.actionsAndEvents = Object.assign({}, this.$stores.eventStore.eventsObj, this.$stores.actionStore.actionsObj));
 	},
 };
 </script>
 <style lang="scss" scoped>
-.loading {
-	justify-content: center;
-	margin-top: 2em;
-}
+.app-wrapper {
+	height: 100%;
+	.loading {
+		justify-content: center;
+		margin-top: 2em;
+	}
 
-.slide-fade-enter-active , .slide-fade-leave-active {
-	transition: all 0.3s ease-in-out;
-}
+	.slide-fade-enter-active , .slide-fade-leave-active {
+		transition: all 0.3s ease-in-out;
+	}
 
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-	transform: translateX(-300px);
-	// opacity: 0;
+	.slide-fade-enter-from,
+	.slide-fade-leave-to {
+		transform: translateX(-300px);
+		// opacity: 0;
+	}
+
+	.notification-bell {
+		margin: 0 1em 0 auto;
+
+		cursor: pointer;
+	}
 }
 </style>

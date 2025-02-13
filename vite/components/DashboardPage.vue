@@ -1,10 +1,12 @@
 <template>
-	<el-container class="dashboard" direction="vertical" >
+	<el-container class="dashboard" direction="vertical" justify="space-between">
 		<el-text class="title">{{ plant?.name }}</el-text>
 		<el-text>{{ plantType?.description }}</el-text>
+		<!-- <el-text size="large">Readings from the last hour:</el-text>
+		<el-divider /> -->
 		<el-row class="grid" justify="space-between">
 			<template v-for="(sensor, key) in sensors" :key="key">
-				<el-col v-if="sensor.enabled" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
+				<el-col v-if="sensor.enabled" :xs="24" :sm="12" :md="12" :lg="12" :xl="8">
 					<line-chart :sensorName="sensor.name" :dateRange="[startDate, endDate]" step="minute" :measurement="key" />
 				</el-col>
 			</template>
