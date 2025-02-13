@@ -17,7 +17,7 @@
 							<el-tag v-if="sensor.name === 'BMP280'" effect="plain" class="barometric-pressure">Barometric Pressure</el-tag>
 						</el-row>
 					</template>
-					<el-form label-position="left" label-width="150px">
+					<el-form label-position="top" label-width="150px">
 						<el-form-item :label="'Enable ' + sensor.name">
 							<el-switch v-model="sensor.enabled" />
 						</el-form-item>
@@ -114,7 +114,7 @@ export default {
 <style lang="scss" scoped>
 .sensors {
 	.el-form {
-		margin-bottom: 3em;
+		margin: 1em 1em 3em 1em;
 	}
 }
 </style>
