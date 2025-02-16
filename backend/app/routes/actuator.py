@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 import logging
-from app.models import Actuator
+from app.services import ActionManager
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -10,7 +10,7 @@ actuator_bp = Blueprint('actuator', __name__)
 @actuator_bp.route('/get_actuators', methods=['GET'])
 def get_actuators():
 	try:
-		actuators = list(Actuator.get_actuators())
+		actuators = ActionManager.getActuators()
 		for actuator in actuators:
 			actuator["_id"] = str(actuator["_id"])
 

@@ -38,8 +38,7 @@ export const useActionStore = defineStore('action', {
 			.then(() => this.getActions());
 		},
 		triggerAction(action_id) {
-			return axios.post(host + '/trigger_action/' + action_id)
-			.then(() => this.$stores.notificationsStore.getNotifications());
+			return axios.post(host + '/trigger_action/' + action_id);
 		},
 	},
 });

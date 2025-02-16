@@ -16,5 +16,11 @@ export const useActuatorStore = defineStore('actuator', {
 				this.actuators = data;
 			});
 		},
+		getActuatorStates() {
+			window.socket.on("actuator-update", (data) => {
+				console.debug('actuator update', data);
+				this.actuator[data.actuator_id] = data.actuator_state;
+			});
+		},
 	},
 });

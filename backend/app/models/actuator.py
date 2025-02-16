@@ -1,8 +1,7 @@
 from flask import current_app
 
 class Actuator:
-	@staticmethod
-	def create(name, pin):
+	def create(self, name, pin):
 		result = current_app.config['DB']["actuator"].insert_one({"name": name, "pin": pin})
 		return result.inserted_id
 

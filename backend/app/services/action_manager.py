@@ -4,7 +4,6 @@ import logging
 from app.models import Action
 from app.models import Notification
 from app.models import Actuator
-from flask_socketio import emit
 
 class ActionManager():
 	_actions = {}
@@ -33,6 +32,7 @@ class ActionManager():
 
 		try:
 			GPIO.output(actuator["pin"], state)
+			actuator["state"] = state
 
 			now =  datetime.now(timezone.utc)
 			with cls._app.app_context():
@@ -59,10 +59,15 @@ class ActionManager():
 
 	@classmethod
 	def update_actuator_list(cls):
-		actuators = Actuator.get_actuators()
+		actuators = Actuator.getactuators()
 		for actuator in actuators:
 			cls._actuators[str(actuator["_id"])] = {
 				"pin": actuator["pin"],
+				"state": False,
 			}
 
 			GPIO.setup(actuator["pin"], GPIO.OUT)
+
+	@classmethod
+	def getActuators(cls):
+		return cls._actuators
