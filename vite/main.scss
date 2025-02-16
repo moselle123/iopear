@@ -47,6 +47,13 @@ input[type=range]::-webkit-slider-thumb {
 		}
 	}
 
+	.loading {
+		justify-content: center;
+		align-self: center !important;
+
+		margin-top: 3em;
+	}
+
 	.spinner {
 		height: 1em;
 		width: 1em;
@@ -75,6 +82,7 @@ input[type=range]::-webkit-slider-thumb {
 			flex: 1;
 
 			height: 32px;
+			min-width: 350px;
 		}
 	}
 

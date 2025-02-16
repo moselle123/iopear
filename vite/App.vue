@@ -122,10 +122,6 @@ export default {
 <style lang="scss" scoped>
 .app-wrapper {
 	height: 100%;
-	.loading {
-		justify-content: center;
-		margin-top: 2em;
-	}
 
 	.slide-fade-enter-active , .slide-fade-leave-active {
 		transition: all 0.3s ease-in-out;

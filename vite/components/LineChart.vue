@@ -180,12 +180,3 @@ export default {
 	},
 };
 </script>
-<style lang="scss" scoped>
-.line-chart {
-	.loading {
-		margin-top: 3em;
-
-		align-self: center !important;
-	}
-}
-</style>
