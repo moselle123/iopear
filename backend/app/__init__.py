@@ -27,6 +27,7 @@ def create_app(config_class=Config):
 	app.config['I2C_MANAGER'] = i2c_manager
 
 	socketio.init_app(app)
+	app.config['SOCKET_IO'] = socketio
 
 	app.register_blueprint(plant_bp)
 	app.register_blueprint(plant_type_bp)
