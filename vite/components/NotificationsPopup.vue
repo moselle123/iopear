@@ -59,7 +59,7 @@ export default {
 	top: 60px;
 	right: 1em;
 	width: 80%;
-	max-width: 300px;
+	max-width: 350px;
 	height: 60vh;
 	max-height: 500px;
 
