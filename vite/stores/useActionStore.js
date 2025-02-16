@@ -25,20 +25,9 @@ export const useActionStore = defineStore('action', {
 				this.actions = data;
 			});
 		},
-		createAction(action) {
-			return axios.post(host + '/create_action', action)
-			.then(() => this.getActions());
-		},
-		updateAction(action) {
-			return axios.put(host + '/update_action/' + action._id, {actuator_id: action.actuator_id, actuator_state: action.actuator_state})
-			.then(() => this.getActions());
-		},
-		deleteAction(action) {
-			return axios.delete(host + '/delete_action/' + action._id)
-			.then(() => this.getActions());
-		},
-		triggerAction(action_id) {
-			return axios.post(host + '/trigger_action/' + action_id);
+		triggerAction(actuator_id, state) {
+			let action = this.actions.find((action) => action.actuator_id === actuator_id && action.actuator_state === state)
+			return axios.post(host + '/trigger_action/' + action._id);
 		},
 	},
 });

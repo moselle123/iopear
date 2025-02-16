@@ -8,6 +8,24 @@ export const useActuatorStore = defineStore('actuator', {
 		actuatorsArr() {
 			return this.actuators;
 		},
+		actuatorsObj() {
+			let obj = {}
+			this.actions.forEach((actuator) => {
+				obj[actuator._id] = {}
+				Object.assign(obj[actuator._id], actuator);
+				delete obj[actuator._id]._id;
+			})
+			return obj;
+		},
+		growLight() {
+			return this.actuators.find((actuator) => actuator.name === 'Grow Light');
+		},
+		humidifier() {
+			return this.actuators.find((actuator) => actuator.name === 'Humidifier');
+		},
+		waterPump() {
+			return this.actuators.find((actuator) => actuator.name === 'Water Pump');
+		},
 	},
 	actions: {
 		getActuators() {
@@ -16,11 +34,9 @@ export const useActuatorStore = defineStore('actuator', {
 				this.actuators = data;
 			});
 		},
-		getActuatorStates() {
-			window.socket.on("actuator-update", (data) => {
-				console.debug('actuator update', data);
-				this.actuator[data.actuator_id] = data.actuator_state;
-			});
+		updateActuatorState(data) {
+			let actuator = this.actuators.find((actuator) => actuator._id === data.actuator_id);
+			actuator.state = data.state;
 		},
 	},
 });

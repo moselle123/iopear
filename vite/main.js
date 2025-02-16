@@ -25,7 +25,6 @@ if (location.port !== '5173') {
 }
 
 window.socket.on("connect", () => console.debug('websocket connected'));
-window.socket.on("actuator_update", () => console.debug('actuator update'));
 
 import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/src/dark/var.scss';
