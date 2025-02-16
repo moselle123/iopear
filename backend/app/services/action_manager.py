@@ -59,9 +59,10 @@ class ActionManager():
 
 	@classmethod
 	def update_actuator_list(cls):
-		actuators = Actuator.getactuators()
+		actuators = Actuator.get_actuators()
 		for actuator in actuators:
 			cls._actuators[str(actuator["_id"])] = {
+				"name": actuator["name"],
 				"pin": actuator["pin"],
 				"state": False,
 			}
@@ -69,5 +70,15 @@ class ActionManager():
 			GPIO.setup(actuator["pin"], GPIO.OUT)
 
 	@classmethod
-	def getActuators(cls):
-		return cls._actuators
+	def get_actuators(cls):
+		actuators = []
+		for id, obj in cls._actuators.items():
+			actuator = {
+				"_id": str(id),
+				"name": obj["name"],
+				"pin": obj["pin"],
+				"state": obj["state"],
+			}
+			actuators.append(actuator)
+
+		return actuators
