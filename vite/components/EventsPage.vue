@@ -26,6 +26,16 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
+								<el-form-item label="Enable Event">
+									<el-switch v-model="event.is_enabled" />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
+								<el-form-item label="Event Logic">
+									<el-switch v-model="event.logic" active-text="Meet All Conditions" active-value="AND" inactive-text="Meet At Least 1 Condition" inactive-value="OR" />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
 								<el-form-item label="Conditions" class="complex-form-item">
 									<el-text v-if=" ! Object.keys(event.conditions).length" class="no-content">Assign a condition which will be used to determine if this event is triggered.</el-text>
 									<template v-else>
@@ -44,8 +54,7 @@
 											</template>
 										</el-input>
 									</template>
-									<el-row justify="space-between">
-										<el-switch v-model="event.logic" active-text="Meet All Conditions" active-value="AND" inactive-text="Meet At Least 1 Condition" inactive-value="OR" />
+									<el-row justify="end">
 										<el-button @click="addCondition(event)">
 											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
 											Add Condition
@@ -68,9 +77,6 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
 										Add Action
 									</el-button>
-								</el-form-item>
-								<el-form-item label="Enable Event">
-									<el-switch v-model="event.is_enabled" />
 								</el-form-item>
 							</el-col>
 						</el-row>
