@@ -18,7 +18,7 @@ window.moment = moment;
 
 if (location.port !== '5173') {
 	window.host = 'http://' + location.hostname + ':5000';
-	window.socket = io(location.hostname);
+	window.socket = io('http://' + location.hostname + ':5000');
 } else {
 	window.host = 'http://100.65.155.12:5000'
 	window.socket = io('http://100.65.155.12:5000');
