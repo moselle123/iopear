@@ -7,6 +7,9 @@ from app.services import *
 from app.models import *
 from app.routes import *
 from app.config import Config
+from flask_socketio import SocketIO, emit
+
+socketio = SocketIO(cors_allowed_origins="*")
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -22,6 +25,8 @@ def create_app(config_class=Config):
 
 	i2c_manager = I2CManager(app)
 	app.config['I2C_MANAGER'] = i2c_manager
+
+	socketio.init_app(app)
 
 	app.register_blueprint(plant_bp)
 	app.register_blueprint(plant_type_bp)
@@ -51,15 +56,30 @@ def create_app(config_class=Config):
 		ActionManager.initialise(app)
 		EventManager.initialise(app)
 
-		if "plant_type" not in app.config['DB'].list_collection_names():
+		collection_names = app.config['DB'].list_collection_names()
+
+		if "plant_type" not in collection_names:
 			PlantType.create(name="Monstera Deliciousa", nicknames=["Cheese Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "light_intensity": [800, 900], "barometric_pressure": [960, 1050], "co2": [400, 1000]}, description="The Monstera Deliciosa, also known as the Swiss Cheese Plant, is a tropical climbing plant with large, fenestrated leaves, admired for its striking aesthetic and easy care.")
 			PlantType.create(name="Zanzibar Gem", nicknames=["ZZ Plant"], thresholds={"soil_moisture": [20, 100], "soil_temperature": [26, 30], "humidity": [50, 60], "temperature": [24, 30], "light_intensity": [800, 900], "barometric_pressure": [960, 1050], "co2": [400, 1000]}, description="The ZZ Plant, or Zamioculcas zamiifolia, is a hardy, low-maintenance houseplant with glossy, dark green leaves, perfect for beginners and thriving in low-light conditions.")
 			PlantType.create(name="Strelitzia Nicolai", nicknames=["Birds of Paradise"], thresholds={"soil_moisture": [30, 50], "soil_temperature": [18, 24], "humidity": [50, 70], "temperature": [16, 29], "light_intensity": [800, 900], "barometric_pressure": [960, 1050], "co2": [400, 1000]}, description="The Bird of Paradise, or Strelitzia reginae, is a striking, tropical houseplant known for its lush, banana-like leaves and vibrant, bird-shaped flowers, thriving in bright, indirect light and adding a bold, exotic touch to any space.")
 
-		if "actuator" not in app.config['DB'].list_collection_names():
-			Actuator.create('Grow Light', 17)
+		if "actuator" not in collection_names:
+			grow_light_id = Actuator.create('Grow Light', 17)
 
-		if "plant" in app.config['DB'].list_collection_names():
+		if "action" not in collection_names:
+			Action.create('Grow Light On', grow_light_id, True)
+			Action.create('Grow Light Off', grow_light_id, False)
+
+		if "plant" in collection_names:
 			i2c_manager.start_reading()
 
 	return app
+
+@socketio.on('connect')
+def handle_connect():
+	logger.debug("Client connected")
+	emit('message', {'data': 'Connected to ioPear'})
+
+@socketio.on('disconnect')
+def handle_disconnect():
+	logger.debug("Client disconnected")

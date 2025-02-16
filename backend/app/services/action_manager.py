@@ -4,6 +4,8 @@ import logging
 from app.models import Action
 from app.models import Notification
 from app.models import Actuator
+from flask_socketio import emit
+from app import socketio
 
 class ActionManager():
 	_actions = {}
@@ -37,6 +39,11 @@ class ActionManager():
 			with cls._app.app_context():
 				Action.update(action_id, {"last_triggered": now})
 				Notification.create("action", action_id, now)
+
+			socketio.emit('actuator_update', {
+				"actuator_id": action["actuator_id"],
+				"state": action["actuator_state"]
+			})
 
 		except Exception as e:
 			logging.error(f"Error triggering action: {e}")
