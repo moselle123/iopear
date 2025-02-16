@@ -100,8 +100,17 @@ export default {
 
 <style lang="scss">
 .actions {
-	.el-card__body {
-		padding: 0 !important;
+	max-height: calc(100vh - 60px);
+
+	overflow-y: auto;
+
+	.el-card {
+
+		overflow-y: auto;
+
+		.el-card__body {
+			padding: 0 !important;
+		}
 	}
 }
 </style>
