@@ -33,6 +33,8 @@ export const useNotificationStore = defineStore('notification', {
 					}
 					this.notifications[formattedDate].push(notification);
 				});
+
+				return this.notifications;
 			});
 		},
 	},
