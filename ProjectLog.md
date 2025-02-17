@@ -91,3 +91,5 @@ This week:
 ## 10 - 16 February
 - Extensively test system in preparation for my upcoming interview
 - Refine UI
+- Remove actions page for clearer user flow.
+- Introduce websockets to communicate actuator state.
