@@ -93,3 +93,8 @@ This week:
 - Refine UI
 - Remove actions page for clearer user flow.
 - Introduce websockets to communicate actuator state.
+
+## 17 - 22 February
+- Completed project interview
+- Began looking into creating a survey for usability tests
+- Looked into ways to improve the ML model
