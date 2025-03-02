@@ -39,10 +39,12 @@ class ActionManager():
 				Action.update(action_id, {"last_triggered": now})
 				Notification.create("action", action_id, now)
 
-				cls._app.config['SOCKET_IO'].emit('actuator_update', {
+				cls._app.config['SOCKET_IO'].emit('actuator-update', {
 					"actuator_id": action["actuator_id"],
 					"state": action["actuator_state"]
 				})
+
+				cls._app.config['SOCKET_IO'].emit('notification-update')
 
 		except Exception as e:
 			logging.error(f"Error triggering action: {e}")

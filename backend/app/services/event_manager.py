@@ -2,6 +2,7 @@ from datetime import datetime, timezone, timedelta
 from app.models import Event
 from app.models import Notification
 from .action_manager import ActionManager
+from flask_socketio import emit
 import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -114,6 +115,8 @@ class EventManager:
 			with cls._app.app_context():
 				Event.update(event["_id"], {"last_triggered": now})
 				Notification.create(notification_type="event", entity_id=event["_id"], timestamp=now)
+
+				cls._app.config['SOCKET_IO'].emit('notification-update')
 
 			event["last_triggered"] = now
 			logger.info(f"event triggered: {event['_id']}")

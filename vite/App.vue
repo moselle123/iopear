@@ -111,8 +111,11 @@ export default {
 		this.getData()
 		.then(() => this.actionsAndEvents = Object.assign({}, this.$stores.eventStore.eventsObj, this.$stores.actionStore.actionsObj));
 
-		window.socket.on("actuator_update", (data) => {
+		window.socket.on("actuator-update", (data) => {
 			this.$stores.actuatorStore.updateActuatorState(data);
+		});
+		window.socket.on("notification-update", () => {
+			this.$stores.notificationStore.getNotifications();
 		});
 	},
 };
