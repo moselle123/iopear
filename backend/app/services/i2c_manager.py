@@ -11,6 +11,7 @@ from adafruit_seesaw.seesaw import Seesaw
 from .sensor_registry import SensorRegistry
 from .event_manager import EventManager
 from app.models import Reading
+from flask_socketio import emit
 
 class I2CManager:
 	def __init__(self, app):
@@ -77,42 +78,42 @@ class I2CManager:
 			now = time.time()
 
 			if now - last_read >= 60:
-				with self.app.app_context():
-					sensor_data = {}
+				try:
+					with self.app.app_context():
+						sensor_data = {}
 
-					if self.SHT31 and self.SHT31.adafruit_instance and self.SHT31.enabled:
-						sensor_data['temperature'] = self.get_temperature_()
-						sensor_data['humidity'] = self.get_humidity_()
-						Reading.create(self.SHT31._id, 'temperature', '°C', sensor_data["temperature"])
-						Reading.create(self.SHT31._id, 'humidity', '%', sensor_data["humidity"])
-					if self.TSL2561 and self.TSL2561.adafruit_instance and self.TSL2561.enabled:
-						sensor_data['light_intensity'] = self.get_lux_()
-						Reading.create(self.TSL2561._id, 'light_intensity', 'lx', sensor_data["light_intensity"])
-					if self.BMP280 and self.BMP280.adafruit_instance and self.BMP280.enabled:
-						sensor_data['barometric_pressure'] = self.get_barometric_pressure_()
-						Reading.create(self.BMP280._id, 'barometric_pressure', 'hPa', sensor_data["barometric_pressure"])
-					if self.SCD40 and self.SCD40.adafruit_instance and self.SCD40.enabled:
-						sensor_data['co2'] = self.get_co2_()
-						Reading.create(self.SCD40._id, 'co2', 'ppm', sensor_data["co2"])
-					if self.SS and self.SS.adafruit_instance and self.SS.enabled:
-						sensor_data['soil_moisture'] = self.get_soil_moisture()
-						sensor_data['soil_temperature'] = self.get_soil_temperature_()
-						Reading.create(self.SS._id, 'soil_moisture', '%', sensor_data["soil_moisture"], self.SS.calibration)
-						Reading.create(self.SS._id, 'soil_temperature', '°C', sensor_data["soil_temperature"])
+						if self.SHT31 and self.SHT31.adafruit_instance and self.SHT31.enabled:
+							sensor_data['temperature'] = self.get_temperature_()
+							sensor_data['humidity'] = self.get_humidity_()
+							Reading.create(self.SHT31._id, 'temperature', '°C', sensor_data["temperature"])
+							Reading.create(self.SHT31._id, 'humidity', '%', sensor_data["humidity"])
+						if self.TSL2561 and self.TSL2561.adafruit_instance and self.TSL2561.enabled:
+							sensor_data['light_intensity'] = self.get_lux_()
+							Reading.create(self.TSL2561._id, 'light_intensity', 'lx', sensor_data["light_intensity"])
+						if self.BMP280 and self.BMP280.adafruit_instance and self.BMP280.enabled:
+							sensor_data['barometric_pressure'] = self.get_barometric_pressure_()
+							Reading.create(self.BMP280._id, 'barometric_pressure', 'hPa', sensor_data["barometric_pressure"])
+						if self.SCD40 and self.SCD40.adafruit_instance and self.SCD40.enabled:
+							sensor_data['co2'] = self.get_co2_()
+							Reading.create(self.SCD40._id, 'co2', 'ppm', sensor_data["co2"])
+						if self.SS and self.SS.adafruit_instance and self.SS.enabled:
+							sensor_data['soil_moisture'] = self.get_soil_moisture()
+							sensor_data['soil_temperature'] = self.get_soil_temperature_()
+							Reading.create(self.SS._id, 'soil_moisture', '%', sensor_data["soil_moisture"], self.SS.calibration)
+							Reading.create(self.SS._id, 'soil_temperature', '°C', sensor_data["soil_temperature"])
 
-					self.last_readings = sensor_data
-					last_read = now
-					try:
-						EventManager.check_events(self.last_readings)
-					except Exception as e:
-						logging.error(f"Error checking for event instances: {e}")
+						self.last_readings = sensor_data
+						last_read = now
 
-					try:
-						if now - last_db_write >= 60:
-							last_db_write = now
+						self.app.config['SOCKET_IO'].emit('latest-readings', sensor_data)
 
-					except Exception as e:
-						logging.error(f"Error writing sensor data to the database: {e}")
+						try:
+							EventManager.check_events(self.last_readings)
+						except Exception as e:
+							logging.error(f"Error checking for event instances: {e}")
+
+				except Exception as e:
+					logging.error(f"Error writing sensor data to the database: {e}")
 
 			time.sleep(interval)
 
