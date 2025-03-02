@@ -27,7 +27,7 @@ export const useActionStore = defineStore('action', {
 		},
 		triggerAction(actuator_id, state) {
 			let action = this.actions.find((action) => action.actuator_id === actuator_id && action.actuator_state === state)
-			return axios.post(host + '/trigger_action/' + action._id);
+			socket.emit('trigger-action', action._id);
 		},
 	},
 });
