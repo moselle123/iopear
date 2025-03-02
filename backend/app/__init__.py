@@ -84,3 +84,17 @@ def handle_connect():
 @socketio.on('disconnect')
 def handle_disconnect():
 	logger.debug("Client disconnected")
+
+@socketio.on('trigger-action')
+def trigger_action(action_id):
+	try:
+		if not action_id:
+			emit('error', {'message': 'Missing action_id'})
+			return
+
+		logger.debug(f"Triggering action: {action_id}")
+		ActionManager.trigger_action(action_id)
+
+	except Exception as e:
+		logger.error(f"Error triggering action: {e}")
+		emit('error', {'message': 'Failed to trigger action'})
