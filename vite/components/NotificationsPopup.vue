@@ -45,8 +45,8 @@ export default {
 		refreshNotifications() {
 			this.loading = true;
 			this.$stores.notificationStore.getNotifications()
-			.then((data) => {
-				this.notifications = data;
+			.then(() => {
+				this.notifications = this.$stores.notificationStore.notificationsObj;
 				this.loading = false;
 			});
 		},
