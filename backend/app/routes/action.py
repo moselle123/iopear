@@ -2,8 +2,6 @@ from flask import Blueprint, jsonify, request
 import logging
 from app.models import Action
 from app.services import ActionManager
-from flask_socketio import emit
-from app import socketio
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
