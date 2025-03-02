@@ -88,7 +88,8 @@
 							Delete Event
 						</el-button>
 						<el-button type="primary" @click="saveChanges(event)">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+							<svg v-if="currentlySaving === event._id" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="spinner"><path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/></svg>
+							<svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
 							Save Changes
 						</el-button>
 					</el-row>
@@ -116,6 +117,7 @@ export default {
 				greater_than: 'Greater Than',
 				less_than: 'Less Than',
 			},
+			currentlySaving: null,
 		};
 	},
 	computed: {
@@ -141,19 +143,22 @@ export default {
 			});
 		},
 		saveChanges(event, index) {
+			this.currentlySaving = event._id;
 			event?._id ? this.updateEvent(event) : this.createEvent(event, index);
 		},
 		createEvent(event, index) {
 			this.$stores.eventStore.createEvent(event)
 			.then(() => {
 				this.events = this.$stores.eventStore.eventsArr.slice();
-				this.newEvents.splice(index, 1)
+				this.newEvents.splice(index, 1);
+				this.currentlySaving = null;
 			});
 		},
 		updateEvent(event) {
 			this.$stores.eventStore.updateEvent(event)
 			.then(() => {
 				this.events = this.$stores.eventStore.eventsArr.slice();
+				this.currentlySaving = null;
 			});
 		},
 		deleteEvent(event) {
