@@ -3,7 +3,7 @@
 		<el-text class="title">Sensors</el-text>
 		<el-text style="margin-bottom: 1em;">Alter thresholds below by dragging the slider to the desired range and click save changes to confirm the new settings.</el-text>
 		<el-row class="grid" direction="vertical">
-			<el-col v-for="sensor in sensors" :key="sensor" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+			<el-col v-for="(sensor) in sensors" :key="sensor" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
 				<el-card>
 					<template #header>
 						<el-row>
@@ -44,8 +44,9 @@
 						</el-form-item>
 					</el-form>
 					<el-row justify="end">
-						<el-button @click="updateSensor(sensor.name)" type="primary">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+						<el-button :ref="sensor.name" @click="updateSensor(sensor.name)" type="primary">
+							<svg v-if="currentlyUpdating === sensor.name" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="spinner"><path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/></svg>
+							<svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
 							Save Changes
 						</el-button>
 					</el-row>
@@ -65,6 +66,7 @@ export default {
 				BMP280: {},
 				SCD40: {},
 			},
+			currentlyUpdating: null,
 		};
 	},
 	computed: {
@@ -99,7 +101,9 @@ export default {
 	},
 	methods: {
 		updateSensor(sensorName) {
-			this.$stores.sensorStore.updateSensorSettings(sensorName, this.altered[sensorName]);
+			this.currentlyUpdating = sensorName;
+			this.$stores.sensorStore.updateSensorSettings(sensorName, this.altered[sensorName])
+			.then(() => this.currentlyUpdating = null);
 		},
 	},
 	beforeMount() {
