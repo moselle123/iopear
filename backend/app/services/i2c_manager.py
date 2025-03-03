@@ -106,11 +106,8 @@ class I2CManager:
 						self.last_readings = sensor_data
 						last_read = now
 
-
 						try:
 							EventManager.check_events(self.last_readings)
-							self.app.config['SOCKET_IO'].emit('latest-readings', self.last_readings)
-							logger.debug('apparently socket message sent ###################################################################', self.last_readings)
 						except Exception as e:
 							logger.error(f"Error checking for event instances: {e}")
 

@@ -60,6 +60,7 @@ class EventManager:
 	@classmethod
 	def check_events(cls, readings):
 		try:
+			cls._app.config['SOCKET_IO'].emit('latest-readings', readings)
 			cls._latest_readings = readings
 			for event in cls._events:
 				if not event["scheduled_time"]:
