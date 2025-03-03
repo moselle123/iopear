@@ -25,3 +25,5 @@ templates/
 *.swp
 *.swo
 .DS_Store
+
+*.csv
