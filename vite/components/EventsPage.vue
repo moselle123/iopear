@@ -12,15 +12,20 @@
 		<el-text v-if=" ! (events.length || newEvents.length)" class="no-content">No Events to Display</el-text>
 		<el-card v-else>
 			<el-collapse accordion>
-				<el-collapse-item v-for="(event, index) in displayedEvents" :key="index" :title="event._id ? event.name : 'New Event'" :name="index">
+				<el-collapse-item v-for="(event, index) in displayedEvents" :key="index" :name="index">
+					<template #title>
+						<el-tag v-if="event.is_threshold_event">Threshold</el-tag>
+						<el-text>{{ event._id ? event.name : 'New Event' }}</el-text>
+					</template>
+					<el-alert v-if="event.is_threshold_event" type="warning" title="This is a threshold event, to edit conditions edit the sensor's thresholds." />
 					<el-form label-position="top">
 						<el-row class="grid" justify="space-evenly">
 							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
 								<el-form-item label="Name">
-									<el-input v-model="event.name" placeholder="Describe this event" />
+									<el-input v-model="event.name" :disabled="event.is_threshold_event" placeholder="Describe this event" />
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
+							<el-col v-if=" ! event.is_threshold_event" :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
 								<el-form-item label="Schedule Event Time">
 									<el-time-picker v-model="event.scheduled_time" arrow-control placeholder="When will the event trigger" clearable value-format="HH:mm" />
 								</el-form-item>
@@ -30,7 +35,7 @@
 									<el-switch v-model="event.is_enabled" />
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
+							<el-col v-if=" ! event.is_threshold_event" :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
 								<el-form-item label="Event Logic">
 									<el-switch v-model="event.logic" active-text="Meet All Conditions" active-value="AND" inactive-text="Meet At Least 1 Condition" inactive-value="OR" />
 								</el-form-item>
@@ -54,7 +59,7 @@
 											</template>
 										</el-input>
 									</template>
-									<el-row justify="end">
+									<el-row v-if=" ! event.is_threshold_event" justify="end">
 										<el-button @click="addCondition(event)">
 											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
 											Add Condition
@@ -83,7 +88,7 @@
 					</el-form>
 					<el-divider />
 					<el-row justify="end">
-						<el-button type="primary" v-if="event?._id" @click="deleteEvent(event)">
+						<el-button type="primary" v-if="event?._id && ! event.is_threshold_event" @click="deleteEvent(event)">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
 							Delete Event
 						</el-button>
@@ -200,6 +205,12 @@ export default {
 
 		.el-card__body {
 			padding: 0 !important;
+
+			.el-collapse-item__header {
+				.el-tag {
+					margin-right: 7px;
+				}
+			}
 		}
 	}
 }
