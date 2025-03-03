@@ -5,6 +5,9 @@ from app.models import Action
 from app.models import Notification
 from app.models import Actuator
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
 class ActionManager():
 	_actions = {}
 	_actuators = {}
@@ -20,12 +23,12 @@ class ActionManager():
 	def trigger_action(cls, action_id):
 		action = cls._actions[action_id]
 		if not action:
-			logging.error(f"Action with ID {action_id} not found.")
+			logger.error(f"Action with ID {action_id} not found.")
 			return
 
 		actuator = cls._actuators.get(action["actuator_id"])
 		if not actuator:
-			logging.error(f"Actuator with ID {action['actuator_id']} not found.")
+			logger.error(f"Actuator with ID {action['actuator_id']} not found.")
 			return
 
 		state = GPIO.HIGH if action["actuator_state"] else GPIO.LOW

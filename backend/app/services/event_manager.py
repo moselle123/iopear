@@ -2,7 +2,6 @@ from datetime import datetime, timezone, timedelta
 from app.models import Event
 from app.models import Notification
 from .action_manager import ActionManager
-from flask_socketio import emit
 import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)

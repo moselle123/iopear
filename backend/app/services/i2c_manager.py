@@ -11,7 +11,9 @@ from adafruit_seesaw.seesaw import Seesaw
 from .sensor_registry import SensorRegistry
 from .event_manager import EventManager
 from app.models import Reading
-from flask_socketio import emit
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class I2CManager:
 	def __init__(self, app):
@@ -31,7 +33,7 @@ class I2CManager:
 		for name in sensor_names:
 			sensor = SensorRegistry.get_sensor(name)
 			if not sensor.enabled:
-				print(f"Skipping initialization of {name} (disabled by user)")
+				logger.info(f"Skipping initialization of {name} (disabled by user)")
 				continue
 
 			try:
@@ -52,10 +54,10 @@ class I2CManager:
 
 				SensorRegistry.attach_adafruit_instance(name, adafruit_instance)
 				setattr(self, name, sensor)
-				print(f"Initialized {name}")
+				logger.info(f"Initialized {name}")
 
 			except OSError as e:
-				print(f"Error initializing {name}: {e}")
+				logger.info(f"Error initializing {name}: {e}")
 
 			self.sensors_initialised = True
 
@@ -73,7 +75,6 @@ class I2CManager:
 
 	def _read_loop(self, interval):
 		last_read = 0
-		last_db_write = 0
 		while self.running:
 			now = time.time()
 
@@ -105,15 +106,16 @@ class I2CManager:
 						self.last_readings = sensor_data
 						last_read = now
 
-						self.app.config['SOCKET_IO'].emit('latest-readings', sensor_data)
 
 						try:
 							EventManager.check_events(self.last_readings)
+							self.app.config['SOCKET_IO'].emit('latest-readings', self.last_readings)
+							logger.debug('apparently socket message sent ###################################################################', self.last_readings)
 						except Exception as e:
-							logging.error(f"Error checking for event instances: {e}")
+							logger.error(f"Error checking for event instances: {e}")
 
 				except Exception as e:
-					logging.error(f"Error writing sensor data to the database: {e}")
+					logger.error(f"Error writing sensor data to the database: {e}")
 
 			time.sleep(interval)
 
@@ -122,7 +124,7 @@ class I2CManager:
 			try:
 				return self.SHT31.adafruit_instance.temperature
 			except OSError as e:
-				print(f"Error reading temperature: {e}")
+				logger.error(f"Error reading temperature: {e}")
 				return None
 		return None
 
@@ -131,7 +133,7 @@ class I2CManager:
 			try:
 				return self.SHT31.adafruit_instance.relative_humidity
 			except OSError as e:
-				print(f"Error reading humidity: {e}")
+				logger.error(f"Error reading humidity: {e}")
 				return None
 		return None
 
@@ -144,7 +146,7 @@ class I2CManager:
 				return ss.moisture_read()
 
 		except OSError as e:
-			print(f"Error reading soil moisture: {e}")
+			logger.error(f"Error reading soil moisture: {e}")
 			return None
 
 	def get_soil_temperature_(self):
@@ -152,7 +154,7 @@ class I2CManager:
 			try:
 				return self.SS.adafruit_instance.get_temp()
 			except OSError as e:
-				print(f"Error reading soil temperature: {e}")
+				logger.error(f"Error reading soil temperature: {e}")
 				return None
 		return None
 
@@ -163,23 +165,23 @@ class I2CManager:
 				infrared = self.TSL2561.adafruit_instance.infrared
 				return max(0, (0.0304 * broadband) - (0.062 * broadband * (infrared / broadband) ** 1.4)) if broadband > 0 else 0
 			except OSError as e:
-				print(f"Error reading light intensity: {e}")
+				logger.error(f"Error reading light intensity: {e}")
 				return None
 		return None
 
 	def get_co2_(self):
 		if self.SCD40 and self.SCD40.adafruit_instance:
 			try:
-				print(f"Sensor serial number: {self.SCD40.adafruit_instance.serial_number}")
+				logger.info(f"Sensor serial number: {self.SCD40.adafruit_instance.serial_number}")
 				self.SCD40.adafruit_instance.start_periodic_measurement()
 				timeout = time.time() + 2
 				while not self.SCD40_instance.data_ready:
 					if time.time() > timeout:
-						print("CO2 sensor data not ready in time")
+						logger.info("CO2 sensor data not ready in time")
 						return None
 					time.sleep(0.1)
 			except OSError as e:
-				print(f"Error reading lux: {e}")
+				logger.info(f"Error reading lux: {e}")
 				return None
 		return None
 
@@ -188,7 +190,7 @@ class I2CManager:
 			try:
 				return self.BMP280.adafruit_instance.pressure
 			except OSError as e:
-				print(f"Error reading barometric pressure: {e}")
+				logger.error(f"Error reading barometric pressure: {e}")
 				return None
 		return None
 
