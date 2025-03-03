@@ -19,7 +19,7 @@
 					</template>
 					<el-form label-position="top" label-width="150px">
 						<el-form-item :label="'Enable ' + sensor.name">
-							<el-switch v-model="sensor.enabled" />
+							<el-switch v-model="altered[sensor.name].enabled" />
 						</el-form-item>
 						<el-form-item v-if="sensor.name === 'SS'"  label="Soil Moisture Thresholds">
 							<el-slider v-model="altered.SS.thresholds.soil_moisture" range show-stops show-tooltip :min="0" :max="100" :marks="marks.soil_moisture" :step="5" />
@@ -102,8 +102,12 @@ export default {
 	methods: {
 		updateSensor(sensorName) {
 			this.currentlyUpdating = sensorName;
+			console.debug(this.altered[sensorName])
 			this.$stores.sensorStore.updateSensorSettings(sensorName, this.altered[sensorName])
-			.then(() => this.currentlyUpdating = null);
+			.then(() => {
+				this.altered[sensorName] = this.$stores.sensorStore[sensorName];
+				this.currentlyUpdating = null
+			});
 		},
 	},
 	beforeMount() {
