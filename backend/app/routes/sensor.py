@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, current_app, request
-from datetime import datetime
 import logging
 from app.models.sensor import Sensor
 from app.services.sensor_registry import SensorRegistry

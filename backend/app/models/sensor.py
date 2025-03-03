@@ -1,7 +1,6 @@
 from bson import ObjectId
 from flask import current_app
-from datetime import datetime, timezone
-
+from app.models.event import Event
 class Sensor:
 	def __init__(self, _id, name, enabled, calibration=None):
 		self._id = _id
@@ -33,6 +32,28 @@ class Sensor:
 		self.enabled = enabled
 		self.thresholds = thresholds
 		current_app.config['DB']["sensors"].update_one({"_id": ObjectId(self._id)}, {"$set": {"enabled": self.enabled, "thresholds": self.thresholds}})
+		self.update_associated_events()
+
+	def update_associated_events(self):
+		for measurement, (lower, upper) in self.thresholds.items():
+			lower_event_name = f"{self.name} {measurement} Below Threshold"
+			upper_event_name = f"{self.name} {measurement} Above Threshold"
+
+			lower_condition = {"measurement": measurement, "type": "less_than", "value": lower}
+			upper_condition = {"measurement": measurement, "type": "greater_than", "value": upper}
+
+			existing_lower_event = current_app.config['DB']["event"].find_one({"name": lower_event_name})
+			existing_upper_event = current_app.config['DB']["event"].find_one({"name": upper_event_name})
+
+			if existing_lower_event:
+				Event.update(existing_lower_event["_id"], {"conditions": [lower_condition]})
+			else:
+				Event.create(lower_event_name, [lower_condition], "AND", [], True, None, is_threshold_event=True)
+
+			if existing_upper_event:
+				Event.update(existing_upper_event["_id"], {"conditions": [upper_condition]})
+			else:
+				Event.create(upper_event_name, [upper_condition], "AND", [], True, None, is_threshold_event=True)
 
 	@classmethod
 	def create(cls, name):
