@@ -36,8 +36,8 @@ class Sensor:
 
 	def update_associated_events(self):
 		for measurement, (lower, upper) in self.thresholds.items():
-			lower_event_name = f"{measurement.replace("_", " ").title()} Below Threshold"
-			upper_event_name = f"{measurement.replace("_", " ").title()} Above Threshold"
+			lower_event_name = f"{measurement.replace('_', ' ').title()} Below Threshold"
+			upper_event_name = f"{measurement.replace('_', ' ').title()} Above Threshold"
 
 			lower_condition = {"measurement": measurement, "type": "less_than", "value": lower}
 			upper_condition = {"measurement": measurement, "type": "greater_than", "value": upper}
