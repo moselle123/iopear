@@ -16,6 +16,7 @@ export const useSensorStore = defineStore('sensor', {
 				soil_temperature: this.sensors.find(s => s.name === 'SS'),
 				barometric_pressure:this.sensors.find(s => s.name === 'BMP280'),
 				light_intensity: this.sensors.find(s => s.name === 'TSL2561'),
+				co2: this.sensors.find(s => s.name === 'SCD40'),
 			};
 		},
 		SHT31() {
