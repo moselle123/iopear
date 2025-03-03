@@ -15,7 +15,7 @@ from app.models import Reading
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-class I2CManager:
+class SensorManager:
 	def __init__(self, app):
 		self.app = app
 		self.i2c = busio.I2C(board.SCL, board.SDA)

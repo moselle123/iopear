@@ -23,8 +23,8 @@ def create_app(config_class=Config):
 	app.config['DB_CLIENT'] = mongo_client
 	app.config['DB'] = mongo_client.io_pear_db
 
-	i2c_manager = I2CManager(app)
-	app.config['I2C_MANAGER'] = i2c_manager
+	sensor_manager = SensorManager(app)
+	app.config['SENSOR_MANAGER'] = sensor_manager
 
 	socketio.init_app(app)
 	app.config['SOCKET_IO'] = socketio
@@ -41,7 +41,7 @@ def create_app(config_class=Config):
 
 	def signal_handler(sig, frame):
 		logger.warning("Termination signal received. Stopping I2C manager.")
-		i2c_manager.stop_reading()
+		sensor_manager.stop_reading()
 		logger.warning("I2C manager stopped. Exiting application.")
 		exit(0)
 
@@ -53,7 +53,7 @@ def create_app(config_class=Config):
 		return render_template('index.html')
 
 	with app.app_context():
-		i2c_manager._initialise_sensors()
+		sensor_manager._initialise_sensors()
 		ActionManager.initialise(app)
 		EventManager.initialise(app)
 
@@ -72,7 +72,7 @@ def create_app(config_class=Config):
 			Action.create('Grow Light Off', grow_light_id, False)
 
 		if "plant" in collection_names:
-			i2c_manager.start_reading()
+			sensor_manager.start_reading()
 
 	return app
 

@@ -24,7 +24,7 @@ def get_sensors():
 @sensor_bp.route('/get_calibration_reading', methods=['GET'])
 def get_calibration_reading():
 	try:
-		return jsonify({"soil_moisture": current_app.config['I2C_MANAGER'].get_soil_moisture()})
+		return jsonify({"soil_moisture": current_app.config['SENSOR_MANAGER'].get_soil_moisture()})
 	except Exception as e:
 		logger.error(f"Error getting soil moisture: {e}")
 		return {"error": "Failed to retrieve soil moisture"}, 500
@@ -33,7 +33,7 @@ def get_calibration_reading():
 def calibrate_soil_moisture_sensor():
 	data = request.json
 	try:
-		current_app.config['I2C_MANAGER'].ss.update_calibration(data[0], data[1])
+		current_app.config['SENSOR_MANAGER'].ss.update_calibration(data[0], data[1])
 		return jsonify({"message": "Calibration updated successfully"}), 200
 	except Exception as e:
 		logger.error(f"Error setting soil moisture calibration settings: {e}")
