@@ -41,7 +41,7 @@ class SensorManager:
 					adafruit_instance = adafruit_sht31d.SHT31D(self.i2c)
 				elif name == "TSL2561":
 					adafruit_instance = adafruit_tsl2561.TSL2561(self.i2c)
-					adafruit_instance.gain = 16
+					adafruit_instance.gain = 1
 					adafruit_instance.integration_time = 402
 				elif name == "BMP280":
 					adafruit_instance = adafruit_bmp280.Adafruit_BMP280_I2C(self.i2c, address=0x76)
@@ -162,7 +162,16 @@ class SensorManager:
 				infrared = self.TSL2561.adafruit_instance.infrared
 				visible = broadband - infrared
 
-				estimated_par = visible * 0.02
+				if visible < 500:
+					factor = 0.030
+				elif visible < 5000:
+					factor = 0.020
+				elif visible < 20000:
+					factor = 0.014
+				else:
+					factor = 0.010
+
+				estimated_par = visible * factor
 				return max(0, estimated_par)
 			except OSError as e:
 				logger.error(f"Error reading light intensity: {e}")
