@@ -98,3 +98,10 @@ This week:
 - Completed project interview
 - Began looking into creating a survey for usability tests
 - Looked into ways to improve the ML model
+
+## 23 - 2 March
+- Met with supervisor to discuss next steps after interview
+- Began to test the system and fix bugs
+
+## 3 - 9 March
+- Continue fixing bugs
