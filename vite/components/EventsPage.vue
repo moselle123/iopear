@@ -15,6 +15,7 @@
 				<el-collapse-item v-for="(event, index) in displayedEvents" :key="index" :name="index">
 					<template #title>
 						<el-tag v-if="event.is_threshold_event">Threshold</el-tag>
+						<el-tag v-if=" ! event.is_enabled" type="danger">Disabled</el-tag>
 						<el-text>{{ event._id ? event.name : 'New Event' }}</el-text>
 					</template>
 					<el-alert v-if="event.is_threshold_event" type="warning" title="This is a threshold event, to edit conditions edit the sensor's thresholds." />
