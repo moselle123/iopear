@@ -160,7 +160,10 @@ class SensorManager:
 			try:
 				broadband = self.TSL2561.adafruit_instance.broadband
 				infrared = self.TSL2561.adafruit_instance.infrared
-				return max(0, (0.0304 * broadband) - (0.062 * broadband * (infrared / broadband) ** 1.4)) if broadband > 0 else 0
+				visible = broadband - infrared
+
+				estimated_par = visible * 0.02
+				return max(0, estimated_par)
 			except OSError as e:
 				logger.error(f"Error reading light intensity: {e}")
 				return None
