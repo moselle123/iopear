@@ -24,8 +24,6 @@ if (location.port !== '5173') {
 	window.socket = io('http://100.65.155.12:5000');
 }
 
-window.socket.on("connect", () => console.debug('websocket connected'));
-
 import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/src/dark/var.scss';
 import './theme.scss';

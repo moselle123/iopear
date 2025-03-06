@@ -44,14 +44,16 @@
 				<notifications-popup v-if="isNotificationsVisible" />
 			</el-header>
 			<el-main @click="hidePopups">
-				<el-text v-if="loading" class="loading" size="large">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="spinner"><path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/></svg>
-					Loading Data
-				</el-text>
-				<welcome-page v-else-if="!Object.keys(plant).length" @setupComplete="$stores.plantStore.getPlant"></welcome-page>
-				<router-view v-else></router-view>
+				<welcome-page v-if=" !loading && ! Object.keys(plant).length" @setupComplete="$stores.plantStore.getPlant"></welcome-page>
+				<router-view v-if=" ! loading && Object.keys(plant).length"></router-view>
 			</el-main>
 		</el-container>
+		<el-dialog v-model="isModalVisible" width="500" :show-close="false">
+			<el-text class="loading" size="large">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="spinner"><path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/></svg>
+				{{ loading ? 'Loading Data' : 'Reconnecting to ioPear'}}
+			</el-text>
+		</el-dialog>
 	</el-container>
 </template>
 <script>
@@ -60,9 +62,10 @@ export default {
 		return {
 			config: null,
 			loading: true,
-			isCollapsed: true,
 			hideNav: true,
 			isNotificationsVisible: false,
+			isWsConnected: false,
+			isModalVisible: true,
 		};
 	},
 	computed: {
@@ -86,6 +89,7 @@ export default {
 				}
 				else {
 					this.loading = false;
+					this.isModalVisible = false;
 				}
 			});
 		},
@@ -111,11 +115,27 @@ export default {
 		this.getData()
 		.then(() => this.actionsAndEvents = Object.assign({}, this.$stores.eventStore.eventsObj, this.$stores.actionStore.actionsObj));
 
-		window.socket.on("actuator-update", (data) => {
+		socket.on("connect", () => {
+			console.debug('websocket connected');
+			this.isWsConnected = true;
+			this.isModalVisible = false;
+		});
+		socket.on("disconnect", () => {
+			console.debug('websocket disconnected');
+			this.isWsConnected = false;
+			this.isModalVisible = true;
+		});
+		socket.on("actuator-update", (data) => {
+			console.debug('actuator update', data);
 			this.$stores.actuatorStore.updateActuatorState(data);
 		});
-		window.socket.on("notification-update", () => {
+		socket.on("notification-update", () => {
+			console.debug('notification-update');
 			this.$stores.notificationStore.getNotifications();
+		});
+		socket.on("latest-readings", (data) => {
+			console.debug('latest-readings', data);
+			this.$stores.sensorStore.setLatestReadings(data);
 		});
 	},
 };
@@ -131,7 +151,6 @@ export default {
 	.slide-fade-enter-from,
 	.slide-fade-leave-to {
 		transform: translateX(-300px);
-		// opacity: 0;
 	}
 
 	.notification-bell {

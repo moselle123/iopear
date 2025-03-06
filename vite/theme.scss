@@ -49,6 +49,11 @@ $regularFontWeight: 400;
 		'padding': 10px,
 		'bg-color': $bg,
 	),
+	$dialog: (
+		'bg-color': $bg,
+		'content-font-size': 20px,
+		'padding-primary': 16px,
+	),
 );
 
 @use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
