@@ -28,14 +28,5 @@ services:
       - mongo_data:/data/db
     command: ["--storageEngine", "mmapv1"]
 
-  captive_portal:
-    build:
-      context: ./captive_portal
-    container_name: captive_portal_container
-    restart: always
-    network_mode: "host"
-    ports:
-      - "5001:5001"
-
 volumes:
   mongo_data:
