@@ -105,3 +105,8 @@ This week:
 
 ## 3 - 9 March
 - Continue fixing bugs
+
+## 10 - 16 March
+- Tweaking UI
+- Continue testing
+- Applied for ethics approval of usability testing
