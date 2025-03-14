@@ -1,47 +1,37 @@
-#!/bin/bash
-
-export PATH=$PATH:/usr/local/bin
-
-echo "🔄 Starting ioPear Setup..."
-
-cd "$(dirname "$0")" || { echo "❌ Error: Could not navigate to project folder!"; exit 1; }
-
-echo "🌐 Checking network status..."
+echo "🔄 Checking network status..."
 sleep 5
-if ! ip -4 addr show wlan0 | grep -q "inet "; then
-	echo "❌ No network detected! Starting captive portal..."
 
-	sudo systemctl stop wpa_supplicant NetworkManager
-    	sudo systemctl restart hostapd dnsmasq
-
-	echo "🚀 Building Captive Portal..."
-	docker build -t captive_portal ./captive_portal
-
-	echo "🚀 Starting Captive Portal..."
-	docker run -d --name captive_portal_container --network host captive_portal
-
-	while ! ip -4 addr show wlan0 | grep -q "inet "; do
-		echo "🔄 Waiting for network connection..."
-		sleep 10
-	done
-
-	echo "✅ Network connected! Stopping Captive Portal..."
-	docker stop captive_portal_container
-	docker rm captive_portal_container
-
-	echo "🚀 Starting Main Application..."
-	docker compose -f docker-compose.dev.yml up -d
-else
-	echo "✅ Network detected! Ensuring only Main Application is running..."
-
-	if docker ps | grep -q "captive_portal_container"; then
-		echo "🛑 Stopping Captive Portal..."
-		docker stop captive_portal_container
-		docker rm captive_portal_container
+if ip -4 addr show wlan0 | grep -q "inet 192\.168\|inet 10\|inet 172"; then
+	if ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1; then
+		echo "✅ Network detected! Stopping Captive Portal..."
+		sudo systemctl stop hostapd
+		sudo systemctl stop dnsmasq
+		sudo systemctl stop captive_portal
+		echo "🚀 Starting Main Application..."
+		docker compose -f docker-compose.dev.yml up -d
+		exit 0
 	fi
-
-	echo "🚀 Starting Main Application..."
-	docker compose -f docker-compose.dev.yml up -d
 fi
 
-echo "✅ Setup complete!"
+echo "❌ No internet detected! Enabling Captive Portal..."
+sudo systemctl restart hostapd
+sudo systemctl restart dnsmasq
+
+source /home/admin/mwpc1/captive_portal/venv/bin/activate
+python /home/admin/mwpc1/captive_portal/captive_portal.py &
+
+while true; do
+	if ip -4 addr show wlan0 | grep -q "inet 192\.168\|inet 10\|inet 172"; then
+		if ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1; then
+			echo "✅ Network connected! Stopping Captive Portal..."
+			sudo systemctl stop hostapd
+			sudo systemctl stop dnsmasq
+			sudo systemctl stop captive_portal
+			echo "🚀 Starting Main Application..."
+			docker compose -f docker-compose.dev.yml up -d
+			exit 0
+		fi
+	fi
+	echo "🔄 Waiting for network connection..."
+	sleep 10
+done
