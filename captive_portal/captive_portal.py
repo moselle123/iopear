@@ -3,6 +3,14 @@ import os
 
 app = Flask(__name__, template_folder="templates")
 
+@app.route("/generate_204")
+@app.route("/ncsi.txt")
+@app.route("/hotspot-detect.html")
+@app.route("/success.txt")
+@app.route("/check_network_status.txt")
+def captive_redirect():
+    	return redirect("/")
+
 @app.route("/", methods=["GET", "POST"])
 def index():
 	if request.method == "POST":
