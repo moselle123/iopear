@@ -110,3 +110,7 @@ This week:
 - Tweaking UI
 - Continue testing
 - Applied for ethics approval of usability testing
+
+## 17 - 23 March
+- Continue testing
+- Began planning dissertation
