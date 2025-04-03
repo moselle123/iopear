@@ -108,17 +108,19 @@ class Reading:
 		]
 
 	@staticmethod
-	def get_statistics(measurement, start_date, end_date):
+	def get_statistics():
+		end_date = datetime.now(datetime.timezone.utc)
+		start_date = end_date - timedelta(days=7)
+
 		pipeline = [
 			{
 				"$match": {
 					"timestamp": {"$gte": start_date, "$lte": end_date},
-					"measurement": measurement,
 				},
 			},
 			{
 				"$group": {
-					"_id": None,
+					"_id": "$measurement",
 					"count": {"$sum": 1},
 					"average": {"$avg": "$value"},
 					"min": {"$min": "$value"},
@@ -128,15 +130,17 @@ class Reading:
 			},
 		]
 
-		result = list(current_app.config['DB']["reading"].aggregate(pipeline))
+		results = list(current_app.config['DB']["reading"].aggregate(pipeline))
 
-		if not result:
+		if not results:
 			return None
 
-		return {
-			"measurement": measurement,
-			"count": result[0]["count"],
-			"average": round(result[0]["average"], 2),
-			"min": result[0]["min"],
-			"max": result[0]["max"],
-		}
+		stats = {}
+		for result in results:
+			stats[result["_id"]] = {
+				"min": round(result["min"], 2),
+				"max": round(result["max"], 2),
+				"average": round(result["average"], 2),
+			}
+
+		return stats

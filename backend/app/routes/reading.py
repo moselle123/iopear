@@ -75,20 +75,15 @@ def get_readings_by_measurement(sensor_name):
 		logger.error(f"Error getting readings by date range: {e}")
 		return {"error": "Failed to get readings by measurement"}, 500
 
-@reading_bp.route('/statistics_by_measurement', methods=['GET'])
-def statistics_by_measurement():
+@reading_bp.route('/get_statistics', methods=['GET'])
+def get_statistics():
 	try:
-		start_date = request.args.get('start_date')
-		end_date = request.args.get('end_date')
-		measurement = request.args.get('measurement')
-
-		stats = Reading.get_statistics(measurement, start_date, end_date)
-
+		stats = Reading.get_statistics()
 		if not stats:
-			return jsonify({"message": "No data found for the given period"}), 404
+			return jsonify({"message": "No data found for the past week"}), 404
 
 		return jsonify(stats), 200
 
 	except Exception as e:
-		logger.error(f"Error getting statistics for {sensor_name}: {e}")
+		logger.error(f"Error getting statistics: {e}")
 		return jsonify({"error": "Failed to get sensor statistics"}), 500
