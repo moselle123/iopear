@@ -1,5 +1,5 @@
 echo "🔄 Checking network status..."
-sleep 5
+sleep  5
 
 if ip -4 addr show wlan0 | grep -q "inet 192\.168\|inet 10\|inet 172"; then
 	if ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1; then
@@ -21,6 +21,9 @@ source /home/admin/mwpc1/captive_portal/venv/bin/activate
 python /home/admin/mwpc1/captive_portal/captive_portal.py &
 
 while true; do
+	sudo dhclient -r wlan0
+	sudo dhclient wlan0
+
 	if ip -4 addr show wlan0 | grep -q "inet 192\.168\|inet 10\|inet 172"; then
 		if ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1; then
 			echo "✅ Network connected! Stopping Captive Portal..."
