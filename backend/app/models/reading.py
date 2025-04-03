@@ -106,3 +106,37 @@ class Reading:
 			}
 			for reading in readings_cursor
 		]
+
+	@staticmethod
+	def get_statistics(measurement, start_date, end_date):
+		pipeline = [
+			{
+				"$match": {
+					"timestamp": {"$gte": start_date, "$lte": end_date},
+					"measurement": measurement,
+				},
+			},
+			{
+				"$group": {
+					"_id": None,
+					"count": {"$sum": 1},
+					"average": {"$avg": "$value"},
+					"min": {"$min": "$value"},
+					"max": {"$max": "$value"},
+					"std_dev": {"$stdDevPop": "$value"},
+				},
+			},
+		]
+
+		result = list(current_app.config['DB']["reading"].aggregate(pipeline))
+
+		if not result:
+			return None
+
+		return {
+			"measurement": measurement,
+			"count": result[0]["count"],
+			"average": round(result[0]["average"], 2),
+			"min": result[0]["min"],
+			"max": result[0]["max"],
+		}
