@@ -53,5 +53,11 @@ export const useSensorStore = defineStore('sensor', {
 				this.getSensors();
 			});
 		},
+		getStatistics() {
+			return axios.get(host + '/get_statistics')
+			.then(({data}) => {
+				return data;
+			});
+		},
 	},
 });

@@ -6,6 +6,17 @@
 				<el-row justify="space-between">
 					<el-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
 						<el-text>{{ tabData[key].text }}</el-text>
+						<el-row v-if="statistics" class="statistics" justify="space-evenly">
+							<el-col :xs="8" :sm="8" :md="24" :lg="24" :xl="24">
+								<el-statistic title="Average" :value="statistics[key]?.average" />
+							</el-col>
+							<el-col :xs="8" :sm="8" :md="24" :lg="24" :xl="24">
+								<el-statistic title="Minimum" :value="statistics[key]?.min" />
+							</el-col>
+							<el-col :xs="8" :sm="8" :md="24" :lg="24" :xl="24">
+								<el-statistic title="Maximum" :value="statistics[key]?.max" />
+							</el-col>
+						</el-row>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
 						<el-row justify="space-evenly" class="filter">
@@ -62,6 +73,7 @@ export default {
 			dateRange: [moment().subtract(24, 'hours').toISOString(), moment().toISOString()],
 			step: 'hour',
 			invalidDate: false,
+			statistics: null,
 		};
 	},
 	computed: {
@@ -84,12 +96,32 @@ export default {
 			} else {
 				this.step = 'month';
 			}
-		}
+		},
+	},
+	mounted() {
+		console.log('mounted')
+		this.$stores.sensorStore.getStatistics()
+		.then(data => this.statistics = data);
 	},
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .data {
+	.statistics {
+		margin-top: 3em;
+		.el-statistic {
+			text-align: center;
+
+			.el-statistic__head {
+				font-size: 1em !important;
+			}
+
+			.el-statistic__number {
+				font-size: 1.5em !important;
+			}
+		}
+	}
+
 	.el-col {
 		padding-bottom: 2em;
 
