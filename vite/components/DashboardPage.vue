@@ -63,9 +63,8 @@ export default {
 		justify-content: space-evenly;
 		gap: 7px;
 
-		width: 8em !important;
-		height: 8em;
-		margin-bottom: 1em;
+		width: 6em !important;
+		margin: 1em 0;
 
 		box-shadow: var(--el-box-shadow-light);
 
@@ -81,7 +80,7 @@ export default {
 		}
 
 		svg {
-			height: 3.5em !important;
+			height: 2em !important;
 		}
 
 		&:hover {
