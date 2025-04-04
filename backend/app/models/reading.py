@@ -109,7 +109,7 @@ class Reading:
 
 	@staticmethod
 	def get_statistics():
-		end_date = datetime.now(datetime.timezone.utc)
+		end_date = datetime.utcnow()
 		start_date = end_date - timedelta(days=7)
 
 		pipeline = [
