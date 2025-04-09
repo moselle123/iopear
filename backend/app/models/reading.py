@@ -1,6 +1,6 @@
 from bson import ObjectId
 from flask import current_app
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 class Reading:
 	@staticmethod
