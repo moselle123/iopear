@@ -1,7 +1,7 @@
 <template>
 	<el-container direction="vertical" class="events">
 		<el-text class="title">Events</el-text>
-		<el-text>Create an event to register when a sensor goes above or below a set value or trigger at a set time of day.</el-text>
+		<el-text>Create new events or edit existing ones. Events can be triggered either at a scheduled time or based on specific sensor conditions. Each event can include one or more actions that will execute when its trigger conditions are met.</el-text>
 		<el-row class="page-header">
 			<el-alert v-if="newEvents.length" type="warning" title="Please save changes before moving on." />
 			<el-button type="primary" @click="addEvent">
@@ -18,7 +18,7 @@
 						<el-tag v-if=" ! event.is_enabled" type="danger">Disabled</el-tag>
 						<el-text>{{ event._id ? event.name : 'New Event' }}</el-text>
 					</template>
-					<el-alert v-if="event.is_threshold_event" type="warning" title="This is a threshold event, to edit conditions edit the sensor's thresholds." />
+					<el-alert v-if="event.is_threshold_event" type="warning" title="Threshold events are auto-generated from sensor limits. They can't be deleted, but you can add actions or disable notifications." />
 					<el-form label-position="top">
 						<el-row class="grid" justify="space-evenly">
 							<el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">

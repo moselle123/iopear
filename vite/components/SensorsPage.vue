@@ -1,7 +1,7 @@
 <template>
 	<el-container direction="vertical" class="sensors">
 		<el-text class="title">Sensors</el-text>
-		<el-text style="margin-bottom: 1em;">Alter thresholds below by dragging the slider to the desired range and click save changes to confirm the new settings.</el-text>
+		<el-text style="margin-bottom: 1em;">Set sensor thresholds to trigger events when limits are exceeded or disable sensors to stop tracking their data.</el-text>
 		<el-row class="grid" direction="vertical">
 			<el-col v-for="(sensor) in sensors" :key="sensor" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
 				<el-card>
