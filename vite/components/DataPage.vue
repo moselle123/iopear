@@ -2,35 +2,37 @@
 	<el-container class="data" direction="vertical">
 		<el-text class="title">Data</el-text>
 		<el-tabs v-model="activeTab">
-			<el-tab-pane v-for="(sensor, key) in sensors" :key="key" :label="tabData[key].label" :name="key">
-				<el-row justify="space-between">
-					<el-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
-						<el-text>{{ tabData[key].text }}</el-text>
-						<el-row v-if="statistics" class="statistics" justify="space-evenly">
-							<el-col :xs="8" :sm="8" :md="24" :lg="24" :xl="24">
-								<el-statistic title="Average" :value="statistics[key]?.average" />
-							</el-col>
-							<el-col :xs="8" :sm="8" :md="24" :lg="24" :xl="24">
-								<el-statistic title="Minimum" :value="statistics[key]?.min" />
-							</el-col>
-							<el-col :xs="8" :sm="8" :md="24" :lg="24" :xl="24">
-								<el-statistic title="Maximum" :value="statistics[key]?.max" />
-							</el-col>
-						</el-row>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
-						<el-row justify="space-evenly" class="filter">
-							<el-alert v-if="invalidDate" title="Invalid date range: Please chose a date range which is under a month." />
-							<el-date-picker v-model="filteredRange" type="datetimerange" start-placeholder="Start date" end-placeholder="End date" format="DD/MM/YY HH:mm" date-format="DD/MM/YY" time-format="HH:mm" value-format="YYYY-MM-DDTHH:mm:ssZ" />
-							<el-button type="primary" @click="setFilter">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"/></svg>
-								Filter Data
-							</el-button>
-						</el-row>
-						<line-chart v-if="activeTab === key" :sensorName="sensor.name" :dateRange="dateRange" :step="step" :measurement="key" :thresholdMin="sensor.thresholds[key][0]" :thresholdMax="sensor.thresholds[key][1]" ></line-chart>
-					</el-col>
-				</el-row>
-			</el-tab-pane>
+			<template v-for="(sensor, key) in sensors" :key="key">
+				<el-tab-pane v-if="sensors[key].enabled" :label="tabData[key].label" :name="key">
+					<el-row justify="space-between">
+						<el-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
+							<el-text>{{ tabData[key].text }}</el-text>
+							<el-row v-if="statistics" class="statistics" justify="space-evenly">
+								<el-col :xs="8" :sm="8" :md="24" :lg="24" :xl="24">
+									<el-statistic title="Average" :value="statistics[key]?.average" />
+								</el-col>
+								<el-col :xs="8" :sm="8" :md="24" :lg="24" :xl="24">
+									<el-statistic title="Minimum" :value="statistics[key]?.min" />
+								</el-col>
+								<el-col :xs="8" :sm="8" :md="24" :lg="24" :xl="24">
+									<el-statistic title="Maximum" :value="statistics[key]?.max" />
+								</el-col>
+							</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
+							<el-row justify="space-evenly" class="filter">
+								<el-alert v-if="invalidDate" title="Invalid date range: Please chose a date range which is under a month." />
+								<el-date-picker v-model="filteredRange" type="datetimerange" start-placeholder="Start date" end-placeholder="End date" format="DD/MM/YY HH:mm" date-format="DD/MM/YY" time-format="HH:mm" value-format="YYYY-MM-DDTHH:mm:ssZ" />
+								<el-button type="primary" @click="setFilter">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"/></svg>
+									Filter Data
+								</el-button>
+							</el-row>
+							<line-chart v-if="activeTab === key" :sensorName="sensor.name" :dateRange="dateRange" :step="step" :measurement="key" :thresholdMin="sensor.thresholds[key][0]" :thresholdMax="sensor.thresholds[key][1]" ></line-chart>
+						</el-col>
+					</el-row>
+				</el-tab-pane>
+			</template>
 		</el-tabs>
 	</el-container>
 </template>
