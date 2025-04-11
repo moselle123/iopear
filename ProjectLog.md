@@ -114,3 +114,12 @@ This week:
 ## 17 - 23 March
 - Continue testing
 - Began planning dissertation
+
+## 24 - 30 March
+- Continue testing
+- Begin writing dissertation (not polished)
+
+## 31 - 6 April
+- Made good progress on dissertation (almost completed a rough draft)
+
+## 7 - 13 April
