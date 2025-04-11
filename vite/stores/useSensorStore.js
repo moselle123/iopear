@@ -50,7 +50,7 @@ export const useSensorStore = defineStore('sensor', {
 			let settings = { enabled: newSensorObj.enabled, thresholds: newSensorObj.thresholds };
 			return axios.put(host + '/sensor/' + sensorName + '/update_settings', settings)
 			.then(() => {
-				this.getSensors();
+				return this.getSensors();
 			});
 		},
 		getStatistics() {
