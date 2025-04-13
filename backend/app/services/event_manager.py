@@ -26,6 +26,9 @@ class EventManager:
 	@classmethod
 	def update_event_list(cls, event_id=None):
 		try:
+			if event_id is None:
+				cls._events.clear()
+
 			events = Event.get_events(id=event_id, enabled=True)
 			if event_id:
 				events = [events]
