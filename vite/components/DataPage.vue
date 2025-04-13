@@ -29,6 +29,10 @@
 								</el-button>
 							</el-row>
 							<line-chart v-if="activeTab === key" :sensorName="sensor.name" :dateRange="dateRange" :step="step" :measurement="key" :thresholdMin="sensor.thresholds[key][0]" :thresholdMax="sensor.thresholds[key][1]" ></line-chart>
+							<el-row justify="end" style="margin-top: 1em;">
+								<div class="legend"></div>
+								<el-text>- Recommended Range</el-text>
+							</el-row>
 						</el-col>
 					</el-row>
 				</el-tab-pane>
@@ -134,6 +138,15 @@ export default {
 
 	.filter {
 		margin-bottom: 1em;
+	}
+
+	.legend {
+		height: 1em;
+		width: 1em;
+		margin-right: 7px;
+
+		background-color: #00ff001a;
+		border: 1px solid  var(--el-color-primary);
 	}
 }
 </style>
