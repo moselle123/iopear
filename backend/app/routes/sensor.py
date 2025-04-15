@@ -49,7 +49,7 @@ def update_settings(sensor_name):
 	try:
 		sensor = SensorRegistry.get_existing_sensor(sensor_name)
 		if not sensor:
-			return {"error": "sensor with name {sensor_name} not found"}, 404
+			return {"error": "Sensor not found"}, 404
 
 		sensor.update_settings(data["enabled"], data["thresholds"])
 		return jsonify({"message": "Sensor settings updated successfully"}), 200
