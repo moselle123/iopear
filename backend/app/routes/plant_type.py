@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, current_app
 import logging
 from app.models import PlantType
+import bson
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -21,6 +22,8 @@ def get_plant_types():
 
 @plant_type_bp.route('/get_plant_type/<plant_type_id>', methods=['GET'])
 def get_plant_type(plant_type_id):
+	if not bson.ObjectId.is_valid(plant_type_id):
+		return {"message": "ID entered is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string."}, 400
 	try:
 		plant_type = PlantType.get_by_id(plant_type_id)
 		if not plant_type:
