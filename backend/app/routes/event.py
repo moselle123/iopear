@@ -30,7 +30,7 @@ def create_event():
 	try:
 		event_id = Event.create(name=data["name"], conditions=data["conditions"], logic=data["logic"], actions=data["actions"], scheduled_time=data["scheduled_time"], is_enabled=data["is_enabled"])
 		EventManager.update_event_list(event_id)
-		return {"message": "Event created"}, 201
+		return {"message": "Event created", "_id": event_id}, 201
 	except Exception as e:
 		logger.error(f"Error creating event: {e}")
 		return {"error": "Failed to create event"}, 500
