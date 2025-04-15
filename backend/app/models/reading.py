@@ -90,23 +90,6 @@ class Reading:
 			for result in results
 		]
 
-	def get_readings_by_measurement(sensor_id, measurement, limit=100, skip=0):
-		readings_cursor = current_app.config['DB']["reading"].find(
-			{"sensor_id": ObjectId(sensor_id), "measurement": measurement}
-		).sort("timestamp", -1).skip(skip).limit(limit)
-
-		return [
-			{
-				"_id": str(reading["_id"]),
-				"sensor_id": str(reading["sensor_id"]),
-				"timestamp": reading["timestamp"].isoformat(),
-				"value": reading["value"],
-				"unit": reading["unit"],
-				"measurement": reading["measurement"],
-			}
-			for reading in readings_cursor
-		]
-
 	@staticmethod
 	def get_statistics():
 		end_date = datetime.utcnow()

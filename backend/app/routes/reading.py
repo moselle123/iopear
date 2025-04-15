@@ -38,27 +38,6 @@ def get_readings_by_date_range(sensor_name):
 		logger.error(f"Error getting readings by date range: {e}")
 		return {"error": "Failed to get readings by date range."}, 500
 
-
-@reading_bp.route('/sensor/<sensor_name>/readings_by_measurement', methods=['GET'])
-def get_readings_by_measurement(sensor_name):
-	try:
-		measurement = request.args.get('measurement')
-		if not measurement:
-			return jsonify({"error": "Measurement parameter is required"}), 400
-
-		limit = int(request.args.get('limit', 100))
-		skip = int(request.args.get('skip', 0))
-
-		sensor = SensorRegistry.get_existing_sensor(sensor_name)
-		if not sensor:
-			return jsonify({"error": "Sensor not found"}), 404
-
-		readings = Reading.get_readings_by_measurement(sensor._id, measurement, limit=limit, skip=skip)
-		return jsonify(readings), 200
-	except Exception as e:
-		logger.error(f"Error getting readings by date range: {e}")
-		return {"error": "Failed to get readings by measurement"}, 500
-
 @reading_bp.route('/reading/get_statistics', methods=['GET'])
 def get_statistics():
 	try:
