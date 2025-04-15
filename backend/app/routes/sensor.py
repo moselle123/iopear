@@ -47,8 +47,8 @@ def update_settings(sensor_name):
 	if 'enabled' not in data or 'thresholds' not in data:
 		return {"error": "'enabled' and 'thresholds' are required fields."}, 400
 	try:
-		sensor = SensorRegistry.get_sensor(sensor_name)
-		if not sensor._id:
+		sensor = SensorRegistry.get_existing_sensor(sensor_name)
+		if not sensor:
 			return {"error": "sensor with name {sensor_name} not found"}, 404
 
 		sensor.update_settings(data["enabled"], data["thresholds"])

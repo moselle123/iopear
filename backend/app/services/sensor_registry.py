@@ -13,6 +13,12 @@ class SensorRegistry:
 		return sensor
 
 	@classmethod
+	def get_existing_sensor(cls, name):
+		if name in cls._registry:
+			return cls._registry[name]
+		return None
+
+	@classmethod
 	def attach_adafruit_instance(cls, name, adafruit_instance):
 		sensor = cls.get_sensor(name)
 		if sensor:

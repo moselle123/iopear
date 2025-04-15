@@ -9,22 +9,6 @@ logger = logging.getLogger(__name__)
 
 reading_bp = Blueprint('reading', __name__)
 
-@reading_bp.route('/sensor/<sensor_name>/readings', methods=['GET'])
-def get_readings(sensor_name):
-	try:
-		limit = int(request.args.get('limit', 100))
-		skip = int(request.args.get('skip', 0))
-		sensor = SensorRegistry.get_sensor(sensor_name)
-		if not sensor:
-			return jsonify({"error": "Sensor not found"}), 404
-
-		readings = Reading.get_readings(limit=limit, skip=skip)
-		return jsonify(readings), 200
-	except Exception as e:
-		logger.error(f"Error getting {sensor_name} readings: {e}")
-		return {"error": "Failed to get sensor readings"}, 500
-
-
 @reading_bp.route('/sensor/<sensor_name>/readings_by_date_range', methods=['GET'])
 def get_readings_by_date_range(sensor_name):
 	try:
@@ -32,8 +16,8 @@ def get_readings_by_date_range(sensor_name):
 		end_date = request.args.get('end_date')
 		measurement = request.args.get('measurement')
 
-		if not start_date or not end_date:
-			return jsonify({"error": "start_date and end_date are required"}), 400
+		if not (start_date or end_date or measurement):
+			return jsonify({"error": "start_date, end_date and measurement are required"}), 400
 
 		start_date = start_date.replace("Z", "+00:00")
 		end_date = end_date.replace("Z", "+00:00")
@@ -44,7 +28,7 @@ def get_readings_by_date_range(sensor_name):
 		except ValueError:
 			return jsonify({"error": "Invalid date format. Use ISO format"}), 400
 
-		sensor = SensorRegistry.get_sensor(sensor_name)
+		sensor = SensorRegistry.get_existing_sensor(sensor_name)
 		if not sensor:
 			return jsonify({"error": "Sensor not found"}), 404
 
@@ -65,17 +49,17 @@ def get_readings_by_measurement(sensor_name):
 		limit = int(request.args.get('limit', 100))
 		skip = int(request.args.get('skip', 0))
 
-		sensor = SensorRegistry.get_sensor(sensor_name)
+		sensor = SensorRegistry.get_existing_sensor(sensor_name)
 		if not sensor:
 			return jsonify({"error": "Sensor not found"}), 404
 
-		readings = sensor.get_readings_by_measurement(measurement, limit=limit, skip=skip)
+		readings = Reading.get_readings_by_measurement(sensor._id, measurement, limit=limit, skip=skip)
 		return jsonify(readings), 200
 	except Exception as e:
 		logger.error(f"Error getting readings by date range: {e}")
 		return {"error": "Failed to get readings by measurement"}, 500
 
-@reading_bp.route('/get_statistics', methods=['GET'])
+@reading_bp.route('/reading/get_statistics', methods=['GET'])
 def get_statistics():
 	try:
 		stats = Reading.get_statistics()
