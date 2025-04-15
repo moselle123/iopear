@@ -32,7 +32,8 @@ def get_calibration_reading():
 def calibrate_soil_moisture_sensor():
 	data = request.json
 	try:
-		current_app.config['SENSOR_MANAGER'].ss.update_calibration(data[0], data[1])
+		ss = SensorRegistry.get_sensor("SS")
+		ss.update_calibration(data[0], data[1])
 		return jsonify({"message": "Calibration updated successfully"}), 200
 	except Exception as e:
 		logger.error(f"Error setting soil moisture calibration settings: {e}")
@@ -45,6 +46,10 @@ def update_settings(sensor_name):
 		return {"error": "'enabled' and 'thresholds' are required fields."}, 400
 	try:
 		sensor = SensorRegistry.get_sensor(sensor_name)
+
+		if not sensor:
+			return {"error": "sensor with name {sensor_name} not found"}, 404
+
 		sensor.update_settings(data["enabled"], data["thresholds"])
 		return jsonify({"message": "Sensor settings updated successfully"}), 200
 	except Exception as e:
