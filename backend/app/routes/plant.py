@@ -20,6 +20,8 @@ def get_plant():
 @plant_bp.route('/create_plant', methods=['POST'])
 def new_plant():
 	data = request.json
+	if not data:
+		return {"error": "Failed to create plant, no valid data was given."}, 400
 
 	SensorRegistry.initialise_settings(data["settings"])
 
