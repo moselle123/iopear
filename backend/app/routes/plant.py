@@ -27,7 +27,7 @@ def new_plant():
 		SensorRegistry.initialise_settings(data["settings"])
 
 		plant_id = Plant.create(name=data['name'], plant_type_id=data['plantTypeId'])
-		return {"message": "Created plant successfully.", "_id": plant_id}, 201
+		return {"message": "Created plant successfully.", "_id": str(plant_id)}, 201
 	except Exception as e:
 		logger.error(f"Error creating plant collection: {e}")
 		return {"error": "Failed to create plant."}, 500
