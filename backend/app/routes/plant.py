@@ -20,10 +20,14 @@ def get_plant():
 @plant_bp.route('/create_plant', methods=['POST'])
 def new_plant():
 	data = request.json
-	if not data:
-		return {"error": "Failed to create plant, no valid data was given."}, 400
+	try:
+		if not data:
+			return {"error": "Failed to create plant, no valid data was given."}, 400
 
-	SensorRegistry.initialise_settings(data["settings"])
+		SensorRegistry.initialise_settings(data["settings"])
 
-	plant_id = Plant.create(name=data['name'], plant_type_id=data['plantTypeId'])
-	return {"message": "Created plant successfully.", "_id": plant_id}, 201
+		plant_id = Plant.create(name=data['name'], plant_type_id=data['plantTypeId'])
+		return {"message": "Created plant successfully.", "_id": plant_id}, 201
+	except Exception as e:
+		logger.error(f"Error creating plant collection: {e}")
+		return {"error": "Failed to create plant."}, 500
