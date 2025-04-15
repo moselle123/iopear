@@ -39,6 +39,7 @@ def create_event():
 def update_event(event_id):
 	if not bson.ObjectId.is_valid(event_id):
 		return {"message": "ID entered is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string."}, 400
+
 	data = request.json
 	try:
 		message = Event.update(event_id, data)
@@ -52,6 +53,9 @@ def update_event(event_id):
 
 @event_bp.route('/delete_event/<event_id>', methods=['DELETE'])
 def delete_event(event_id):
+	if not bson.ObjectId.is_valid(event_id):
+		return {"message": "ID entered is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string."}, 400
+
 	try:
 		event = Event.delete(event_id)
 		if not event:
