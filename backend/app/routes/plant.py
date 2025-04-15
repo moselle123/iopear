@@ -26,4 +26,4 @@ def new_plant():
 	SensorRegistry.initialise_settings(data["settings"])
 
 	plant_id = Plant.create(name=data['name'], plant_type_id=data['plantTypeId'])
-	return {"message": "Created plant successfully.", "_id": plant_id}, 200
+	return {"message": "Created plant successfully.", "_id": plant_id}, 201
