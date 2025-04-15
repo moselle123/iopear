@@ -31,6 +31,8 @@ def get_calibration_reading():
 @sensor_bp.route('/calibrate_soil_moisture_sensor', methods=['POST'])
 def calibrate_soil_moisture_sensor():
 	data = request.json
+	if not data[0] or data[1]:
+		return jsonify({"error": "Calibration data was not given in the expected format"}), 400
 	try:
 		ss = SensorRegistry.get_sensor("SS")
 		ss.update_calibration(data[0], data[1])
