@@ -54,6 +54,7 @@ class ActionManager():
 
 	@classmethod
 	def update_action_list(cls):
+		cls._actions.clear()
 		actions = Action.get_actions()
 		for action in actions:
 			cls._actions[str(action["_id"])] = {
@@ -64,6 +65,7 @@ class ActionManager():
 
 	@classmethod
 	def update_actuator_list(cls):
+		cls._actuators.clear()
 		actuators = Actuator.get_actuators()
 		for actuator in actuators:
 			cls._actuators[str(actuator["_id"])] = {
