@@ -1,0 +1,1187 @@
+{
+	"id": "2eed665d-d7e0-41e5-894b-ba496b614c73",
+	"name": "ioPear",
+	"timestamp": "2025-04-16T08:37:02.736Z",
+	"collection_id": "26950059-34d2a434-80fa-450f-b7e3-ece83b303387",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 65,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-04-16T08:34:43.042Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "c274038c-f5b0-4d6c-a83c-b36e35c74df8",
+			"name": "POST /create_plant 201",
+			"url": "100.65.155.12:5000/create_plant",
+			"time": 181,
+			"responseCode": {
+				"code": 201,
+				"name": "CREATED"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Returns valid response object": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns valid response object": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				181
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Returns valid response object": true
+				}
+			]
+		},
+		{
+			"id": "0b975221-4d71-4d5d-a725-37823c57ff76",
+			"name": "POST /create_plant 400",
+			"url": "100.65.155.12:5000/create_plant",
+			"time": 16,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "71a46f7b-b38a-40f4-a5e0-b9d8121fc157",
+			"name": "GET /plant 200",
+			"url": "100.65.155.12:5000/get_plant",
+			"time": 20,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Returns valid plant object": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns valid plant object": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				20
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Returns valid plant object": true
+				}
+			]
+		},
+		{
+			"id": "a2854e69-76ae-4af5-8d4c-d75a1d919ef3",
+			"name": "GET /plant_types 200",
+			"url": "100.65.155.12:5000/get_plant_types",
+			"time": 26,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true,
+				"Each plant type has required fields": true,
+				"Thresholds contain expected sensors": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each plant type has required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Thresholds contain expected sensors": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				26
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true,
+					"Each plant type has required fields": true,
+					"Thresholds contain expected sensors": true
+				}
+			]
+		},
+		{
+			"id": "5555b147-dee7-4a27-8f20-0c2aa7507ca8",
+			"name": "GET /plant_type/{{plant_type_id}} 200",
+			"url": "100.65.155.12:5000/get_plant_type/6798ae27f41605ffa89a0a46",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an object": true,
+				"Plant type has required fields": true,
+				"Thresholds contain expected sensor keys": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an object": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Plant type has required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Thresholds contain expected sensor keys": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an object": true,
+					"Plant type has required fields": true,
+					"Thresholds contain expected sensor keys": true
+				}
+			]
+		},
+		{
+			"id": "09b7c08c-2a4b-403f-844c-47e7f287096d",
+			"name": "GET /plant_type/{{plant_type_id}} 400",
+			"url": "100.65.155.12:5000/get_plant_type/5",
+			"time": 13,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "1d13dafd-f503-4fb0-a30d-4dcad6da1575",
+			"name": "GET /plant_type/{{plant_type_id}} 404",
+			"url": "100.65.155.12:5000/get_plant_type/67f65f9c1b5b34d02ea058a0",
+			"time": 43,
+			"responseCode": {
+				"code": 404,
+				"name": "NOT FOUND"
+			},
+			"tests": {
+				"Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				43
+			],
+			"allTests": [
+				{
+					"Status code is 404": true
+				}
+			]
+		},
+		{
+			"id": "9d5dab0f-c392-4bf3-884a-aaad71031689",
+			"name": "GET /sensors 200",
+			"url": "100.65.155.12:5000/get_sensors",
+			"time": 44,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true,
+				"Each sensor has required fields": true,
+				"Thresholds contain valid sensor keys with range arrays": true,
+				"Calibration block is valid when present": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each sensor has required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Thresholds contain valid sensor keys with range arrays": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Calibration block is valid when present": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				44
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true,
+					"Each sensor has required fields": true,
+					"Thresholds contain valid sensor keys with range arrays": true,
+					"Calibration block is valid when present": true
+				}
+			]
+		},
+		{
+			"id": "c765f4c9-798c-47da-a40a-d2b5aede7fa4",
+			"name": "GET /get_calibration_reading 200",
+			"url": "100.65.155.12:5000/get_calibration_reading",
+			"time": 18,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an object with soil_moisture": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an object with soil_moisture": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an object with soil_moisture": true
+				}
+			]
+		},
+		{
+			"id": "0d7c86b0-8ad8-4014-bc6f-f64d7d8a5a57",
+			"name": "POST /calibrate_soil_moisture_sensor 200",
+			"url": "100.65.155.12:5000/calibrate_soil_moisture_sensor",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response has success message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has success message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response has success message": true
+				}
+			]
+		},
+		{
+			"id": "6074bdce-800f-4d6b-9d75-fc2d57f0b6b2",
+			"name": "POST /calibrate_soil_moisture_sensor 400",
+			"url": "100.65.155.12:5000/calibrate_soil_moisture_sensor",
+			"time": 13,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "db9faecc-d85a-400a-90a8-c6534c302d7a",
+			"name": "PUT /sensors/{sensor_name}/update_settings 200",
+			"url": "100.65.155.12:5000/sensor/SCD40/update_settings",
+			"time": 62,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Success message returned": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Success message returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				62
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Success message returned": true
+				}
+			]
+		},
+		{
+			"id": "e57c8f48-7a2d-4491-a498-93f791355840",
+			"name": "PUT /sensors/{sensor_name}/update_settings 400",
+			"url": "100.65.155.12:5000/sensor/SCD40/update_settings",
+			"time": 11,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "7941cbcc-2c14-428e-8fea-663153f8a594",
+			"name": "PUT /sensors/{sensor_name}/update_settings 404",
+			"url": "100.65.155.12:5000/sensor/hgfhg/update_settings",
+			"time": 12,
+			"responseCode": {
+				"code": 404,
+				"name": "NOT FOUND"
+			},
+			"tests": {
+				"Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code is 404": true
+				}
+			]
+		},
+		{
+			"id": "8949e6ce-ab94-4ac9-9308-117ac3ef0bdc",
+			"name": "GET /sensors/{sensor_name}/readings_by_date_range 200",
+			"url": "100.65.155.12:5000/sensor/SHT31/readings_by_date_range?start_date=2025-04-14T15:19:38.888Z&end_date=2025-04-14T16:19:38.889Z&measurement=humidity",
+			"time": 67960,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array with data": true,
+				"Each reading has expected fields": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array with data": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each reading has expected fields": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				67960
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array with data": true,
+					"Each reading has expected fields": true
+				}
+			]
+		},
+		{
+			"id": "7ac3e6f4-0e14-420b-a8bd-ef10bf65c60d",
+			"name": "GET /sensors/{sensor_name}/readings_by_date_range 404",
+			"url": "100.65.155.12:5000/sensor/kgjh/readings_by_date_range?start_date=2025-04-14T15:19:38.888Z&end_date=2025-04-14T16:19:38.889Z&measurement=humidity",
+			"time": 132,
+			"responseCode": {
+				"code": 404,
+				"name": "NOT FOUND"
+			},
+			"tests": {
+				"Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				132
+			],
+			"allTests": [
+				{
+					"Status code is 404": true
+				}
+			]
+		},
+		{
+			"id": "f43d48d3-67e4-4332-b160-845e5268d3b5",
+			"name": "GET /sensors/{sensor_name}/readings_by_date_range 400",
+			"url": "100.65.155.12:5000/sensor/SCD40/readings_by_date_range?start_date=2025-04-14T15:19:38.888Z&end_date=sadfasfd&measurement=humidity",
+			"time": 14,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "9af7cfeb-1aac-4bbc-998c-ebd97d2cde60",
+			"name": "GET /reading/get_statistics 200",
+			"url": "100.65.155.12:5000/reading/get_statistics",
+			"time": 68118,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is a JSON object": true,
+				"All expected sensor keys exist": true,
+				"Each sensor key has avg, min, max as numbers": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is a JSON object": {
+					"pass": 1,
+					"fail": 0
+				},
+				"All expected sensor keys exist": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each sensor key has avg, min, max as numbers": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				68118
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is a JSON object": true,
+					"All expected sensor keys exist": true,
+					"Each sensor key has avg, min, max as numbers": true
+				}
+			]
+		},
+		{
+			"id": "25b7824d-24de-4da8-aa05-33f18ef4fa56",
+			"name": "GET /get_notifications 200",
+			"url": "100.65.155.12:5000/get_notifications?start_date=2025-04-14T15:19:38.888Z&end_date=2025-04-14T16:19:38.889Z",
+			"time": 1749,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true,
+				"Each notification has required fields": true,
+				"Timestamps are within requested range": true,
+				"Timestamps are in descending order": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each notification has required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Timestamps are within requested range": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Timestamps are in descending order": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1749
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true,
+					"Each notification has required fields": true,
+					"Timestamps are within requested range": true,
+					"Timestamps are in descending order": true
+				}
+			]
+		},
+		{
+			"id": "5e04fea4-79c3-4d18-8019-f478e7c81b68",
+			"name": "GET /get_notifications 400",
+			"url": "100.65.155.12:5000/get_notifications?start_date=2025-04-14T15:19:38.888Z&end_date=dsaf",
+			"time": 16,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "febedfa8-358f-4b84-ab31-b07beb74d8f1",
+			"name": "GET /get_events 200",
+			"url": "100.65.155.12:5000/get_events",
+			"time": 57,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array of events": true,
+				"Each event has required fields and valid types": true,
+				"If present, each condition has required fields": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array of events": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each event has required fields and valid types": {
+					"pass": 1,
+					"fail": 0
+				},
+				"If present, each condition has required fields": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				57
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array of events": true,
+					"Each event has required fields and valid types": true,
+					"If present, each condition has required fields": true
+				}
+			]
+		},
+		{
+			"id": "15a0a211-4cc5-41da-be8d-befea429f99b",
+			"name": "POST /create_event 201",
+			"url": "100.65.155.12:5000/create_event",
+			"time": 215,
+			"responseCode": {
+				"code": 201,
+				"name": "CREATED"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Returns valid plant object": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns valid plant object": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				215
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Returns valid plant object": true
+				}
+			]
+		},
+		{
+			"id": "e9ea1e61-72a5-47ac-9977-85b022639f71",
+			"name": "POST /create_event 400",
+			"url": "100.65.155.12:5000/create_event",
+			"time": 22,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				22
+			],
+			"allTests": [
+				{
+					"Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "6df23988-6329-4bcd-8618-ca799c2fb302",
+			"name": "PUT /update_event 200",
+			"url": "100.65.155.12:5000/update_event/67ff6adf311d3e6bf2a46983",
+			"time": 89,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Returns valid response message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns valid response message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				89
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Returns valid response message": true
+				}
+			]
+		},
+		{
+			"id": "ee980bd4-5fba-4362-a9e9-ae362c77eb5e",
+			"name": "PUT /update_event 400",
+			"url": "100.65.155.12:5000/update_event/5",
+			"time": 14,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "3bdb0594-dded-4276-9d08-c2fe535c12d5",
+			"name": "PUT /update_event 404",
+			"url": "100.65.155.12:5000/update_event/67f65f9c1b5b34d02ea058a0",
+			"time": 27,
+			"responseCode": {
+				"code": 404,
+				"name": "NOT FOUND"
+			},
+			"tests": {
+				"Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				27
+			],
+			"allTests": [
+				{
+					"Status code is 404": true
+				}
+			]
+		},
+		{
+			"id": "56a525af-99ed-4b7a-acc9-d7923e54bcc1",
+			"name": "DELETE /delete_event 200",
+			"url": "100.65.155.12:5000/delete_event/67ff6adf311d3e6bf2a46983",
+			"time": 61,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Success message returned": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Success message returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				61
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Success message returned": true
+				}
+			]
+		},
+		{
+			"id": "5dda6a21-8dc8-4256-8223-43b33e9e8811",
+			"name": "DELETE /delete_event 404",
+			"url": "100.65.155.12:5000/delete_event/67f65f9c1b5b34d02ea058a0",
+			"time": 17,
+			"responseCode": {
+				"code": 404,
+				"name": "NOT FOUND"
+			},
+			"tests": {
+				"Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status code is 404": true
+				}
+			]
+		},
+		{
+			"id": "6d4f03c0-6bc9-4792-b9c9-3f32263dd665",
+			"name": "DELETE /delete_event 400",
+			"url": "100.65.155.12:5000/delete_event/5",
+			"time": 14,
+			"responseCode": {
+				"code": 400,
+				"name": "BAD REQUEST"
+			},
+			"tests": {
+				"Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "e6196647-cdd3-4dfa-8640-ae48ea5c330b",
+			"name": "GET /get_actions 200",
+			"url": "100.65.155.12:5000/get_actions",
+			"time": 45,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true,
+				"Each action has required fields with correct types": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each action has required fields with correct types": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				45
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true,
+					"Each action has required fields with correct types": true
+				}
+			]
+		},
+		{
+			"id": "c20882e6-7225-4b27-97ca-b5fdcfd75c23",
+			"name": "GET /get_actuators 200",
+			"url": "100.65.155.12:5000/get_actuators",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response is an array": true,
+				"Each actuator has required fields with correct types": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each actuator has required fields with correct types": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response is an array": true,
+					"Each actuator has required fields with correct types": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 139057,
+	"collection": {
+		"requests": [
+			{
+				"id": "c274038c-f5b0-4d6c-a83c-b36e35c74df8",
+				"method": "POST"
+			},
+			{
+				"id": "0b975221-4d71-4d5d-a725-37823c57ff76",
+				"method": "POST"
+			},
+			{
+				"id": "71a46f7b-b38a-40f4-a5e0-b9d8121fc157",
+				"method": "GET"
+			},
+			{
+				"id": "a2854e69-76ae-4af5-8d4c-d75a1d919ef3",
+				"method": "GET"
+			},
+			{
+				"id": "5555b147-dee7-4a27-8f20-0c2aa7507ca8",
+				"method": "GET"
+			},
+			{
+				"id": "09b7c08c-2a4b-403f-844c-47e7f287096d",
+				"method": "GET"
+			},
+			{
+				"id": "1d13dafd-f503-4fb0-a30d-4dcad6da1575",
+				"method": "GET"
+			},
+			{
+				"id": "9d5dab0f-c392-4bf3-884a-aaad71031689",
+				"method": "GET"
+			},
+			{
+				"id": "c765f4c9-798c-47da-a40a-d2b5aede7fa4",
+				"method": "GET"
+			},
+			{
+				"id": "0d7c86b0-8ad8-4014-bc6f-f64d7d8a5a57",
+				"method": "POST"
+			},
+			{
+				"id": "6074bdce-800f-4d6b-9d75-fc2d57f0b6b2",
+				"method": "POST"
+			},
+			{
+				"id": "db9faecc-d85a-400a-90a8-c6534c302d7a",
+				"method": "PUT"
+			},
+			{
+				"id": "e57c8f48-7a2d-4491-a498-93f791355840",
+				"method": "PUT"
+			},
+			{
+				"id": "7941cbcc-2c14-428e-8fea-663153f8a594",
+				"method": "PUT"
+			},
+			{
+				"id": "8949e6ce-ab94-4ac9-9308-117ac3ef0bdc",
+				"method": "GET"
+			},
+			{
+				"id": "7ac3e6f4-0e14-420b-a8bd-ef10bf65c60d",
+				"method": "GET"
+			},
+			{
+				"id": "f43d48d3-67e4-4332-b160-845e5268d3b5",
+				"method": "GET"
+			},
+			{
+				"id": "9af7cfeb-1aac-4bbc-998c-ebd97d2cde60",
+				"method": "GET"
+			},
+			{
+				"id": "25b7824d-24de-4da8-aa05-33f18ef4fa56",
+				"method": "GET"
+			},
+			{
+				"id": "5e04fea4-79c3-4d18-8019-f478e7c81b68",
+				"method": "GET"
+			},
+			{
+				"id": "febedfa8-358f-4b84-ab31-b07beb74d8f1",
+				"method": "GET"
+			},
+			{
+				"id": "15a0a211-4cc5-41da-be8d-befea429f99b",
+				"method": "POST"
+			},
+			{
+				"id": "e9ea1e61-72a5-47ac-9977-85b022639f71",
+				"method": "POST"
+			},
+			{
+				"id": "6df23988-6329-4bcd-8618-ca799c2fb302",
+				"method": "PUT"
+			},
+			{
+				"id": "ee980bd4-5fba-4362-a9e9-ae362c77eb5e",
+				"method": "PUT"
+			},
+			{
+				"id": "3bdb0594-dded-4276-9d08-c2fe535c12d5",
+				"method": "PUT"
+			},
+			{
+				"id": "56a525af-99ed-4b7a-acc9-d7923e54bcc1",
+				"method": "DELETE"
+			},
+			{
+				"id": "5dda6a21-8dc8-4256-8223-43b33e9e8811",
+				"method": "DELETE"
+			},
+			{
+				"id": "6d4f03c0-6bc9-4792-b9c9-3f32263dd665",
+				"method": "DELETE"
+			},
+			{
+				"id": "e6196647-cdd3-4dfa-8640-ae48ea5c330b",
+				"method": "GET"
+			},
+			{
+				"id": "c20882e6-7225-4b27-97ca-b5fdcfd75c23",
+				"method": "GET"
+			}
+		]
+	}
+}

@@ -1,0 +1,3477 @@
+{
+	"info": {
+		"_postman_id": "34d2a434-80fa-450f-b7e3-ece83b303387",
+		"name": "ioPear",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26950059"
+	},
+	"item": [
+		{
+			"name": "POST /create_plant 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Returns valid response object\", function () {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.have.property(\"message\");",
+							"    pm.expect(data).to.have.property(\"_id\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Birds of Paradise\",\n  \"plantTypeId\": \"6798ae27f41605ffa89a0a48\",\n  \"settings\": {\n    \"SHT31\": {\n      \"enabled\": true,\n      \"thresholds\": {\n        \"temperature\": [\n          16,\n          29\n        ],\n        \"humidity\": [\n          50,\n          70\n        ]\n      }\n    },\n    \"TSL2561\": {\n      \"enabled\": true,\n      \"thresholds\": {\n        \"light_intensity\": [\n          800,\n          900\n        ]\n      }\n    },\n    \"BMP280\": {\n      \"enabled\": true,\n      \"thresholds\": {\n        \"barometric_pressure\": [\n          960,\n          1050\n        ]\n      }\n    },\n    \"SS\": {\n      \"enabled\": true,\n      \"thresholds\": {\n        \"soil_moisture\": [\n          30,\n          50\n        ],\n        \"soil_temperature\": [\n          18,\n          24\n        ]\n      }\n    },\n    \"SCD40\": {\n      \"enabled\": false,\n      \"thresholds\": {\n        \"co2\": [\n          400,\n          1000\n        ]\n      }\n    }\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/create_plant",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"create_plant"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "201",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Birds of Paradise\",\n  \"plantTypeId\": \"6798ae27f41605ffa89a0a48\",\n  \"settings\": {\n    \"SHT31\": {\n      \"enabled\": true,\n      \"thresholds\": {\n        \"temperature\": [\n          16,\n          29\n        ],\n        \"humidity\": [\n          50,\n          70\n        ]\n      }\n    },\n    \"TSL2561\": {\n      \"enabled\": true,\n      \"thresholds\": {\n        \"light_intensity\": [\n          800,\n          900\n        ]\n      }\n    },\n    \"BMP280\": {\n      \"enabled\": true,\n      \"thresholds\": {\n        \"barometric_pressure\": [\n          960,\n          1050\n        ]\n      }\n    },\n    \"SS\": {\n      \"enabled\": true,\n      \"thresholds\": {\n        \"soil_moisture\": [\n          30,\n          50\n        ],\n        \"soil_temperature\": [\n          18,\n          24\n        ]\n      }\n    },\n    \"SCD40\": {\n      \"enabled\": false,\n      \"thresholds\": {\n        \"co2\": [\n          400,\n          1000\n        ]\n      }\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/create_plant",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"create_plant"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "84"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 18:23:33 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"_id\": \"67fea425e6ba9741b339016c\",\n    \"message\": \"Created plant successfully.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "POST /create_plant 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/create_plant",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"create_plant"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "400",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/create_plant",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"create_plant"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "66"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 17:05:25 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Failed to create plant, no valid data was given.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /plant 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Returns valid plant object\", function () {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.have.property(\"_id\");",
+							"    pm.expect(data).to.have.property(\"name\");",
+							"    pm.expect(data).to.have.property(\"plant_type_id\");",
+							"    pm.expect(data).to.have.property(\"sensors\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_plant",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_plant"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_plant",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_plant"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1311"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 13:34:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"_id\": \"67f65f9c1b5b34d02ea058a0\",\n    \"name\": \"Birds of Paradise\",\n    \"plant_type_id\": \"6798ae27f41605ffa89a0a48\",\n    \"sensors\": [\n        {\n            \"_id\": \"6798ae26f41605ffa89a0a42\",\n            \"enabled\": true,\n            \"name\": \"TSL2561\",\n            \"thresholds\": {\n                \"light_intensity\": [\n                    800,\n                    900\n                ]\n            }\n        },\n        {\n            \"_id\": \"6798ae26f41605ffa89a0a43\",\n            \"enabled\": true,\n            \"name\": \"BMP280\",\n            \"thresholds\": {\n                \"barometric_pressure\": [\n                    960,\n                    1050\n                ]\n            }\n        },\n        {\n            \"_id\": \"6798ae20f41605ffa89a0a41\",\n            \"enabled\": true,\n            \"name\": \"SHT31\",\n            \"thresholds\": {\n                \"humidity\": [\n                    50,\n                    70\n                ],\n                \"temperature\": [\n                    16,\n                    29\n                ]\n            }\n        },\n        {\n            \"_id\": \"6798ae27f41605ffa89a0a45\",\n            \"calibration\": {\n                \"max\": 928,\n                \"min\": 366\n            },\n            \"enabled\": true,\n            \"name\": \"SS\",\n            \"thresholds\": {\n                \"soil_moisture\": [\n                    30,\n                    50\n                ],\n                \"soil_temperature\": [\n                    18,\n                    24\n                ]\n            }\n        },\n        {\n            \"_id\": \"6798ae27f41605ffa89a0a44\",\n            \"enabled\": false,\n            \"name\": \"SCD40\",\n            \"thresholds\": {\n                \"co2\": [\n                    400,\n                    1000\n                ]\n            }\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /plant_types 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"    pm.expect(data.length).to.be.above(0);",
+							"});",
+							"",
+							"pm.test(\"Each plant type has required fields\", function () {",
+							"    data.forEach(pt => {",
+							"        pm.expect(pt).to.have.property(\"_id\");",
+							"        pm.expect(pt).to.have.property(\"name\");",
+							"        pm.expect(pt).to.have.property(\"description\");",
+							"        pm.expect(pt).to.have.property(\"nicknames\");",
+							"        pm.expect(pt.nicknames).to.be.an(\"array\");",
+							"        pm.expect(pt).to.have.property(\"thresholds\");",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Thresholds contain expected sensors\", function () {",
+							"    const expectedThresholds = [",
+							"        \"temperature\",",
+							"        \"humidity\",",
+							"        \"soil_moisture\",",
+							"        \"soil_temperature\",",
+							"        \"light_intensity\",",
+							"        \"barometric_pressure\",",
+							"        \"co2\"",
+							"    ];",
+							"",
+							"    data.forEach(pt => {",
+							"        expectedThresholds.forEach(sensor => {",
+							"            pm.expect(pt.thresholds).to.have.property(sensor);",
+							"            pm.expect(pt.thresholds[sensor]).to.be.an(\"array\");",
+							"            pm.expect(pt.thresholds[sensor].length).to.eql(2);",
+							"        });",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_plant_types",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_plant_types"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_plant_types",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_plant_types"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2311"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 13:35:57 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"6798ae27f41605ffa89a0a46\",\n        \"description\": \"The Monstera Deliciosa, also known as the Swiss Cheese Plant, is a tropical climbing plant with large, fenestrated leaves, admired for its striking aesthetic and easy care.\",\n        \"name\": \"Monstera Deliciousa\",\n        \"nicknames\": [\n            \"Cheese Plant\"\n        ],\n        \"thresholds\": {\n            \"barometric_pressure\": [\n                960,\n                1050\n            ],\n            \"co2\": [\n                400,\n                1000\n            ],\n            \"humidity\": [\n                50,\n                60\n            ],\n            \"light_intensity\": [\n                800,\n                900\n            ],\n            \"soil_moisture\": [\n                20,\n                100\n            ],\n            \"soil_temperature\": [\n                26,\n                30\n            ],\n            \"temperature\": [\n                24,\n                30\n            ]\n        }\n    },\n    {\n        \"_id\": \"6798ae27f41605ffa89a0a47\",\n        \"description\": \"The ZZ Plant, or Zamioculcas zamiifolia, is a hardy, low-maintenance houseplant with glossy, dark green leaves, perfect for beginners and thriving in low-light conditions.\",\n        \"name\": \"Zanzibar Gem\",\n        \"nicknames\": [\n            \"ZZ Plant\"\n        ],\n        \"thresholds\": {\n            \"barometric_pressure\": [\n                960,\n                1050\n            ],\n            \"co2\": [\n                400,\n                1000\n            ],\n            \"humidity\": [\n                50,\n                60\n            ],\n            \"light_intensity\": [\n                800,\n                900\n            ],\n            \"soil_moisture\": [\n                20,\n                100\n            ],\n            \"soil_temperature\": [\n                26,\n                30\n            ],\n            \"temperature\": [\n                24,\n                30\n            ]\n        }\n    },\n    {\n        \"_id\": \"6798ae27f41605ffa89a0a48\",\n        \"description\": \"The Bird of Paradise, or Strelitzia reginae, is a striking, tropical houseplant known for its lush, banana-like leaves and vibrant, bird-shaped flowers, thriving in bright, indirect light and adding a bold, exotic touch to any space.\",\n        \"name\": \"Strelitzia Nicolai\",\n        \"nicknames\": [\n            \"Birds of Paradise\"\n        ],\n        \"thresholds\": {\n            \"barometric_pressure\": [\n                960,\n                1050\n            ],\n            \"co2\": [\n                400,\n                1000\n            ],\n            \"humidity\": [\n                50,\n                70\n            ],\n            \"light_intensity\": [\n                800,\n                900\n            ],\n            \"soil_moisture\": [\n                30,\n                50\n            ],\n            \"soil_temperature\": [\n                18,\n                24\n            ],\n            \"temperature\": [\n                16,\n                29\n            ]\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "GET /plant_type/{{plant_type_id}} 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is an object\", function () {",
+							"    pm.expect(data).to.be.an(\"object\");",
+							"});",
+							"",
+							"pm.test(\"Plant type has required fields\", function () {",
+							"    pm.expect(data).to.have.property(\"_id\");",
+							"    pm.expect(data).to.have.property(\"name\");",
+							"    pm.expect(data).to.have.property(\"description\");",
+							"    pm.expect(data).to.have.property(\"nicknames\");",
+							"    pm.expect(data.nicknames).to.be.an(\"array\");",
+							"    pm.expect(data).to.have.property(\"thresholds\");",
+							"    pm.expect(data.thresholds).to.be.an(\"object\");",
+							"});",
+							"",
+							"pm.test(\"Thresholds contain expected sensor keys\", function () {",
+							"    const expectedThresholds = [",
+							"        \"temperature\",",
+							"        \"humidity\",",
+							"        \"soil_moisture\",",
+							"        \"soil_temperature\",",
+							"        \"light_intensity\",",
+							"        \"barometric_pressure\",",
+							"        \"co2\"",
+							"    ];",
+							"",
+							"    expectedThresholds.forEach(sensor => {",
+							"        pm.expect(data.thresholds).to.have.property(sensor);",
+							"        pm.expect(data.thresholds[sensor]).to.be.an(\"array\");",
+							"        pm.expect(data.thresholds[sensor].length).to.eql(2);",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_plant_type/{{plant_type_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_plant_type",
+						"{{plant_type_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_plant_type/6798ae27f41605ffa89a0a46",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_plant_type",
+								"6798ae27f41605ffa89a0a46"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "675"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 16:43:48 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"_id\": \"6798ae27f41605ffa89a0a46\",\n    \"description\": \"The Monstera Deliciosa, also known as the Swiss Cheese Plant, is a tropical climbing plant with large, fenestrated leaves, admired for its striking aesthetic and easy care.\",\n    \"name\": \"Monstera Deliciousa\",\n    \"nicknames\": [\n        \"Cheese Plant\"\n    ],\n    \"thresholds\": {\n        \"barometric_pressure\": [\n            960,\n            1050\n        ],\n        \"co2\": [\n            400,\n            1000\n        ],\n        \"humidity\": [\n            50,\n            60\n        ],\n        \"light_intensity\": [\n            800,\n            900\n        ],\n        \"soil_moisture\": [\n            20,\n            100\n        ],\n        \"soil_temperature\": [\n            26,\n            30\n        ],\n        \"temperature\": [\n            24,\n            30\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /plant_type/{{plant_type_id}} 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_plant_type/5",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_plant_type",
+						"5"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "400",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_plant_type/5",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_plant_type",
+								"5"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 18:06:44 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"ID entered is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /plant_type/{{plant_type_id}} 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_plant_type/{{fake_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_plant_type",
+						"{{fake_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "404",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_plant_type/67f65f9c1b5b34d02ea058a0",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_plant_type",
+								"67f65f9c1b5b34d02ea058a0"
+							]
+						}
+					},
+					"status": "NOT FOUND",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "38"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 17:11:22 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Plant type not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /sensors 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"    pm.expect(data.length).to.be.above(0);",
+							"});",
+							"",
+							"pm.test(\"Each sensor has required fields\", function () {",
+							"    data.forEach(sensor => {",
+							"        pm.expect(sensor).to.have.property(\"_id\");",
+							"        pm.expect(sensor).to.have.property(\"name\");",
+							"        pm.expect(sensor).to.have.property(\"enabled\");",
+							"        pm.expect(sensor).to.have.property(\"thresholds\");",
+							"        pm.expect(sensor.thresholds).to.be.an(\"object\");",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Thresholds contain valid sensor keys with range arrays\", function () {",
+							"    data.forEach(sensor => {",
+							"        const thresholds = sensor.thresholds;",
+							"        Object.keys(thresholds).forEach(key => {",
+							"            pm.expect(thresholds[key]).to.be.an(\"array\");",
+							"            pm.expect(thresholds[key].length).to.eql(2);",
+							"            pm.expect(typeof thresholds[key][0]).to.eql(\"number\");",
+							"            pm.expect(typeof thresholds[key][1]).to.eql(\"number\");",
+							"        });",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Calibration block is valid when present\", function () {",
+							"    data.forEach(sensor => {",
+							"        if (sensor.calibration) {",
+							"            pm.expect(sensor.calibration).to.have.property(\"min\");",
+							"            pm.expect(sensor.calibration).to.have.property(\"max\");",
+							"            pm.expect(typeof sensor.calibration.min).to.eql(\"number\");",
+							"            pm.expect(typeof sensor.calibration.max).to.eql(\"number\");",
+							"        }",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_sensors",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_sensors"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_sensors",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_sensors"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1043"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 13:36:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"6798ae26f41605ffa89a0a42\",\n        \"enabled\": true,\n        \"name\": \"TSL2561\",\n        \"thresholds\": {\n            \"light_intensity\": [\n                800,\n                900\n            ]\n        }\n    },\n    {\n        \"_id\": \"6798ae26f41605ffa89a0a43\",\n        \"enabled\": true,\n        \"name\": \"BMP280\",\n        \"thresholds\": {\n            \"barometric_pressure\": [\n                960,\n                1050\n            ]\n        }\n    },\n    {\n        \"_id\": \"6798ae20f41605ffa89a0a41\",\n        \"enabled\": true,\n        \"name\": \"SHT31\",\n        \"thresholds\": {\n            \"humidity\": [\n                50,\n                70\n            ],\n            \"temperature\": [\n                16,\n                29\n            ]\n        }\n    },\n    {\n        \"_id\": \"6798ae27f41605ffa89a0a45\",\n        \"calibration\": {\n            \"max\": 928,\n            \"min\": 366\n        },\n        \"enabled\": true,\n        \"name\": \"SS\",\n        \"thresholds\": {\n            \"soil_moisture\": [\n                30,\n                50\n            ],\n            \"soil_temperature\": [\n                18,\n                24\n            ]\n        }\n    },\n    {\n        \"_id\": \"6798ae27f41605ffa89a0a44\",\n        \"enabled\": false,\n        \"name\": \"SCD40\",\n        \"thresholds\": {\n            \"co2\": [\n                400,\n                1000\n            ]\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "GET /get_calibration_reading 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is an object with soil_moisture\", function () {",
+							"    pm.expect(data).to.be.an(\"object\");",
+							"    pm.expect(data).to.have.property(\"soil_moisture\");",
+							"    pm.expect(typeof data.soil_moisture).to.eql(\"number\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_calibration_reading",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_calibration_reading"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_calibration_reading",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_calibration_reading"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "27"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 13:37:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"soil_moisture\": 803\n}"
+				}
+			]
+		},
+		{
+			"name": "POST /calibrate_soil_moisture_sensor 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has success message\", function () {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.have.property(\"message\");",
+							"    pm.expect(data.message).to.eql(\"Calibration updated successfully\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[300, 800]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/calibrate_soil_moisture_sensor",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"calibrate_soil_moisture_sensor"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[300, 800]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/calibrate_soil_moisture_sensor",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"calibrate_soil_moisture_sensor"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 14:30:58 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Calibration updated successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "POST /calibrate_soil_moisture_sensor 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[300]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/calibrate_soil_moisture_sensor",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"calibrate_soil_moisture_sensor"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "400",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[300]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/calibrate_soil_moisture_sensor",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"calibrate_soil_moisture_sensor"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "71"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 17:12:34 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Calibration data was not given in the expected format\"\n}"
+				}
+			]
+		},
+		{
+			"name": "PUT /sensors/{sensor_name}/update_settings 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Success message returned\", function () {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.have.property(\"message\");",
+							"    pm.expect(data.message).to.eql(\"Sensor settings updated successfully\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"enabled\": false,\n    \"thresholds\": {\n        \"co2\": [900, 1050]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sensor/{{sensor_name}}/update_settings",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sensor",
+						"{{sensor_name}}",
+						"update_settings"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": false,\n    \"thresholds\": {\n        \"co2\": [960, 1050]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/sensor/SCD40/update_settings",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"sensor",
+								"SCD40",
+								"update_settings"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 13:41:41 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Sensor settings updated successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "PUT /sensors/{sensor_name}/update_settings 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"thresholds\": {\n        \"co2\": [960, 1050]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sensor/{{sensor_name}}/update_settings",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sensor",
+						"{{sensor_name}}",
+						"update_settings"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "400",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"thresholds\": {\n        \"co2\": [960, 1050]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/sensor/SCD40/update_settings",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"sensor",
+								"SCD40",
+								"update_settings"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "65"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 17:15:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"'enabled' and 'thresholds' are required fields.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "PUT /sensors/{sensor_name}/update_settings 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"enabled\": false,\n    \"thresholds\": {\n        \"co2\": [960, 1050]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sensor/hgfhg/update_settings",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sensor",
+						"hgfhg",
+						"update_settings"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "404",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": false,\n    \"thresholds\": {\n        \"co2\": [960, 1050]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/sensor/hgfhg/update_settings",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"sensor",
+								"hgfhg",
+								"update_settings"
+							]
+						}
+					},
+					"status": "NOT FOUND",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 18:07:12 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Sensor not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /sensors/{sensor_name}/readings_by_date_range 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is an array with data\", function () {",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"    pm.expect(data.length).to.be.above(0);",
+							"});",
+							"",
+							"pm.test(\"Each reading has expected fields\", function () {",
+							"    data.forEach(reading => {",
+							"        pm.expect(reading).to.have.property(\"_id\");",
+							"        pm.expect(reading).to.have.property(\"measurement\");",
+							"        pm.expect(reading).to.have.property(\"sensor_id\");",
+							"        pm.expect(reading).to.have.property(\"timestamp\");",
+							"        pm.expect(reading).to.have.property(\"unit\");",
+							"        pm.expect(reading).to.have.property(\"value\");",
+							"",
+							"        pm.expect(typeof reading.value).to.eql(\"number\");",
+							"        pm.expect(typeof reading.timestamp).to.eql(\"string\");",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sensor/SHT31/readings_by_date_range?start_date={{start_date}}&end_date={{end_date}}&measurement={{measurement}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sensor",
+						"SHT31",
+						"readings_by_date_range"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "{{start_date}}"
+						},
+						{
+							"key": "end_date",
+							"value": "{{end_date}}"
+						},
+						{
+							"key": "measurement",
+							"value": "{{measurement}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/sensor/SCD40/readings_by_date_range?start_date=2025-04-14T15:19:38.888Z&end_date=2025-04-14T16:19:38.889Z&measurement=temperature",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"sensor",
+								"SCD40",
+								"readings_by_date_range"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2025-04-14T15:19:38.888Z"
+								},
+								{
+									"key": "end_date",
+									"value": "2025-04-14T16:19:38.889Z"
+								},
+								{
+									"key": "measurement",
+									"value": "temperature"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15510"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 13:59:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"{'minute': 20, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:20:01.405000\",\n        \"unit\": \"%\",\n        \"value\": 30.80872816052491\n    },\n    {\n        \"_id\": \"{'minute': 21, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:21:01.588000\",\n        \"unit\": \"%\",\n        \"value\": 30.762951094834822\n    },\n    {\n        \"_id\": \"{'minute': 22, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:22:01.768000\",\n        \"unit\": \"%\",\n        \"value\": 30.779736018921188\n    },\n    {\n        \"_id\": \"{'minute': 23, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:23:01.951000\",\n        \"unit\": \"%\",\n        \"value\": 30.779736018921188\n    },\n    {\n        \"_id\": \"{'minute': 24, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:24:02.140000\",\n        \"unit\": \"%\",\n        \"value\": 30.785839627679866\n    },\n    {\n        \"_id\": \"{'minute': 25, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:25:02.323000\",\n        \"unit\": \"%\",\n        \"value\": 30.92088197146563\n    },\n    {\n        \"_id\": \"{'minute': 26, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:26:02.507000\",\n        \"unit\": \"%\",\n        \"value\": 31.021591515983825\n    },\n    {\n        \"_id\": \"{'minute': 27, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:27:02.687000\",\n        \"unit\": \"%\",\n        \"value\": 31.12077515831235\n    },\n    {\n        \"_id\": \"{'minute': 28, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:28:02.874000\",\n        \"unit\": \"%\",\n        \"value\": 31.400015259021895\n    },\n    {\n        \"_id\": \"{'minute': 29, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:29:03.053000\",\n        \"unit\": \"%\",\n        \"value\": 31.27107652399481\n    },\n    {\n        \"_id\": \"{'minute': 30, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:30:03.237000\",\n        \"unit\": \"%\",\n        \"value\": 31.098649576562142\n    },\n    {\n        \"_id\": \"{'minute': 31, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:31:03.419000\",\n        \"unit\": \"%\",\n        \"value\": 30.843823910887313\n    },\n    {\n        \"_id\": \"{'minute': 32, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:32:03.605000\",\n        \"unit\": \"%\",\n        \"value\": 31.15205615320058\n    },\n    {\n        \"_id\": \"{'minute': 33, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:33:03.788000\",\n        \"unit\": \"%\",\n        \"value\": 31.187914854657816\n    },\n    {\n        \"_id\": \"{'minute': 34, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:34:03.973000\",\n        \"unit\": \"%\",\n        \"value\": 30.889600976577402\n    },\n    {\n        \"_id\": \"{'minute': 35, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:35:04.158000\",\n        \"unit\": \"%\",\n        \"value\": 30.77210650797284\n    },\n    {\n        \"_id\": \"{'minute': 36, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:36:04.340000\",\n        \"unit\": \"%\",\n        \"value\": 30.98420691233692\n    },\n    {\n        \"_id\": \"{'minute': 37, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:37:04.521000\",\n        \"unit\": \"%\",\n        \"value\": 31.20469977874418\n    },\n    {\n        \"_id\": \"{'minute': 38, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:38:04.703000\",\n        \"unit\": \"%\",\n        \"value\": 31.18410009918364\n    },\n    {\n        \"_id\": \"{'minute': 39, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:39:04.887000\",\n        \"unit\": \"%\",\n        \"value\": 31.094834821087968\n    },\n    {\n        \"_id\": \"{'minute': 40, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:40:05.073000\",\n        \"unit\": \"%\",\n        \"value\": 31.413748378728922\n    },\n    {\n        \"_id\": \"{'minute': 41, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:41:05.257000\",\n        \"unit\": \"%\",\n        \"value\": 31.422140840772105\n    },\n    {\n        \"_id\": \"{'minute': 42, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:42:05.443000\",\n        \"unit\": \"%\",\n        \"value\": 31.612115663385975\n    },\n    {\n        \"_id\": \"{'minute': 43, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:43:05.623000\",\n        \"unit\": \"%\",\n        \"value\": 31.567864499885555\n    },\n    {\n        \"_id\": \"{'minute': 44, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:44:05.803000\",\n        \"unit\": \"%\",\n        \"value\": 31.36263065537499\n    },\n    {\n        \"_id\": \"{'minute': 45, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:45:05.988000\",\n        \"unit\": \"%\",\n        \"value\": 31.767757686732278\n    },\n    {\n        \"_id\": \"{'minute': 46, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:46:06.174000\",\n        \"unit\": \"%\",\n        \"value\": 31.878385595483326\n    },\n    {\n        \"_id\": \"{'minute': 47, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:47:06.360000\",\n        \"unit\": \"%\",\n        \"value\": 31.81582360570687\n    },\n    {\n        \"_id\": \"{'minute': 48, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:48:06.539000\",\n        \"unit\": \"%\",\n        \"value\": 31.860837720302126\n    },\n    {\n        \"_id\": \"{'minute': 49, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:49:06.720000\",\n        \"unit\": \"%\",\n        \"value\": 31.916533150225067\n    },\n    {\n        \"_id\": \"{'minute': 50, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:50:06.909000\",\n        \"unit\": \"%\",\n        \"value\": 31.806668192568853\n    },\n    {\n        \"_id\": \"{'minute': 51, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:51:07.099000\",\n        \"unit\": \"%\",\n        \"value\": 32.02105745021744\n    },\n    {\n        \"_id\": \"{'minute': 52, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:52:07.285000\",\n        \"unit\": \"%\",\n        \"value\": 32.06073090714885\n    },\n    {\n        \"_id\": \"{'minute': 53, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:53:07.468000\",\n        \"unit\": \"%\",\n        \"value\": 31.769283588921947\n    },\n    {\n        \"_id\": \"{'minute': 54, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:54:07.649000\",\n        \"unit\": \"%\",\n        \"value\": 31.344319829098954\n    },\n    {\n        \"_id\": \"{'minute': 55, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:55:07.834000\",\n        \"unit\": \"%\",\n        \"value\": 31.165789272907606\n    },\n    {\n        \"_id\": \"{'minute': 56, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:56:08.023000\",\n        \"unit\": \"%\",\n        \"value\": 31.25505455100328\n    },\n    {\n        \"_id\": \"{'minute': 57, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:57:08.213000\",\n        \"unit\": \"%\",\n        \"value\": 31.25352864881361\n    },\n    {\n        \"_id\": \"{'minute': 58, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:58:08.395000\",\n        \"unit\": \"%\",\n        \"value\": 31.235217822537575\n    },\n    {\n        \"_id\": \"{'minute': 59, 'hour': 15, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T15:59:08.579000\",\n        \"unit\": \"%\",\n        \"value\": 31.50072480354009\n    },\n    {\n        \"_id\": \"{'minute': 0, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:00:08.760000\",\n        \"unit\": \"%\",\n        \"value\": 31.560997940032042\n    },\n    {\n        \"_id\": \"{'minute': 1, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:01:08.944000\",\n        \"unit\": \"%\",\n        \"value\": 31.482413977264056\n    },\n    {\n        \"_id\": \"{'minute': 2, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:02:09.128000\",\n        \"unit\": \"%\",\n        \"value\": 31.283283741512168\n    },\n    {\n        \"_id\": \"{'minute': 3, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:03:09.315000\",\n        \"unit\": \"%\",\n        \"value\": 31.033798733501182\n    },\n    {\n        \"_id\": \"{'minute': 4, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:04:09.494000\",\n        \"unit\": \"%\",\n        \"value\": 31.117723353933012\n    },\n    {\n        \"_id\": \"{'minute': 5, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:05:09.678000\",\n        \"unit\": \"%\",\n        \"value\": 30.956740672922866\n    },\n    {\n        \"_id\": \"{'minute': 6, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:06:09.863000\",\n        \"unit\": \"%\",\n        \"value\": 30.98115510795758\n    },\n    {\n        \"_id\": \"{'minute': 7, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:07:10.048000\",\n        \"unit\": \"%\",\n        \"value\": 30.80567635614557\n    },\n    {\n        \"_id\": \"{'minute': 8, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:08:10.233000\",\n        \"unit\": \"%\",\n        \"value\": 31.02235446707866\n    },\n    {\n        \"_id\": \"{'minute': 9, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:09:10.414000\",\n        \"unit\": \"%\",\n        \"value\": 31.033035782406348\n    },\n    {\n        \"_id\": \"{'minute': 10, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:10:10.594000\",\n        \"unit\": \"%\",\n        \"value\": 31.202410925459677\n    },\n    {\n        \"_id\": \"{'minute': 11, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:11:10.779000\",\n        \"unit\": \"%\",\n        \"value\": 31.15053025101091\n    },\n    {\n        \"_id\": \"{'minute': 12, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:12:10.965000\",\n        \"unit\": \"%\",\n        \"value\": 31.160448615243762\n    },\n    {\n        \"_id\": \"{'minute': 13, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:13:11.156000\",\n        \"unit\": \"%\",\n        \"value\": 31.280994888227664\n    },\n    {\n        \"_id\": \"{'minute': 14, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:14:11.377000\",\n        \"unit\": \"%\",\n        \"value\": 31.13145647364004\n    },\n    {\n        \"_id\": \"{'minute': 15, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:15:12.450000\",\n        \"unit\": \"%\",\n        \"value\": 31.14290074006256\n    },\n    {\n        \"_id\": \"{'minute': 16, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:16:12.734000\",\n        \"unit\": \"%\",\n        \"value\": 31.108567940794995\n    },\n    {\n        \"_id\": \"{'minute': 17, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:17:13.705000\",\n        \"unit\": \"%\",\n        \"value\": 31.241321431296253\n    },\n    {\n        \"_id\": \"{'minute': 18, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:18:15.464000\",\n        \"unit\": \"%\",\n        \"value\": 31.360341802090485\n    },\n    {\n        \"_id\": \"{'minute': 19, 'hour': 16, 'day': 14, 'month': 4, 'year': 2025}\",\n        \"measurement\": \"humidity\",\n        \"sensor_id\": \"6798ae20f41605ffa89a0a41\",\n        \"timestamp\": \"2025-04-14T16:19:17.699000\",\n        \"unit\": \"%\",\n        \"value\": 31.44045166704814\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "GET /sensors/{sensor_name}/readings_by_date_range 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sensor/kgjh/readings_by_date_range?start_date={{start_date}}&end_date={{end_date}}&measurement={{measurement}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sensor",
+						"kgjh",
+						"readings_by_date_range"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "{{start_date}}"
+						},
+						{
+							"key": "end_date",
+							"value": "{{end_date}}"
+						},
+						{
+							"key": "measurement",
+							"value": "{{measurement}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "404",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/sensor/kgjh/readings_by_date_range?start_date=2025-04-14T15:19:38.888Z&end_date=2025-04-14T16:19:38.889Z&measurement=temperature",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"sensor",
+								"kgjh",
+								"readings_by_date_range"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2025-04-14T15:19:38.888Z"
+								},
+								{
+									"key": "end_date",
+									"value": "2025-04-14T16:19:38.889Z"
+								},
+								{
+									"key": "measurement",
+									"value": "temperature"
+								}
+							]
+						}
+					},
+					"status": "NOT FOUND",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 17:17:34 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Sensor not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /sensors/{sensor_name}/readings_by_date_range 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sensor/{{sensor_name}}/readings_by_date_range?start_date={{start_date}}&end_date=sadfasfd&measurement={{measurement}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sensor",
+						"{{sensor_name}}",
+						"readings_by_date_range"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "{{start_date}}"
+						},
+						{
+							"key": "end_date",
+							"value": "sadfasfd"
+						},
+						{
+							"key": "measurement",
+							"value": "{{measurement}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "400",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/sensor/SCD40/readings_by_date_range?start_date=2025-04-14T15:19:38.888Z&end_date=sadfasfd&measurement=temperature",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"sensor",
+								"SCD40",
+								"readings_by_date_range"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2025-04-14T15:19:38.888Z"
+								},
+								{
+									"key": "end_date",
+									"value": "sadfasfd"
+								},
+								{
+									"key": "measurement",
+									"value": "temperature"
+								}
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "53"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 17:18:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Invalid date format. Use ISO format\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /reading/get_statistics 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is a JSON object\", function () {",
+							"    pm.expect(data).to.be.an(\"object\");",
+							"});",
+							"",
+							"const expectedSensors = [",
+							"    \"barometric_pressure\",",
+							"    \"humidity\",",
+							"    \"light_intensity\",",
+							"    \"soil_moisture\",",
+							"    \"soil_temperature\",",
+							"    \"temperature\"",
+							"];",
+							"",
+							"pm.test(\"All expected sensor keys exist\", function () {",
+							"    expectedSensors.forEach(sensor => {",
+							"        pm.expect(data).to.have.property(sensor);",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Each sensor key has avg, min, max as numbers\", function () {",
+							"    expectedSensors.forEach(sensor => {",
+							"        const stats = data[sensor];",
+							"        pm.expect(stats).to.have.property(\"average\");",
+							"        pm.expect(stats).to.have.property(\"min\");",
+							"        pm.expect(stats).to.have.property(\"max\");",
+							"",
+							"        pm.expect(typeof stats.average).to.eql(\"number\");",
+							"        pm.expect(typeof stats.min).to.eql(\"number\");",
+							"        pm.expect(typeof stats.max).to.eql(\"number\");",
+							"    });",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/reading/get_statistics",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"reading",
+						"get_statistics"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/reading/get_statistics",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"reading",
+								"get_statistics"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "508"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 15:49:37 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"barometric_pressure\": {\n        \"average\": 957.54,\n        \"max\": 1846.53,\n        \"min\": -129.91\n    },\n    \"humidity\": {\n        \"average\": 31.48,\n        \"max\": 100,\n        \"min\": 14.93\n    },\n    \"light_intensity\": {\n        \"average\": 44.65,\n        \"max\": 279.99,\n        \"min\": 0.06\n    },\n    \"soil_moisture\": {\n        \"average\": 61.41,\n        \"max\": 100,\n        \"min\": 0\n    },\n    \"soil_temperature\": {\n        \"average\": 667.85,\n        \"max\": 16383.99,\n        \"min\": 23.09\n    },\n    \"temperature\": {\n        \"average\": 26.26,\n        \"max\": 130,\n        \"min\": 20.98\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /get_notifications 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"});",
+							"",
+							"pm.test(\"Each notification has required fields\", function () {",
+							"    data.forEach(n => {",
+							"        pm.expect(n).to.have.property(\"_id\");",
+							"        pm.expect(n).to.have.property(\"entity_id\");",
+							"        pm.expect(n).to.have.property(\"notification_type\");",
+							"        pm.expect(n).to.have.property(\"timestamp\");",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Timestamps are within requested range\", function () {",
+							"    const start = new Date(pm.request.url.query.get(\"start_date\"));",
+							"    const end = new Date(pm.request.url.query.get(\"end_date\"));",
+							"",
+							"    data.forEach(n => {",
+							"        const ts = new Date(n.timestamp);",
+							"        pm.expect(ts >= start && ts <= end).to.be.true;",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Timestamps are in descending order\", function () {",
+							"    for (let i = 1; i < data.length; i++) {",
+							"        const prev = new Date(data[i - 1].timestamp);",
+							"        const curr = new Date(data[i].timestamp);",
+							"        pm.expect(prev >= curr).to.be.true;",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_notifications?start_date={{start_date}}&end_date={{end_date}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_notifications"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "{{start_date}}"
+						},
+						{
+							"key": "end_date",
+							"value": "{{end_date}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_notifications?start_date=2025-04-14T15:19:38.888Z&end_date=2025-04-14T16:19:38.889Z",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_notifications"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2025-04-14T15:19:38.888Z"
+								},
+								{
+									"key": "end_date",
+									"value": "2025-04-14T16:19:38.889Z"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1059"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 14:07:42 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"67fd34d3d382cb5c5365c352\",\n        \"entity_id\": \"67c5cd92f5cd0243c2f137f8\",\n        \"notification_type\": \"event\",\n        \"timestamp\": \"Mon, 14 Apr 2025 16:16:19 GMT\"\n    },\n    {\n        \"_id\": \"67fd3490221865fc6df03bb8\",\n        \"entity_id\": \"67c5cd92f5cd0243c2f137f8\",\n        \"notification_type\": \"event\",\n        \"timestamp\": \"Mon, 14 Apr 2025 16:15:12 GMT\"\n    },\n    {\n        \"_id\": \"67fd3460d382cb5c5365c345\",\n        \"entity_id\": \"67c5cd91f5cd0243c2f137f1\",\n        \"notification_type\": \"event\",\n        \"timestamp\": \"Mon, 14 Apr 2025 16:14:24 GMT\"\n    },\n    {\n        \"_id\": \"67fd3460d382cb5c5365c344\",\n        \"entity_id\": \"67c5cd92f5cd0243c2f137f6\",\n        \"notification_type\": \"event\",\n        \"timestamp\": \"Mon, 14 Apr 2025 16:14:24 GMT\"\n    },\n    {\n        \"_id\": \"67fd3453221865fc6df03bb1\",\n        \"entity_id\": \"67c5cd91f5cd0243c2f137f1\",\n        \"notification_type\": \"event\",\n        \"timestamp\": \"Mon, 14 Apr 2025 16:14:11 GMT\"\n    },\n    {\n        \"_id\": \"67fd3453221865fc6df03bb0\",\n        \"entity_id\": \"67c5cd92f5cd0243c2f137f6\",\n        \"notification_type\": \"event\",\n        \"timestamp\": \"Mon, 14 Apr 2025 16:14:11 GMT\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "GET /get_notifications 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_notifications?start_date={{start_date}}&end_date=dsaf",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_notifications"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "{{start_date}}"
+						},
+						{
+							"key": "end_date",
+							"value": "dsaf"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "400",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_notifications?start_date=2025-04-14T15:19:38.888Z&end_date=dsaf",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_notifications"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2025-04-14T15:19:38.888Z"
+								},
+								{
+									"key": "end_date",
+									"value": "dsaf"
+								}
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "53"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 17:21:01 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Invalid date format. Use ISO format\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /get_events 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is an array of events\", function () {",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"    pm.expect(data.length).to.be.above(0);",
+							"});",
+							"",
+							"pm.test(\"Each event has required fields and valid types\", function () {",
+							"    data.forEach(event => {",
+							"        pm.expect(event).to.have.property(\"_id\");",
+							"        pm.expect(typeof event._id).to.eql(\"string\");",
+							"",
+							"        pm.expect(event).to.have.property(\"name\");",
+							"        pm.expect(typeof event.name).to.eql(\"string\");",
+							"",
+							"        pm.expect(event).to.have.property(\"is_enabled\");",
+							"        pm.expect(typeof event.is_enabled).to.eql(\"boolean\");",
+							"",
+							"        pm.expect(event).to.have.property(\"is_threshold_event\");",
+							"        pm.expect(typeof event.is_threshold_event).to.eql(\"boolean\");",
+							"",
+							"        pm.expect(event).to.have.property(\"logic\");",
+							"        pm.expect([\"AND\", \"OR\"]).to.include(event.logic);",
+							"",
+							"        pm.expect(event).to.have.property(\"actions\");",
+							"        pm.expect(event.actions).to.be.an(\"array\");",
+							"",
+							"        pm.expect(event).to.have.property(\"conditions\");",
+							"        pm.expect(event.conditions).to.be.an(\"array\");",
+							"",
+							"        pm.expect(event).to.have.property(\"last_triggered\");",
+							"        if (event.last_triggered !== null) {",
+							"            const ts = new Date(event.last_triggered);",
+							"            pm.expect(ts.toString()).not.to.eql(\"Invalid Date\");",
+							"        }",
+							"",
+							"        pm.expect(event).to.have.property(\"scheduled_time\");",
+							"        if (event.scheduled_time !== null) {",
+							"            pm.expect(typeof event.scheduled_time).to.eql(\"string\");",
+							"        }",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"If present, each condition has required fields\", function () {",
+							"    data.forEach(event => {",
+							"        event.conditions.forEach(cond => {",
+							"            pm.expect(cond).to.have.property(\"measurement\");",
+							"            pm.expect(cond).to.have.property(\"type\");",
+							"            pm.expect(cond).to.have.property(\"value\");",
+							"",
+							"            pm.expect(typeof cond.measurement).to.eql(\"string\");",
+							"            pm.expect([\"greater_than\", \"less_than\"]).to.include(cond.type);",
+							"            pm.expect(typeof cond.value).to.eql(\"number\");",
+							"        });",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_events",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_events"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_events",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_events"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "6535"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 14:06:08 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"67c5cd8ef5cd0243c2f137ed\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"light_intensity\",\n                \"type\": \"less_than\",\n                \"value\": 800\n            }\n        ],\n        \"is_enabled\": false,\n        \"is_threshold_event\": true,\n        \"last_triggered\": \"Wed, 05 Mar 2025 12:48:08 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"Light Intensity Below Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd8ef5cd0243c2f137ee\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"light_intensity\",\n                \"type\": \"greater_than\",\n                \"value\": 900\n            }\n        ],\n        \"is_enabled\": false,\n        \"is_threshold_event\": true,\n        \"last_triggered\": null,\n        \"logic\": \"AND\",\n        \"name\": \"Light Intensity Above Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd8ff5cd0243c2f137ef\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"barometric_pressure\",\n                \"type\": \"less_than\",\n                \"value\": 960\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": \"Mon, 14 Apr 2025 16:21:24 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"Barometric Pressure Below Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd8ff5cd0243c2f137f0\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"barometric_pressure\",\n                \"type\": \"greater_than\",\n                \"value\": 1050\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": null,\n        \"logic\": \"AND\",\n        \"name\": \"Barometric Pressure Above Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd91f5cd0243c2f137f2\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"humidity\",\n                \"type\": \"greater_than\",\n                \"value\": 70\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": \"Wed, 26 Mar 2025 15:58:42 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"Humidity Above Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd91f5cd0243c2f137f3\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"temperature\",\n                \"type\": \"less_than\",\n                \"value\": 16\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": null,\n        \"logic\": \"AND\",\n        \"name\": \"Temperature Below Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd91f5cd0243c2f137f4\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"temperature\",\n                \"type\": \"greater_than\",\n                \"value\": 29\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": \"Thu, 10 Apr 2025 10:52:30 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"Temperature Above Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd92f5cd0243c2f137f5\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"soil_moisture\",\n                \"type\": \"less_than\",\n                \"value\": 30\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": null,\n        \"logic\": \"AND\",\n        \"name\": \"Soil Moisture Below Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd92f5cd0243c2f137f6\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"soil_moisture\",\n                \"type\": \"greater_than\",\n                \"value\": 50\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": \"Tue, 15 Apr 2025 13:18:28 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"Soil Moisture Above Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd92f5cd0243c2f137f7\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"soil_temperature\",\n                \"type\": \"less_than\",\n                \"value\": 18\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": null,\n        \"logic\": \"AND\",\n        \"name\": \"Soil Temperature Below Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd92f5cd0243c2f137f8\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"soil_temperature\",\n                \"type\": \"greater_than\",\n                \"value\": 24\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": \"Tue, 15 Apr 2025 13:20:28 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"Soil Temperature Above Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd94f5cd0243c2f137f9\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"co2\",\n                \"type\": \"less_than\",\n                \"value\": 960\n            }\n        ],\n        \"is_enabled\": false,\n        \"is_threshold_event\": true,\n        \"last_triggered\": null,\n        \"logic\": \"AND\",\n        \"name\": \"Co2 Below Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cd94f5cd0243c2f137fa\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"co2\",\n                \"type\": \"greater_than\",\n                \"value\": 1050\n            }\n        ],\n        \"is_enabled\": false,\n        \"is_threshold_event\": true,\n        \"last_triggered\": null,\n        \"logic\": \"AND\",\n        \"name\": \"Co2 Above Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67c5cf12f5cd0243c2f1381f\",\n        \"actions\": [\n            \"679aa86cf033b48f031535ce\"\n        ],\n        \"conditions\": [],\n        \"is_enabled\": true,\n        \"is_threshold_event\": false,\n        \"last_triggered\": \"Mon, 14 Apr 2025 17:00:00 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"Turn On Lights @ 17:00\",\n        \"scheduled_time\": \"17:00\"\n    },\n    {\n        \"_id\": \"67c5cf36f5cd0243c2f13826\",\n        \"actions\": [\n            \"67994914629f7654df9cd064\"\n        ],\n        \"conditions\": [],\n        \"is_enabled\": true,\n        \"is_threshold_event\": false,\n        \"last_triggered\": \"Mon, 14 Apr 2025 17:05:00 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"Turn Off Lights @ 17:05\",\n        \"scheduled_time\": \"17:05\"\n    },\n    {\n        \"_id\": \"67c5cd91f5cd0243c2f137f1\",\n        \"actions\": [],\n        \"conditions\": [\n            {\n                \"measurement\": \"humidity\",\n                \"type\": \"less_than\",\n                \"value\": 50\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": true,\n        \"last_triggered\": \"Tue, 15 Apr 2025 13:18:28 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"Humidity Below Threshold\",\n        \"scheduled_time\": null\n    },\n    {\n        \"_id\": \"67fe449789abd6bfdb8c0ca3\",\n        \"actions\": [\n            \"67994914629f7654df9cd064\"\n        ],\n        \"conditions\": [\n            {\n                \"measurement\": \"light_intensity\",\n                \"type\": \"greater_than\",\n                \"value\": 100\n            }\n        ],\n        \"is_enabled\": true,\n        \"is_threshold_event\": false,\n        \"last_triggered\": \"Tue, 15 Apr 2025 13:00:25 GMT\",\n        \"logic\": \"AND\",\n        \"name\": \"New Event\",\n        \"scheduled_time\": null\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "POST /create_event 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Returns valid plant object\", function () {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.have.property(\"message\");",
+							"    pm.expect(data).to.have.property(\"_id\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"New Event\",\n    \"is_enabled\": true,\n    \"scheduled_time\": null,\n    \"conditions\": [{\"type\":\"greater_than\",\"value\":\"100\",\"measurement\":\"light_intensity\"}],\n    \"actions\": [\"67994914629f7654df9cd064\"],\n    \"logic\": \"AND\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/create_event",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"create_event"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "201",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Event\",\n    \"is_enabled\": true,\n    \"scheduled_time\": null,\n    \"conditions\": [{\"type\":\"greater_than\",\"value\":\"100\",\"measurement\":\"light_intensity\"}],\n    \"actions\": [\"67994914629f7654df9cd064\"],\n    \"logic\": \"AND\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/create_event",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"create_event"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "33"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 14:25:54 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Event created\"\n}"
+				}
+			]
+		},
+		{
+			"name": "POST /create_event 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/create_event",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"create_event"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "400",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/create_event",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"create_event"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "66"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 17:28:04 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Failed to create event, no valid data was given.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "PUT /update_event 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Returns valid response message\", function () {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.have.property(\"message\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"New Event\",\n    \"measurement\": \"temperature\",\n    \"conditions\": [{\"type\":\"greater_than\",\"value\":\"100\",\"measurement\":\"light_intensity\"}],\n    \"actions\": [\"67994914629f7654df9cd064\"],\n    \"scheduled_time\": null,\n    \"logic\": \"AND\",\n    \"is_enabled\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/update_event/{{event_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"update_event",
+						"{{event_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Event\",\n    \"measurement\": \"temperature\",\n    \"conditions\": [{\"type\":\"greater_than\",\"value\":\"100\",\"measurement\":\"light_intensity\"}],\n    \"actions\": [\"67994914629f7654df9cd064\"],\n    \"scheduled_time\": null,\n    \"logic\": \"AND\",\n    \"is_enabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/update_event/67ff6adf311d3e6bf2a46983",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"update_event",
+								"67ff6adf311d3e6bf2a46983"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "88"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 14:21:27 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": {\n        \"message\": \"Event updated successfully\",\n        \"success\": true\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "PUT /update_event 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"New Event\",\n    \"measurement\": \"temperature\",\n    \"conditions\": [{\"type\":\"greater_than\",\"value\":\"100\",\"measurement\":\"light_intensity\"}],\n    \"actions\": [\"67994914629f7654df9cd064\"],\n    \"scheduled_time\": null,\n    \"logic\": \"AND\",\n    \"is_enabled\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/update_event/5",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"update_event",
+						"5"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "400",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Event\",\n    \"measurement\": \"temperature\",\n    \"conditions\": [{\"type\":\"greater_than\",\"value\":\"100\",\"measurement\":\"light_intensity\"}],\n    \"actions\": [\"67994914629f7654df9cd064\"],\n    \"scheduled_time\": null,\n    \"logic\": \"AND\",\n    \"is_enabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/update_event/5",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"update_event",
+								"5"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 15:59:15 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"ID entered is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "PUT /update_event 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"New Event\",\n    \"measurement\": \"temperature\",\n    \"conditions\": [{\"type\":\"greater_than\",\"value\":\"100\",\"measurement\":\"light_intensity\"}],\n    \"actions\": [\"67994914629f7654df9cd064\"],\n    \"scheduled_time\": null,\n    \"logic\": \"AND\",\n    \"is_enabled\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/update_event/{{fake_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"update_event",
+						"{{fake_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "404",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Event\",\n    \"measurement\": \"temperature\",\n    \"conditions\": [{\"type\":\"greater_than\",\"value\":\"100\",\"measurement\":\"light_intensity\"}],\n    \"actions\": [\"67994914629f7654df9cd064\"],\n    \"scheduled_time\": null,\n    \"logic\": \"AND\",\n    \"is_enabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "100.65.155.12:5000/update_event/67994914629f7654df9cd064",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"update_event",
+								"67994914629f7654df9cd064"
+							]
+						}
+					},
+					"status": "NOT FOUND",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "78"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 15:59:31 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": {\n        \"message\": \"Event not found\",\n        \"success\": false\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "DELETE /delete_event 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Success message returned\", function () {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.have.property(\"message\");",
+							"    pm.expect(data.message).to.eql(\"Event deleted\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/delete_event/{{event_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"delete_event",
+						"{{event_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/delete_event/67ff6adf311d3e6bf2a46983",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"delete_event",
+								"67ff6adf311d3e6bf2a46983"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "33"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 15:51:05 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Event deleted\"\n}"
+				}
+			]
+		},
+		{
+			"name": "DELETE /delete_event 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/delete_event/{{fake_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"delete_event",
+						"{{fake_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "404",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/delete_event/67994914629f7654df9cd064",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"delete_event",
+								"67994914629f7654df9cd064"
+							]
+						}
+					},
+					"status": "NOT FOUND",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "53"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 15:58:39 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"No event found with the given ID.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "DELETE /delete_event 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/delete_event/5",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"delete_event",
+						"5"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "400",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/delete_event/5",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"delete_event",
+								"5"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 15:58:15 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"ID entered is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET /get_actions 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"    pm.expect(data.length).to.be.above(0);",
+							"});",
+							"",
+							"pm.test(\"Each action has required fields with correct types\", function () {",
+							"    data.forEach(action => {",
+							"        pm.expect(action).to.have.property(\"_id\");",
+							"        pm.expect(action).to.have.property(\"name\");",
+							"        pm.expect(action).to.have.property(\"actuator_id\");",
+							"        pm.expect(action).to.have.property(\"actuator_state\");",
+							"        pm.expect(action).to.have.property(\"last_triggered\");",
+							"",
+							"        pm.expect(typeof action._id).to.eql(\"string\");",
+							"        pm.expect(typeof action.name).to.eql(\"string\");",
+							"        pm.expect(typeof action.actuator_id).to.eql(\"string\");",
+							"        pm.expect(typeof action.actuator_state).to.eql(\"boolean\");",
+							"",
+							"        const date = new Date(action.last_triggered);",
+							"        pm.expect(date.toString()).not.to.eql(\"Invalid Date\");",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_actions",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_actions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_actions",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_actions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "417"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 12:06:21 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"67994914629f7654df9cd064\",\n        \"actuator_id\": \"6798ae27f41605ffa89a0a49\",\n        \"actuator_state\": false,\n        \"last_triggered\": \"Mon, 14 Apr 2025 17:05:00 GMT\",\n        \"name\": \"Grow Light Off\"\n    },\n    {\n        \"_id\": \"679aa86cf033b48f031535ce\",\n        \"actuator_id\": \"6798ae27f41605ffa89a0a49\",\n        \"actuator_state\": true,\n        \"last_triggered\": \"Mon, 14 Apr 2025 17:00:00 GMT\",\n        \"name\": \"Grow Light On\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "GET /get_actuators 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const data = pm.response.json();",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"    pm.expect(data.length).to.be.above(0);",
+							"});",
+							"",
+							"pm.test(\"Each actuator has required fields with correct types\", function () {",
+							"    data.forEach(actuator => {",
+							"        pm.expect(actuator).to.have.property(\"_id\");",
+							"        pm.expect(actuator).to.have.property(\"name\");",
+							"        pm.expect(actuator).to.have.property(\"pin\");",
+							"        pm.expect(actuator).to.have.property(\"state\");",
+							"",
+							"        pm.expect(typeof actuator._id).to.eql(\"string\");",
+							"        pm.expect(typeof actuator.name).to.eql(\"string\");",
+							"        pm.expect(typeof actuator.pin).to.eql(\"number\");",
+							"        pm.expect(typeof actuator.state).to.eql(\"boolean\");",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_actuators",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_actuators"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "100.65.155.12:5000/get_actuators",
+							"host": [
+								"100",
+								"65",
+								"155",
+								"12"
+							],
+							"port": "5000",
+							"path": [
+								"get_actuators"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "111"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "100.103.241.41:5173"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Apr 2025 14:21:14 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"6798ae27f41605ffa89a0a49\",\n        \"name\": \"Grow Light\",\n        \"pin\": 17,\n        \"state\": false\n    }\n]"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "100.65.155.12:5000",
+			"type": "string"
+		},
+		{
+			"key": "measurement",
+			"value": "temperature",
+			"type": "string"
+		},
+		{
+			"key": "sensor_name",
+			"value": "SCD40",
+			"type": "string"
+		},
+		{
+			"key": "plant_type_id",
+			"value": "6798ae27f41605ffa89a0a46",
+			"type": "string"
+		},
+		{
+			"key": "start_date",
+			"value": "2025-04-14T15:19:38.888Z",
+			"type": "string"
+		},
+		{
+			"key": "end_date",
+			"value": "2025-04-14T16:19:38.889Z",
+			"type": "string"
+		},
+		{
+			"key": "event_id",
+			"value": "67ff6adf311d3e6bf2a46983",
+			"type": "string"
+		},
+		{
+			"key": "action_id",
+			"value": "67994914629f7654df9cd064",
+			"type": "string"
+		},
+		{
+			"key": "fake_id",
+			"value": "67f65f9c1b5b34d02ea058a0",
+			"type": "string"
+		}
+	]
+}
