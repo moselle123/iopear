@@ -30,7 +30,7 @@
 						<el-slider v-model="plant.settings.SS.thresholds.soil_temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.soil_temperature" />
 					</el-collapse-item>
 					<el-collapse-item :title="'Light Intensity: ' +  plant.settings.TSL2561.thresholds.light_intensity[0] + ' - ' + plant.settings.TSL2561.thresholds.light_intensity[1] + ' (lx)'" name="3">
-						<el-slider v-model="plant.settings.TSL2561.thresholds.light_intensity" range show-stops show-tooltip :min="50" :max="1000" :marks="marks.light_intensity" :step="50" />
+						<el-slider v-model="plant.settings.TSL2561.thresholds.light_intensity" range show-stops show-tooltip :min="10" :max="200" :marks="marks.light_intensity" :step="10" />
 					</el-collapse-item>
 					<el-collapse-item  :title="'Environmental Temperature: ' +  plant.settings.SHT31.thresholds.temperature[0] + ' - ' + plant.settings.SHT31.thresholds.temperature[1] + ' (°C)'" name="4">
 						<el-slider v-model="plant.settings.SHT31.thresholds.temperature" range show-stops show-tooltip :min="5" :max="45" :marks="marks.temperature" />
@@ -126,7 +126,7 @@ export default {
 			return 'Common nicknames: ' + this.selectedPlantType?.nicknames[0] + ', ' + this.selectedPlantType?.nicknames[1];
 		},
 		marks() {
-			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '1000lx'}, barometric_pressure: {900: '900hPa', 1100: '1100hPa'}, co2: {100: '100ppm', 1500: '1500ppm'}};
+			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '200lx'}, barometric_pressure: {900: '900hPa', 1100: '1100hPa'}, co2: {100: '100ppm', 1500: '1500ppm'}};
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[0]] = this.selectedPlantType?.thresholds.temperature[0] + '°C';
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[1]] = this.selectedPlantType?.thresholds.temperature[1] + '°C';
 			marks.humidity[this.selectedPlantType?.thresholds.humidity[0]] = this.selectedPlantType?.thresholds.humidity[0] + '%';
