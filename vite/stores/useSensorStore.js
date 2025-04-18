@@ -54,7 +54,7 @@ export const useSensorStore = defineStore('sensor', {
 			});
 		},
 		getStatistics() {
-			return axios.get(host + '/get_statistics')
+			return axios.get(host + '/reading/get_statistics')
 			.then(({data}) => {
 				return data;
 			});
