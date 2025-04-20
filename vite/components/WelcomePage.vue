@@ -65,28 +65,43 @@
 				</template>
 			</el-container>
 			<el-container v-if="step === 4" class="confirm" direction="vertical" justify="space-evenly">
-				<el-row justify="center">
-					<el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10" class="keys">
-						<el-text>Plant Type:</el-text>
-						<el-text style="margin-bottom: 1em;">Plant Name:</el-text>
-						<el-text>Soil Moisture Threshold:</el-text>
-						<el-text>Soil Temperature Threshold:</el-text>
-						<el-text>Humidity Threshold:</el-text>
-						<el-text>Temperature Threshold:</el-text>
-						<el-text>Light Intensity Threshold:</el-text>
-						<el-text>CO2 Threshold:</el-text>
-						<el-text>Barometric Pressure Threshold:</el-text>
+				<el-container direction="vertical">
+					<el-text class="name">{{ plant.name }}</el-text>
+					<el-text class="species">{{ selectedPlantType.name }}</el-text>
+				</el-container>
+				<el-row justify="center" class="">
+					<el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10">
+						<el-text tag="b">Threshold</el-text>
+						<el-divider />
+						<el-text>Soil Moisture</el-text>
+						<el-text>Soil Temperature</el-text>
+						<el-text>Humidity</el-text>
+						<el-text>Temperature</el-text>
+						<el-text>Light Intensity</el-text>
+						<el-text>CO2</el-text>
+						<el-text>Barometric Pressure</el-text>
 					</el-col>
-					<el-col class="values" :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-						<el-text>{{ selectedPlantType.name }}</el-text>
-						<el-text style="margin-bottom: 1em;">{{ plant.name }}</el-text>
-						<el-text>{{ plant.settings.SS.thresholds.soil_moisture }}</el-text>
-						<el-text>{{ plant.settings.SS.thresholds.soil_temperature }}</el-text>
-						<el-text>{{ plant.settings.SHT31.thresholds.humidity }}</el-text>
-						<el-text>{{ plant.settings.SHT31.thresholds.temperature }}</el-text>
-						<el-text>{{ plant.settings.TSL2561.thresholds.light_intensity }}</el-text>
-						<el-text></el-text>
-						<el-text>{{ plant.settings.BMP280.thresholds.barometric_pressure }}</el-text>
+					<el-col class="values" :xs="7" :sm="7" :md="7" :lg="7" :xl="7">
+						<el-text tag="b">Minimum</el-text>
+						<el-divider />
+						<el-text>{{ plant.settings.SS.thresholds.soil_moisture[0] }}</el-text>
+						<el-text>{{ plant.settings.SS.thresholds.soil_temperature[0] }}</el-text>
+						<el-text>{{ plant.settings.SHT31.thresholds.humidity[0] }}</el-text>
+						<el-text>{{ plant.settings.SHT31.thresholds.temperature[0] }}</el-text>
+						<el-text>{{ plant.settings.TSL2561.thresholds.light_intensity[0] }}</el-text>
+						<el-text>{{ plant.settings.SCD40.thresholds.co2[0] }}</el-text>
+						<el-text>{{ plant.settings.BMP280.thresholds.barometric_pressure[0] }}</el-text>
+					</el-col>
+					<el-col class="values" :xs="7" :sm="7" :md="7" :lg="7" :xl="7">
+						<el-text tag="b">Maximum</el-text>
+						<el-divider />
+						<el-text>{{ plant.settings.SS.thresholds.soil_moisture[1] }}</el-text>
+						<el-text>{{ plant.settings.SS.thresholds.soil_temperature[1] }}</el-text>
+						<el-text>{{ plant.settings.SHT31.thresholds.humidity[1] }}</el-text>
+						<el-text>{{ plant.settings.SHT31.thresholds.temperature[1] }}</el-text>
+						<el-text>{{ plant.settings.TSL2561.thresholds.light_intensity[1] }}</el-text>
+						<el-text>{{ plant.settings.SCD40.thresholds.co2[1] }}</el-text>
+						<el-text>{{ plant.settings.BMP280.thresholds.barometric_pressure[1] }}</el-text>
 					</el-col>
 				</el-row>
 			</el-container>
@@ -126,7 +141,7 @@ export default {
 			return 'Common nicknames: ' + this.selectedPlantType?.nicknames[0] + ', ' + this.selectedPlantType?.nicknames[1];
 		},
 		marks() {
-			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {50: '50lx', 1000: '200lx'}, barometric_pressure: {900: '900hPa', 1100: '1100hPa'}, co2: {100: '100ppm', 1500: '1500ppm'}};
+			let marks = {temperature: {5: '5°C', 45: '45°C'}, humidity: {0: '0%', 100: '100%'}, soil_moisture: {0: '0%', 100: '100%'}, soil_temperature:  {5: '5°C', 45: '45°C'}, light_intensity: {30: '30lx', 80: '80lx'}, barometric_pressure: {900: '900hPa', 1100: '1100hPa'}, co2: {100: '100ppm', 1500: '1500ppm'}};
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[0]] = this.selectedPlantType?.thresholds.temperature[0] + '°C';
 			marks.temperature[this.selectedPlantType?.thresholds.temperature[1]] = this.selectedPlantType?.thresholds.temperature[1] + '°C';
 			marks.humidity[this.selectedPlantType?.thresholds.humidity[0]] = this.selectedPlantType?.thresholds.humidity[0] + '%';
@@ -223,7 +238,7 @@ export default {
 	},
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .welcome {
 	flex-direction: column;
 	gap: 1em;
@@ -263,17 +278,27 @@ export default {
 		}
 
 		.confirm {
-			.keys {
-				font-weight: 400;
+			.name {
+				margin: 0 auto 0.5em;
+
+				font-size: 1.5em;
+				font-weight: bold;
+			}
+
+			.species {
+				margin: 0 auto 2em;
+
+				font-size: 1em;
+			}
+
+			.el-divider {
+				margin: 0.5em 0 !important;
 			}
 		}
 	}
 
-
 	.navigation-buttons {
 		margin-top: 2em;
 	}
-
-
 }
 </style>
