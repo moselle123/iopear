@@ -22,8 +22,8 @@
 export default {
 	data() {
 		return {
-			startDate: moment().subtract(1, 'hours').toISOString(),
-			endDate: moment().toISOString(),
+			endDate: moment().tz('Europe/London').toISOString(),
+			startDate: moment().tz('Europe/London').subtract(1, 'hour').toISOString(),
 		};
 	},
 	computed: {

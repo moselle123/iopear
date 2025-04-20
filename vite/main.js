@@ -13,7 +13,7 @@ import 'chartjs-adapter-moment';
 ChartJS.register(Title, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, TimeScale, CategoryScale, Filler);
 window.Chart = ChartJS;
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 window.moment = moment;
 
 if (location.port !== '5173') {

@@ -106,7 +106,7 @@ export default {
 			.filter((reading) => {
 				return reading.measurement === this.measurement && reading.timestamp >= this.dateRange[0] && reading.timestamp < this.dateRange[1];
 			})
-			.map((reading) => ({ x: reading.timestamp, y: reading.value }));
+			.map((reading) => ({x: moment.utc(reading.timestamp).tz('Europe/London').toDate(), y: reading.value }));
 
 			let steps = [];
 			let stepCount = moment(this.dateRange[1]).diff(moment(this.dateRange[0]), this.step);
