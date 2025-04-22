@@ -123,3 +123,11 @@ This week:
 - Made good progress on dissertation (almost completed a rough draft)
 
 ## 7 - 13 April
+- Continued to work on dissertation
+
+## 14 - 20 April
+- Complete integration testing.
+- Fixed multiple bugs.
+- Continued writing dissertation.
+- Carried out usability testing.
+
