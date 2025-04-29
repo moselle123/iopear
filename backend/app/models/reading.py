@@ -1,23 +1,31 @@
 from bson import ObjectId
 from flask import current_app
 from datetime import datetime, timezone, timedelta
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class Reading:
 	@staticmethod
 	def create(sensor_id, measurement, unit, value, calibration=None):
-		if calibration and measurement == "soil_moisture":
-			value = (value - calibration['min']) / (calibration['max'] - calibration['min']) * 100
-			value = max(0, min(100, value))
+		try:
+			if calibration and measurement == "soil_moisture":
+				value = (value - calibration['min']) / (calibration['max'] - calibration['min']) * 100
+				value = max(0, min(100, value))
 
-		reading = {
-			"sensor_id": ObjectId(sensor_id),
-			"timestamp": datetime.now(timezone.utc),
-			"value": value,
-			"unit": unit,
-			"measurement": measurement,
-		}
+			reading = {
+				"sensor_id": ObjectId(sensor_id),
+				"timestamp": datetime.now(timezone.utc),
+				"value": value,
+				"unit": unit,
+				"measurement": measurement,
+			}
 
-		current_app.config['DB']["reading"].insert_one(reading)
+			current_app.config['DB']["reading"].insert_one(reading)
+
+		except Exception as e:
+			logger.error(f"Error writing {measurement} reading to the database: {e}")
 
 	@staticmethod
 	def get_readings(sensor_id, limit=100, skip=0):
