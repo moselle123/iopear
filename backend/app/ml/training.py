@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 import torch.optim as optim
 import pandas as pd
 import joblib
@@ -11,8 +12,8 @@ from model import LinearRegressionModel
 def train_model():
 	df = pd.read_csv("processed_data.csv")
 
-	selected_features = ["temperature", "temp_change", "humidity", "time_since_last"]
-	target = "soil_moisture_adjusted"
+	selected_features = ["temperature", "temp_change", "humidity", "time_since_last", "soil_temperature"]
+	target = "time_until_dry"
 
 	X = df[selected_features].values
 	y = df[target].values.reshape(-1, 1)
@@ -37,20 +38,18 @@ def train_model():
 	criterion = nn.MSELoss()
 	optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-
 	epochs = 2000
 	for epoch in range(epochs):
 		model.train()
-
 		predictions = model(X_train_tensor)
 		loss = criterion(predictions, y_train_tensor)
 
-		optimizer.zero_grad()
-		loss.backward()
-		optimizer.step()
+	optimizer.zero_grad()
+	loss.backward()
+	optimizer.step()
 
-		if epoch % 50 == 0:
-			print(f"Epoch {epoch}, Loss: {loss.item()}")
+	if epoch % 50 == 0:
+		print(f"Epoch {epoch}, Loss: {loss.item()}")
 
 	torch.save(model.state_dict(), "soil_moisture_model.pth")
 
@@ -66,6 +65,12 @@ def train_model():
 	mae = mean_absolute_error(y_test_actual, y_test_pred)
 	r2 = r2_score(y_test_actual, y_test_pred)
 
-	print(f"RMSE: {rmse:.3f}")
-	print(f"MAE: {mae:.3f}")
-	print(f"R² Score: {r2:.3f}")
+	print("\n✅ Training complete.")
+	print("✅ Model saved as `soil_moisture_model.pth`")
+	print("\n\U0001F4CA Model Performance:")
+	print(f"\u2705 RMSE: {rmse:.3f}")
+	print(f"\u2705 MAE: {mae:.3f}")
+	print(f"\u2705 R² Score: {r2:.3f}")
+
+if __name__ == "__main__":
+	train_model()
