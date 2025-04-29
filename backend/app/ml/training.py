@@ -1,5 +1,4 @@
 import torch
-import torch.nn as nn
 import torch.optim as optim
 import pandas as pd
 import joblib
@@ -7,8 +6,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import numpy as np
+from linear_regression_model import LinearRegressionModel
 
-if __name__ == "__main__":
+def train_model():
 	df = pd.read_csv("processed_data.csv")
 
 	selected_features = ["temperature", "temp_change", "humidity", "time_since_last"]
@@ -69,11 +69,3 @@ if __name__ == "__main__":
 	print(f"RMSE: {rmse:.3f}")
 	print(f"MAE: {mae:.3f}")
 	print(f"R² Score: {r2:.3f}")
-
-class LinearRegressionModel(nn.Module):
-	def __init__(self, input_size):
-		super(LinearRegressionModel, self).__init__()
-		self.linear = nn.Linear(input_size, 1)
-
-	def forward(self, x):
-		return self.linear(x)
