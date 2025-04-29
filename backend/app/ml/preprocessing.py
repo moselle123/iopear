@@ -38,19 +38,18 @@ threshold = 30
 future_dry_times = []
 
 for i in range(len(df)):
-    current_time = df.iloc[i]["timestamp"]
-    future = df.iloc[i + 1:]
-    below = future[future["soil_moisture_adjusted"] < threshold]
-    if not below.empty:
-        dry_timestamp = below.iloc[0]["timestamp"]
-        future_dry_times.append(dry_timestamp)
-    else:
-        future_dry_times.append(None)
+	current_time = df.iloc[i]["timestamp"]
+	future = df.iloc[i + 1:]
+	below = future[future["soil_moisture_adjusted"] < threshold]
+	if not below.empty:
+		dry_timestamp = below.iloc[0]["timestamp"]
+		future_dry_times.append(dry_timestamp)
+	else:
+		future_dry_times.append(None)
 
 df["dry_timestamp"] = future_dry_times
 df = df.dropna(subset=["dry_timestamp"])
 df["time_until_dry"] = (df["dry_timestamp"] - df["timestamp"]).dt.total_seconds()
-
 
 selected_features = ["temperature", "temp_change", "humidity", "time_since_last", "soil_temperature"]
 scaler_X = StandardScaler()
