@@ -11,6 +11,7 @@ from adafruit_seesaw.seesaw import Seesaw
 from .sensor_registry import SensorRegistry
 from .event_manager import EventManager
 from app.models import Reading
+from .moisture_prediction import predict_soil_moisture
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -20,6 +21,7 @@ class SensorManager:
 		self.app = app
 		self.i2c = busio.I2C(board.SCL, board.SDA)
 		self.last_readings = {}
+		self.temp_change = None
 		self.SHT31 = self.TSL2561 = self.BMP280 = self.SCD40 = self.SS  = None
 
 		self.sensors_initialised = False
@@ -103,6 +105,7 @@ class SensorManager:
 							Reading.create(self.SS._id, 'soil_moisture', '%', sensor_data["soil_moisture"], self.SS.calibration)
 							Reading.create(self.SS._id, 'soil_temperature', '°C', sensor_data["soil_temperature"])
 
+						self.temp_change = abs(sensor_data["temperature"] - self.last_readings["temperature"])
 						self.last_readings = sensor_data
 						last_read = now
 
@@ -205,3 +208,6 @@ class SensorManager:
 
 	def get_last_readings(self):
 		return self.last_readings
+
+	def get_temp_change(self):
+		return self.temp_change

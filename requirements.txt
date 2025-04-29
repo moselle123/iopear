@@ -31,3 +31,7 @@ flask_cors
 apscheduler
 flask-socketio
 eventlet
+torch
+joblib
+pandas
+scikit-learn

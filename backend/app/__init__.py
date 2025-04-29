@@ -37,6 +37,7 @@ def create_app(config_class=Config):
 	app.register_blueprint(notification_bp)
 	app.register_blueprint(action_bp)
 	app.register_blueprint(actuator_bp)
+	app.register_blueprint(predict_bp)
 
 
 	def signal_handler(sig, frame):
