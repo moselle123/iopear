@@ -24,6 +24,7 @@ export default {
 		return {
 			endDate: moment().tz('Europe/London').toISOString(),
 			startDate: moment().tz('Europe/London').subtract(1, 'hour').toISOString(),
+			soilMoisturePrediction: null,
 		};
 	},
 	computed: {
@@ -48,9 +49,16 @@ export default {
 	},
 	methods: {
 		toggleGrowLight() {
-			this.$stores.actionStore.triggerAction(this.growLight._id, ! this.growLight.state)
-		}
-	}
+			this.$stores.actionStore.triggerAction(this.growLight._id, ! this.growLight.state);
+		},
+		predictSoilMoisture() {
+			return axios.get(host + '/predict/')
+			.then(({data}) => this.soilMoisturePrediction = Date(data));
+		},
+	},
+	mounted() {
+		this.predictSoilMoisture();
+	},
 };
 </script>
 <style lang="scss">
