@@ -5,9 +5,9 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-bp = Blueprint("predict", __name__)
+predict_bp = Blueprint("predict", __name__)
 
-@bp.route("/predict", methods=["POST"])
+@predict_bp.route("/predict", methods=["POST"])
 def predict_endpoint():
 	try:
 		latest_readings = current_app.config['SENSOR_MANAGER'].get_last_readings()
