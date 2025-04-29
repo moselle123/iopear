@@ -11,6 +11,7 @@ from adafruit_seesaw.seesaw import Seesaw
 from .sensor_registry import SensorRegistry
 from .event_manager import EventManager
 from app.models import Reading
+from .moisture_prediction import predict_soil_moisture
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -103,6 +104,7 @@ class SensorManager:
 							Reading.create(self.SS._id, 'soil_moisture', '%', sensor_data["soil_moisture"], self.SS.calibration)
 							Reading.create(self.SS._id, 'soil_temperature', '°C', sensor_data["soil_temperature"])
 
+						temp_change = abs(sensor_data["temperature"] - self.last_readings["temperature"])
 						self.last_readings = sensor_data
 						last_read = now
 
@@ -110,6 +112,17 @@ class SensorManager:
 							EventManager.check_events(self.last_readings)
 						except Exception as e:
 							logger.error(f"Error checking for event instances: {e}")
+
+						try:
+							self.app.config['SOCKET_IO'].emit('moisture_prediction', predict_soil_moisture({
+								"temperature": self.last_readings["temperature"],
+								"humidity": self.last_readings["humidity"],
+								"time_since_last": 60,
+								"temp_change": temp_change,
+							}))
+
+						except Exception as e:
+							logger.error(f"Error predicting soil moisture: {e}")
 
 				except Exception as e:
 					logger.error(f"Error writing sensor data to the database: {e}")

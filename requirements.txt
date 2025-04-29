@@ -31,3 +31,6 @@ flask_cors
 apscheduler
 flask-socketio
 eventlet
+import torch
+import joblib
+import pandas
