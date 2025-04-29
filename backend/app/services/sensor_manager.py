@@ -21,6 +21,7 @@ class SensorManager:
 		self.app = app
 		self.i2c = busio.I2C(board.SCL, board.SDA)
 		self.last_readings = {}
+		self.temp_change = None
 		self.SHT31 = self.TSL2561 = self.BMP280 = self.SCD40 = self.SS  = None
 
 		self.sensors_initialised = False
@@ -104,7 +105,7 @@ class SensorManager:
 							Reading.create(self.SS._id, 'soil_moisture', '%', sensor_data["soil_moisture"], self.SS.calibration)
 							Reading.create(self.SS._id, 'soil_temperature', '°C', sensor_data["soil_temperature"])
 
-						temp_change = abs(sensor_data["temperature"] - self.last_readings["temperature"])
+						self.temp_change = abs(sensor_data["temperature"] - self.last_readings["temperature"])
 						self.last_readings = sensor_data
 						last_read = now
 
@@ -112,17 +113,6 @@ class SensorManager:
 							EventManager.check_events(self.last_readings)
 						except Exception as e:
 							logger.error(f"Error checking for event instances: {e}")
-
-						try:
-							self.app.config['SOCKET_IO'].emit('moisture_prediction', predict_soil_moisture({
-								"temperature": self.last_readings["temperature"],
-								"humidity": self.last_readings["humidity"],
-								"time_since_last": 60,
-								"temp_change": temp_change,
-							}))
-
-						except Exception as e:
-							logger.error(f"Error predicting soil moisture: {e}")
 
 				except Exception as e:
 					logger.error(f"Error writing sensor data to the database: {e}")
@@ -218,3 +208,6 @@ class SensorManager:
 
 	def get_last_readings(self):
 		return self.last_readings
+
+	def get_temp_change(self):
+		return self.temp_change
