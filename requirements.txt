@@ -34,3 +34,4 @@ eventlet
 torch
 joblib
 pandas
+scikit-learn

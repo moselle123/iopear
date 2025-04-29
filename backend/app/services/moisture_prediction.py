@@ -1,7 +1,7 @@
 import torch
 import joblib
 import pandas as pd
-from ml.training import LinearRegressionModel
+from app.ml.training import LinearRegressionModel
 
 scaler_X = joblib.load("../ml/scaler_X.pkl")
 scaler_y = joblib.load("../ml/scaler_y.pkl")
