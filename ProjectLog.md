@@ -1,5 +1,9 @@
 # Project Log
 
+This project log shows the progress of the system throughout the project. It has been updated throughout and evidence of the entries can be found throughout the commit history.
+
+---
+
 ## 26 Sept - 13th October
 In this time I have:
 - Began research into smart systems designed to monitor plants.
@@ -131,3 +135,10 @@ This week:
 - Continued writing dissertation.
 - Carried out usability testing.
 
+## 21 - 27 April
+- Continue to work on dissertation.
+
+## 28 - 2 May
+- Finalise dissertation
+- Finalise code repo
+- Commit test results and surveys.
