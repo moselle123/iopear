@@ -1,24 +1,16 @@
 import torch
-import joblib
 import pandas as pd
-from app.ml.linear_regression_model import LinearRegressionModel
+from app.ml.loader import load_assets
 
-scaler_X = joblib.load("../ml/scaler_X.pkl")
-scaler_y = joblib.load("../ml/scaler_y.pkl")
+def predict_soil_moisture(reading_dict):
+    model, scaler_X, scaler_y = load_assets()
 
-model = LinearRegressionModel(4)
-model.load_state_dict(torch.load("../ml/soil_moisture_model.pth"))
-model.eval()
+    features = ["temperature", "temp_change", "humidity", "time_since_last"]
+    df = pd.DataFrame([reading_dict], columns=features)
 
-def predict_soil_moisture(readings):
-	features = ["temperature", "temp_change", "humidity", "time_since_last"]
-	df = pd.DataFrame([readings], columns=features)
+    X_scaled = scaler_X.transform(df)
+    input_tensor = torch.tensor(X_scaled, dtype=torch.float32)
 
-	X_scaled = scaler_X.transform(df)
-
-	input_tensor = torch.tensor(X_scaled, dtype=torch.float32)
-	predicted = model(input_tensor).detach().numpy()
-
-	predicted = scaler_y.inverse_transform(predicted)[0][0]
-
-	return round(predicted, 2)
+    prediction = model(input_tensor).detach().numpy()
+    predicted_value = scaler_y.inverse_transform(prediction)[0][0]
+    return round(predicted_value, 2)
