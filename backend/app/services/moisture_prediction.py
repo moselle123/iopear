@@ -1,18 +1,13 @@
 import torch
 import joblib
 import pandas as pd
-from model.training import LinearRegressionModel
-import sys
-import os
+from ml.training import LinearRegressionModel
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
-sys.path.append(BASE_DIR)
-
-scaler_X = joblib.load("../../../model/scaler_X.pkl")
-scaler_y = joblib.load("../../../model/scaler_y.pkl")
+scaler_X = joblib.load("../ml/scaler_X.pkl")
+scaler_y = joblib.load("../ml/scaler_y.pkl")
 
 model = LinearRegressionModel(4)
-model.load_state_dict(torch.load("../../../model/soil_moisture_model.pth"))
+model.load_state_dict(torch.load("../ml/soil_moisture_model.pth"))
 model.eval()
 
 def predict_soil_moisture(readings):
